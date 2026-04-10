@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/ayat/.claude/**)",
+      "Read(//c/Users/ayat/.claude/projects/**)",
+      "Skill(update-config)",
+      "Skill(update-config:*)",
+      "Bash(*)"
+    ]
+  }
+}
