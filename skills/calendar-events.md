@@ -1,5 +1,49 @@
 # Skill: Calendar Events
 
+## Metadata
+- **Trigger Phrases:** "schedule meeting", "create event", "add to calendar", "book time"
+- **Input Files:** 4 files total (~250 lines)
+- **Output Location:** output/calendar/[YYYY-MM-DD]/
+- **Dependencies:** Google Calendar API connected
+- **Execution Time:** ~5 minutes per event
+- **Approval Required:** Yes (always preview before creating)
+
+## Input Files (Exact)
+1. `skills/calendar-events.md` (this file)
+2. `memory/MEMORY.md` (calendar-related sections)
+3. `hr_assistant/calendar_service.py` (calendar service module)
+4. `docs/setup-status.md` (Calendar API status check)
+
+**Files NOT Loaded:**
+- ❌ Email files
+- ❌ Payroll files
+- ❌ Contract files
+- ❌ Teams files
+
+## Execution Flow
+```
+User: "Schedule a meeting with the team"
+  ↓
+Check: Calendar API connected? (docs/setup-status.md)
+Check: Credentials valid?
+Check: Output folder ready? (output/calendar/)
+  ↓
+Load: 4 input files above
+  ↓
+Execute:
+  1. Extract event details (from email or manual input)
+  2. Validate date/time
+  3. Show preview
+  4. Get approval
+  5. Create event via Calendar API
+  6. Log result
+  ↓
+Output: output/calendar/[date]/event_[timestamp].md
+  ↓
+Verify: Event created and invites sent
+Confirm: Show calendar link to user
+```
+
 ## Purpose
 Create Google Calendar events and Teams meeting links from email content or manual input.
 

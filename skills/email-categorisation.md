@@ -1,5 +1,48 @@
 # Skill: Email Categorisation
 
+## Metadata
+- **Trigger Phrases:** "categorize email", "sort inbox", "label emails", "organize email"
+- **Input Files:** 4 files total (~200 lines)
+- **Output Location:** output/email/categorised/[YYYY-MM-DD]/
+- **Dependencies:** Gmail API connected
+- **Execution Time:** ~2 minutes per 50 emails
+- **Approval Required:** Yes (preview before applying labels)
+
+## Input Files (Exact)
+1. `skills/email-categorisation.md` (this file)
+2. `memory/MEMORY.md` (email-related sections)
+3. `memory/feedback_email_*.md` (email rules, ~2-3 files)
+4. `docs/gmail-api-reference.md` (Gmail API patterns)
+
+**Files NOT Loaded:**
+- ❌ Payroll files
+- ❌ Contract files
+- ❌ Calendar files
+- ❌ Teams files
+
+## Execution Flow
+```
+User: "Categorize my emails"
+  ↓
+Check: Gmail API connected? (docs/setup-status.md)
+Check: Credentials valid? (token.json exists)
+Check: Output folder ready? (output/email/categorised/)
+  ↓
+Load: 4 input files above
+  ↓
+Execute:
+  1. Fetch max 20 unread emails
+  2. For each email: determine label
+  3. Apply label via Gmail API
+  4. Log result
+  ↓
+Output: output/email/categorised/[date]/results.md
+  ↓
+Verify: All emails processed
+Confirm: Show preview to user
+Action: Apply on approval
+```
+
 ## Purpose
 Read unread Gmail messages and apply one of four HR labels automatically.
 

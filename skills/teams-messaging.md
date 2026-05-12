@@ -1,5 +1,50 @@
 # Skill: Microsoft Teams Messaging
 
+## Metadata
+- **Trigger Phrases:** "send to teams", "teams message", "notify team", "message channel"
+- **Input Files:** 4 files total (~300 lines)
+- **Output Location:** output/teams/[YYYY-MM-DD]/
+- **Dependencies:** Microsoft Teams API connected (currently ⬜ PENDING)
+- **Execution Time:** ~3 minutes per message
+- **Approval Required:** Yes (always preview before sending)
+
+## Input Files (Exact)
+1. `skills/teams-messaging.md` (this file)
+2. `memory/MEMORY.md` (teams-related sections if any)
+3. `docs/teams-api-reference.md` (Teams API patterns)
+4. `hr_assistant/teams_service.py` (teams service module)
+
+**Files NOT Loaded:**
+- ❌ Email files
+- ❌ Payroll files
+- ❌ Contract files
+- ❌ Calendar files
+
+## Execution Flow
+```
+User: "Send a message to the team"
+  ↓
+Check: Teams API connected? (docs/setup-status.md)
+↳ Current status: ⬜ PENDING (Anthropic key needed)
+Check: Teams credentials valid?
+Check: Output folder ready? (output/teams/)
+  ↓
+Load: 4 input files above
+  ↓
+Execute:
+  1. Get Teams token
+  2. Build message
+  3. Show preview
+  4. Get approval
+  5. Send via Microsoft Graph
+  6. Log result
+  ↓
+Output: output/teams/[date]/message_[timestamp].log
+  ↓
+Verify: Message sent
+Confirm: Show confirmation to user
+```
+
 ## Purpose
 Send HR notifications and updates to Teams channels or individual chats
 via the Microsoft Graph API.
