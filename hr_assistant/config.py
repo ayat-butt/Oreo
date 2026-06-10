@@ -73,7 +73,10 @@ def get_google_services():
     creds = None
 
     if Path(GOOGLE_TOKEN_FILE).exists():
-        creds = Credentials.from_authorized_user_file(GOOGLE_TOKEN_FILE, SCOPES)
+        # Load with the token's own granted scopes (not SCOPES) so refreshes
+        # never fail with invalid_scope when SCOPES later gains a scope the
+        # saved token was never granted. New scopes apply only on fresh OAuth.
+        creds = Credentials.from_authorized_user_file(GOOGLE_TOKEN_FILE)
 
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:

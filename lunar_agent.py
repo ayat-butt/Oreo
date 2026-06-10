@@ -65,6 +65,31 @@ GMAIL_CONTRACT_QUERIES = [
 # Joining dates older than this many days are assumed to be already tracked
 MAX_JOINER_LOOKBACK_DAYS = 120
 
+# ── exclusions ──────────────────────────────────────────────────────────────────
+# Employees who must NEVER be auto-added to the probation tracker.
+# The Audio Monitoring Officer (Assessments) team is tracked separately by HR and
+# was deliberately kept out of the tracker (instruction from Ayat, 2026-06-10).
+EXCLUDED_EMAILS = {
+    "kaynatsyeda4@gmail.com",     # Syeda Kaynat Bukhari   (Audio Monitoring)
+    "laraibsyed1999@gmail.com",   # Laraib Syed            (Audio Monitoring)
+    "gulrukhdinal@gmail.com",     # Gulrukh Dinal          (Audio Monitoring)
+    "arshadkhan285981@gmail.com", # Arshad Khan            (Audio Monitoring)
+    "shaikhfareeda8@gmail.com",   # Fareeda Shaikh         (Audio Monitoring)
+    "zamanmuddasir44@gmail.com",  # Muddasir Zaman         (Audio Monitoring)
+    "muhammadfgs7@gmail.com",     # Muhammad Ahmed — offer fell through, not joining (2026-06-10)
+    "raiyaanjhamid@gmail.com",    # Raiyaan Hamid  — offer fell through, not joining (2026-06-10)
+}
+# Names that must never be auto-added (offers that fell through, deliberate
+# removals). Matched case-insensitively against the extracted full name.
+EXCLUDED_NAMES = {
+    "muhammad ahmed",
+    "raiyaan hamid",
+    "mohammed raiyaan junaid hamid",
+}
+# Any new-joiner email whose subject contains one of these phrases is skipped —
+# catches future Audio Monitoring hires even if their address isn't listed above.
+EXCLUDED_SUBJECT_KEYWORDS = ["audio monitoring"]
+
 # ── date helpers ───────────────────────────────────────────────────────────────
 DATE_FORMATS = [
     "%d %b %Y",   # 01 Oct 2025
@@ -160,6 +185,190 @@ def col_letter(idx: int) -> str:
         idx, rem = divmod(idx - 1, 26)
         result = chr(65 + rem) + result
     return result
+
+
+# ── template-aware new-joiner insertion ─────────────────────────────────────────
+# The tracker groups employees under "<Month YYYY> Joiners" section headers and uses
+# 13 columns (A–M, M = "Requirement"). New joiners must be inserted under the correct
+# month section — not appended at the bottom — so the sheet's template stays intact.
+
+SECTION_SUFFIX = " Joiners"
+
+
+def _section_key(label: str) -> date | None:
+    """'October 2025 Joiners' → date(2025,10,1). None if not a month section."""
+    try:
+        return datetime.strptime(label.replace(SECTION_SUFFIX, "").strip(), "%B %Y").date()
+    except ValueError:
+        return None
+
+
+def build_sheet_model(rows: list[list]) -> tuple[int | None, list[dict], list[int]]:
+    """
+    Parse the sheet into (header_idx, sections, data_idx), all 0-based.
+      header_idx : index of the '#'/'Name' header row
+      sections   : [{'label','idx','key'}] for each '<Month YYYY> Joiners' header
+      data_idx   : indices of data rows (col A is an integer)
+    """
+    header_idx = None
+    for i, r in enumerate(rows):
+        if r and str(r[0]).strip() == "#":
+            header_idx = i
+            break
+
+    sections: list[dict] = []
+    data_idx: list[int] = []
+    for i, r in enumerate(rows):
+        if not r:
+            continue
+        a = str(r[0]).strip()
+        if a.isdigit():
+            data_idx.append(i)
+        elif header_idx is not None and i > header_idx and a:
+            key = _section_key(a)
+            if key:
+                sections.append({"label": a, "idx": i, "key": key})
+    return header_idx, sections, data_idx
+
+
+def _build_joiner_row(emp: dict, today: date) -> list:
+    """Build a 13-column row (A–M) matching the sheet template. Serial (A) left
+    blank — filled by the renumber pass. Human-curated fields (Department, Entity,
+    Contract Date, Requirement) left blank for HR rather than fabricated."""
+    jd       = emp["joining_date"]
+    prob_end = jd + relativedelta(months=PROBATION_MONTHS)
+    days_str, status = calc_status(jd, today)
+    return [
+        "",                                              # A  # (renumber pass fills)
+        emp["name"],                                     # B  Name
+        emp.get("designation") or "—",                   # C  Designation
+        emp.get("department") or "",                     # D  Department  (HR fills)
+        emp.get("entity") or "",                          # E  Entity      (HR fills)
+        jd.strftime("%d %b %Y"),                          # F  Date of Joining
+        prob_end.strftime("%d %b %Y"),                    # G  Probation End
+        days_str,                                         # H  Days
+        status,                                           # I  Status
+        emp.get("subject") or "Welcome email on record",  # J  Contract on Record
+        "",                                               # K  Contract Date (HR fills)
+        f"Not sent — due {prob_end.strftime('%d %b %Y')}",# L  Closure status
+        "",                                               # M  Requirement  (HR fills)
+    ]
+
+
+def _insert_blank_rows(sheets: Resource, spreadsheet_id: str, sheet_gid: int,
+                       start_idx: int, count: int) -> None:
+    """Insert `count` blank rows at 0-based `start_idx`, inheriting formatting."""
+    sheets.spreadsheets().batchUpdate(
+        spreadsheetId=spreadsheet_id,
+        body={"requests": [{"insertDimension": {
+            "range": {"sheetId": sheet_gid, "dimension": "ROWS",
+                      "startIndex": start_idx, "endIndex": start_idx + count},
+            "inheritFromBefore": start_idx > 0,
+        }}]},
+    ).execute()
+
+
+def _write_row(sheets: Resource, spreadsheet_id: str, tab: str,
+               row_1based: int, values: list) -> None:
+    sheets.spreadsheets().values().update(
+        spreadsheetId=spreadsheet_id,
+        range=f"'{tab}'!A{row_1based}",
+        valueInputOption="USER_ENTERED",
+        body={"values": [values]},
+    ).execute()
+
+
+def plan_joiner_insert(rows: list[list], emp: dict, today: date) -> dict | None:
+    """
+    Work out where a joiner's row (and possibly a new section header) should go.
+    Returns a plan dict, or None if the sheet structure can't be parsed (guard).
+      {'label', 'new_section', 'section_at' (0-based or None),
+       'data_at' (0-based), 'values'}
+    """
+    header_idx, sections, data_idx = build_sheet_model(rows)
+    if header_idx is None:
+        return None  # unrecognised structure — refuse to write
+
+    jd    = emp["joining_date"]
+    label = f"{jd.strftime('%B %Y')}{SECTION_SUFFIX}"
+    key   = jd.replace(day=1)
+    values = _build_joiner_row(emp, today)
+
+    target = next((s for s in sections if s["key"] == key), None)
+    if target:
+        nxt = min([s["idx"] for s in sections if s["idx"] > target["idx"]],
+                  default=len(rows))
+        sec_data = [d for d in data_idx if target["idx"] < d < nxt]
+        data_at = (max(sec_data) if sec_data else target["idx"]) + 1
+        return {"label": label, "new_section": False, "section_at": None,
+                "data_at": data_at, "values": values}
+
+    # section missing — create it in chronological order
+    later = sorted([s for s in sections if s["key"] > key], key=lambda s: s["key"])
+    if later:
+        section_at = later[0]["idx"]
+    else:
+        section_at = (max(data_idx) + 1) if data_idx else (header_idx + 1)
+    return {"label": label, "new_section": True, "section_at": section_at,
+            "data_at": section_at + 1, "values": values}
+
+
+def renumber_serials(sheets: Resource, spreadsheet_id: str, tab: str,
+                     dry_run: bool) -> list[dict]:
+    """Rewrite column A so data rows are numbered 1..N in sheet order."""
+    rows = read_all_rows(sheets, spreadsheet_id, tab)
+    updates, n = [], 0
+    for i, r in enumerate(rows):
+        if r and str(r[0]).strip().isdigit():
+            n += 1
+            if str(r[0]).strip() != str(n):
+                updates.append({"range": f"A{i + 1}", "value": n})
+    if updates and not dry_run:
+        write_cells(sheets, spreadsheet_id, tab, updates)
+    return updates
+
+
+def insert_joiners_matching_template(sheets: Resource, spreadsheet_id: str, tab: str,
+                                     sheet_gid: int, new_joiners: list[dict],
+                                     today: date, dry_run: bool) -> list[str]:
+    """Insert each new joiner under the correct month section, creating the section
+    header if needed, then renumber serials. Returns human-readable summary lines."""
+    summary: list[str] = []
+    for emp in sorted(new_joiners, key=lambda e: e["joining_date"]):
+        rows = read_all_rows(sheets, spreadsheet_id, tab)  # re-read: indices shift per insert
+        plan = plan_joiner_insert(rows, emp, today)
+        if plan is None:
+            msg = f"  ⚠ SKIPPED {emp['name']} — could not parse sheet template, refusing to write"
+            print(msg)
+            summary.append(msg)
+            continue
+
+        sec_note = f"new section '{plan['label']}' + " if plan["new_section"] else ""
+        if dry_run:
+            print(f"  [DRY RUN] {emp['name']} → {sec_note}row {plan['data_at'] + 1} "
+                  f"under '{plan['label']}'")
+            summary.append(f"  NEW: {emp['name']} joined {emp['joining_date']} "
+                           f"→ would add under '{plan['label']}'")
+            continue
+
+        if plan["new_section"]:
+            _insert_blank_rows(sheets, spreadsheet_id, sheet_gid, plan["section_at"], 2)
+            _write_row(sheets, spreadsheet_id, tab, plan["section_at"] + 1, [plan["label"]])
+            _write_row(sheets, spreadsheet_id, tab, plan["data_at"] + 1, plan["values"])
+        else:
+            _insert_blank_rows(sheets, spreadsheet_id, sheet_gid, plan["data_at"], 1)
+            _write_row(sheets, spreadsheet_id, tab, plan["data_at"] + 1, plan["values"])
+
+        print(f"  ✓ Added {emp['name']} under '{plan['label']}' "
+              f"(needs HR: Department, Entity, Contract Date, Requirement)")
+        summary.append(f"  NEW: {emp['name']} joined {emp['joining_date']} "
+                       f"→ added under '{plan['label']}' (Dept/Entity/Contract Date/Requirement blank)")
+
+    renum = renumber_serials(sheets, spreadsheet_id, tab, dry_run)
+    if renum:
+        print(f"  {'[DRY RUN] would renumber' if dry_run else '✓ renumbered'} "
+              f"{len(renum)} serial number(s)")
+    return summary
 
 
 # ── Gmail helpers ──────────────────────────────────────────────────────────────
@@ -281,8 +490,9 @@ def _extract_employee_details(subject: str, body: str, to_header: str) -> dict |
         "name":         name,
         "joining_date": joining_date,
         "designation":  desig,
-        "department":   "—",
-        "entity":       "—",
+        "department":   "",      # not derivable from email — HR fills
+        "entity":       "",      # not derivable from email — HR fills
+        "subject":      subject.strip(),
     }
 
 
@@ -323,6 +533,14 @@ def scan_gmail_for_new_joiners(
                        for h in msg.get("payload", {}).get("headers", [])}
             subject   = headers.get("Subject", "")
             to_header = headers.get("To", "")
+
+            # Skip explicitly-excluded teams (e.g. Audio Monitoring — tracked
+            # separately by HR and intentionally kept out of the tracker).
+            if any(kw in subject.lower() for kw in EXCLUDED_SUBJECT_KEYWORDS):
+                continue
+            if any(addr in to_header.lower() for addr in EXCLUDED_EMAILS):
+                continue
+
             body      = _decode_body(msg)
 
             details = _extract_employee_details(subject, body, to_header)
@@ -336,6 +554,11 @@ def scan_gmail_for_new_joiners(
 
             name = details["name"].strip()
             name_lower = name.lower()
+
+            # Skip people who must never be auto-added (offers fell through, etc.)
+            if name_lower in EXCLUDED_NAMES:
+                continue
+
             is_hr_manager = (
                 name_lower in HR_MANAGER_FIRST_NAMES
                 or name_lower.split()[0] in HR_MANAGER_FIRST_NAMES
@@ -465,6 +688,21 @@ def run(dry_run: bool = False) -> None:
         if changed:
             summary_lines.append(f"  {name}: {old_days} → {new_days_str}  |  {old_status} → {new_status}")
 
+    # ── write recalculated status to sheet FIRST ───────────────────────────────
+    # Must happen before inserting new-joiner rows: inserts shift row positions,
+    # and these updates are keyed by absolute row number.
+    if updates:
+        if not dry_run:
+            print(f"\nWriting {len(updates)} status updates to sheet…", end=" ", flush=True)
+            try:
+                write_cells(sheets, SPREADSHEET_ID, tab, updates)
+                print("Done.")
+            except Exception as e:
+                print(f"FAILED\n✗ {e}")
+                sys.exit(1)
+        else:
+            print(f"\n[DRY RUN] Would write {len(updates)} status updates.")
+
     # ── scan Gmail for new joiners ─────────────────────────────────────────────
     print("\nScanning Gmail for new joiners…")
     new_joiners = scan_gmail_for_new_joiners(gmail, existing_names)
@@ -473,64 +711,16 @@ def run(dry_run: bool = False) -> None:
         print(f"  → {len(new_joiners)} new joiner(s) detected:")
         for emp in new_joiners:
             print(f"    + {emp['name']}  (joined {emp['joining_date']}  |  {emp['designation']})")
+        # Insert each under its month section (creating the header if missing) so
+        # the sheet template stays intact, then renumber serials.
+        summary_lines.extend(
+            insert_joiners_matching_template(
+                sheets, SPREADSHEET_ID, tab, SHEET_GID,
+                new_joiners, today, dry_run,
+            )
+        )
     else:
         print("  → No new joiners found in Gmail.")
-
-    # ── append new joiner rows ────────────────────────────────────────────────
-    if new_joiners:
-        # Find the last data row to append after
-        last_data_row = data_rows[-1][0] if data_rows else 3
-        next_sr = int(rows[data_rows[-1][0] - 1][COL_SR]) + 1 if data_rows else 1
-
-        for emp in new_joiners:
-            next_row  = last_data_row + 1
-            prob_end  = emp["joining_date"] + relativedelta(months=PROBATION_MONTHS)
-            days_str, status = calc_status(emp["joining_date"], today)
-
-            row_values = [
-                next_sr,
-                emp["name"],
-                emp["designation"],
-                emp["department"],
-                emp["entity"],
-                emp["joining_date"].strftime("%d %b %Y"),
-                prob_end.strftime("%d %b %Y"),
-                days_str,
-                status,
-                "Contract email detected via Gmail",
-                today_str,
-                "Pending closure email",
-            ]
-
-            if not dry_run:
-                # Append as a new row
-                sheets.spreadsheets().values().append(
-                    spreadsheetId=SPREADSHEET_ID,
-                    range=f"'{tab}'!A{next_row}",
-                    valueInputOption="USER_ENTERED",
-                    insertDataOption="INSERT_ROWS",
-                    body={"values": [row_values]},
-                ).execute()
-                print(f"  ✓ Added {emp['name']} to sheet (row {next_row})")
-            else:
-                print(f"  [DRY RUN] Would add {emp['name']} to sheet (row {next_row})")
-
-            last_data_row += 1
-            next_sr += 1
-            summary_lines.append(f"  NEW: {emp['name']} joined {emp['joining_date']} — added to sheet")
-
-    # ── write updates to sheet ────────────────────────────────────────────────
-    if updates:
-        if not dry_run:
-            print(f"\nWriting {len(updates)} cell updates to sheet…", end=" ", flush=True)
-            try:
-                write_cells(sheets, SPREADSHEET_ID, tab, updates)
-                print("Done.")
-            except Exception as e:
-                print(f"FAILED\n✗ {e}")
-                sys.exit(1)
-        else:
-            print(f"\n[DRY RUN] Would write {len(updates)} cell updates.")
 
     # ── update title row with today's date ────────────────────────────────────
     month_label = today.strftime("%B %Y")

@@ -11,6 +11,7 @@ This folder contains **task-specific how-to guides**. Each skill describes a dis
 | [document-drafting.md](document-drafting.md) | Creating HR docs | "draft contract", "create document", "generate" |
 | [calendar-events.md](calendar-events.md) | Scheduling meetings | "schedule meeting", "create event", "add to calendar" |
 | [teams-messaging.md](teams-messaging.md) | Teams communication | "send to teams", "teams message", "notify team" |
+| [6-probation-tracking.md](6-probation-tracking.md) | Tracking employee probation | "probation", "track probation", "probation status", "update probation tracker" |
 
 ## How Skills Are Organized
 
@@ -68,6 +69,6 @@ If you're creating a new HR workflow:
 5. Document in root CLAUDE.md → Skills section
 
 ---
-**Last updated:** 2026-05-12  
-**Total skills:** 5  
+**Last updated:** 2026-06-10  
+**Total skills:** 6  
 **All skills:** Require preview + approval before execution
