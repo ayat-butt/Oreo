@@ -39,6 +39,12 @@ CONTRACT_PAIRS: dict[tuple[str, str], tuple[str, str | None]] = {
 
 PARENT_FOLDER_NAME = "CONTRACT FOR AGENT OREO"
 
+# ── Standard branded footer (applied to every generated contract) ─────────────
+FOOTER_ADDRESS = (
+    "2nd Floor, Time Square Plaza, Korang Road, "
+    "I-10 Markaz, Islamabad | taleemabad.com"
+)
+
 
 # ── Drive helpers ─────────────────────────────────────────────────────────────
 
@@ -158,17 +164,207 @@ def _bold_fields(docs: Resource, doc_id: str, values: list[str]) -> None:
         ).execute()
 
 
+def _bold_contract(docs: Resource, doc_id: str, emp: dict) -> None:
+    """Bold contract fields per Ayat's standards — segment-aware, so the same value
+    (e.g. the CNIC) is bold in some places and plain in others:
+
+      • Header block  → bold the LABELS only (`Date:`, `CNIC:`, `Name:`), NOT the values
+      • First paragraph → bold the name (salutation+name) only, plus designation, team,
+                          "Orenda", and the effective date — never the bracketed text
+      • Offer Acceptance → bold the employee name AND the CNIC number
+      • Compensation   → bold the salary figure
+
+    Bolds the FIRST occurrence of each target within each matching paragraph.
+    """
+    sal     = _salutation(emp)
+    name    = emp["name"]
+    cnic    = emp["cnic"]
+    desig   = emp["designation"]
+    dept    = emp["department"]
+    salary  = emp.get("salary", "")
+    jdate   = emp["joining_date"]
+
+    rules: list[tuple] = [
+        # Header — labels only
+        (lambda t: t.startswith("Date:") and "Private & Confidential" in t, ["Date:", "CNIC:"]),
+        (lambda t: t.startswith("Name:"), ["Name:"]),
+        # First paragraph — name only (not the parentheticals), plus key identifiers
+        (lambda t: "is pleased to offer" in t,
+         [f"{sal} {name}", desig, f"{dept} Team", f"{dept} Department", "Orenda", jdate]),
+        # Offer acceptance — name + CNIC
+        (lambda t: t.lstrip().startswith("I,") and "CNIC" in t, [name, cnic]),
+        # Compensation — salary figure
+        (lambda t: ("Gross Salary" in t) or ("PKR" in t and "/month" in t),
+         [f"PKR {salary}"] if salary else []),
+    ]
+
+    doc = docs.documents().get(documentId=doc_id).execute()
+    requests: list[dict] = []
+
+    def handle(elements):
+        for el in elements:
+            if "paragraph" in el:
+                runs = [pe for pe in el["paragraph"].get("elements", []) if "textRun" in pe]
+                if runs:
+                    base = runs[0].get("startIndex", 0)
+                    full = "".join(pe["textRun"].get("content", "") for pe in runs)
+                    for pred, subs in rules:
+                        if pred(full):
+                            # Clear any inherited bold across the whole paragraph first,
+                            # then bold ONLY the intended substrings.
+                            end = runs[-1].get("endIndex", base + len(full))
+                            requests.append({"updateTextStyle": {
+                                "range": {"startIndex": base, "endIndex": end},
+                                "textStyle": {"bold": False},
+                                "fields": "bold",
+                            }})
+                            for sub in subs:
+                                if not sub or len(sub) < 2:
+                                    continue
+                                i = full.find(sub)
+                                if i != -1:
+                                    requests.append({"updateTextStyle": {
+                                        "range": {"startIndex": base + i, "endIndex": base + i + len(sub)},
+                                        "textStyle": {"bold": True},
+                                        "fields": "bold",
+                                    }})
+            elif "table" in el:
+                for row in el["table"].get("tableRows", []):
+                    for cell in row.get("tableCells", []):
+                        handle(cell.get("content", []))
+
+    handle(doc["body"]["content"])
+    for i in range(0, len(requests), 50):
+        docs.documents().batchUpdate(documentId=doc_id, body={"requests": requests[i:i+50]}).execute()
+
+
+# ── Branded footer helper ─────────────────────────────────────────────────────
+
+def _footer_has_logo(doc: dict, footer_id: str) -> bool:
+    """True if the footer already contains a logo — either an inline image in the
+    footer text, or a positioned object anchored to a footer paragraph (this is how
+    the OPL/OWT templates embed their tree logo)."""
+    footer = doc.get("footers", {}).get(footer_id, {})
+    for el in footer.get("content", []):
+        if "paragraph" not in el:
+            continue
+        if el["paragraph"].get("positionedObjectIds"):
+            return True
+        for pe in el["paragraph"].get("elements", []):
+            if "inlineObjectElement" in pe:
+                return True
+    return False
+
+
+def _add_footer(docs: Resource, doc_id: str, address: str = FOOTER_ADDRESS) -> None:
+    """Add the standard branded footer to every page: tree logo + centred address line.
+
+    Most templates already embed the tree logo in the footer (as a positioned
+    object) — in that case we only add the centred address text so we don't end up
+    with two overlapping trees. If a template has no footer logo at all, we insert
+    one (reusing the logo embedded elsewhere in the doc). Address is 9pt grey,
+    centred.
+    """
+    doc = docs.documents().get(documentId=doc_id).execute()
+    footer_id = doc.get("documentStyle", {}).get("defaultFooterId")
+
+    # Create a default footer if the template doesn't already have one
+    if not footer_id:
+        reply = docs.documents().batchUpdate(
+            documentId=doc_id,
+            body={"requests": [{"createFooter": {"type": "DEFAULT"}}]},
+        ).execute()
+        footer_id = reply["replies"][0]["createFooter"]["footerId"]
+        doc = docs.documents().get(documentId=doc_id).execute()
+
+    has_logo = _footer_has_logo(doc, footer_id)
+
+    # Insert the address text (no tab — the paragraph is centred)
+    docs.documents().batchUpdate(
+        documentId=doc_id,
+        body={"requests": [
+            {"insertText": {"location": {"segmentId": footer_id, "index": 0}, "text": address}}
+        ]},
+    ).execute()
+
+    # Only add a logo if the footer doesn't already have one
+    if not has_logo:
+        candidates: list[tuple[str | None, str]] = []
+        for objs, prop in (
+            (doc.get("positionedObjects", {}), "positionedObjectProperties"),
+            (doc.get("inlineObjects", {}),     "inlineObjectProperties"),
+        ):
+            for _oid, o in objs.items():
+                emb = o.get(prop, {}).get("embeddedObject", {})
+                uri = emb.get("imageProperties", {}).get("contentUri")
+                if uri:
+                    candidates.append((emb.get("description"), uri))
+        logo_uri = next(
+            (uri for desc, uri in candidates if desc and "orenda" in desc.lower()),
+            candidates[0][1] if candidates else None,
+        )
+        if logo_uri:
+            docs.documents().batchUpdate(
+                documentId=doc_id,
+                body={"requests": [{
+                    "insertInlineImage": {
+                        "location": {"segmentId": footer_id, "index": 0},
+                        "uri": logo_uri,
+                        "objectSize": {
+                            "height": {"magnitude": 22, "unit": "PT"},
+                            "width":  {"magnitude": 17, "unit": "PT"},
+                        },
+                    }
+                }]},
+            ).execute()
+
+    # Centre the footer paragraph and style the address: 9pt, grey
+    doc = docs.documents().get(documentId=doc_id).execute()
+    footer = doc["footers"][footer_id]
+    para_start = text_start = text_end = None
+    for el in footer["content"]:
+        if "paragraph" not in el:
+            continue
+        if para_start is None:
+            para_start = el.get("startIndex", 0)
+        for pe in el["paragraph"].get("elements", []):
+            tr = pe.get("textRun")
+            if tr and tr["content"].strip():
+                if text_start is None:
+                    text_start = pe.get("startIndex", 0)
+                text_end = pe.get("endIndex")
+
+    requests: list[dict] = [{
+        "updateParagraphStyle": {
+            "range": {"segmentId": footer_id, "startIndex": para_start, "endIndex": (text_end or para_start + 1)},
+            "paragraphStyle": {"alignment": "CENTER"},
+            "fields": "alignment",
+        }
+    }]
+    if text_start is not None:
+        requests.append({
+            "updateTextStyle": {
+                "range": {"segmentId": footer_id, "startIndex": text_start, "endIndex": text_end},
+                "textStyle": {
+                    "fontSize": {"magnitude": 9, "unit": "PT"},
+                    "foregroundColor": {"color": {"rgbColor": {"red": 0.5, "green": 0.5, "blue": 0.5}}},
+                },
+                "fields": "fontSize,foregroundColor",
+            }
+        })
+    docs.documents().batchUpdate(documentId=doc_id, body={"requests": requests}).execute()
+
+
 # ── JD extraction helpers ─────────────────────────────────────────────────────
 
 _JD_SECTIONS = {"Key Responsibilities"}
 
 
-def _extract_jd_lines(docs: Resource, jd_doc_id: str) -> list[str]:
-    """Read a JD Google Doc and return bullet lines for Key Responsibilities and related sections."""
+def _extract_jd_lines(docs: Resource, jd_doc_id: str) -> list[tuple[str, bool]]:
+    """Read a JD Google Doc under 'Key Responsibilities'; return clean (text, is_heading) items."""
     doc = docs.documents().get(documentId=jd_doc_id).execute()
-    lines = []
+    items: list[tuple[str, bool]] = []
     in_section = False
-    last_section = None
 
     for el in doc["body"]["content"]:
         if "paragraph" not in el:
@@ -185,24 +381,24 @@ def _extract_jd_lines(docs: Resource, jd_doc_id: str) -> list[str]:
         if is_heading:
             if text in _JD_SECTIONS:
                 in_section = True
-                last_section = text
             elif in_section and style == "HEADING_3":
-                lines.append(f"\n{text}:")
+                items.append((f"{text}:", True))
             elif in_section and style == "HEADING_2":
                 # New top-level section — stop extracting
                 in_section = False
         elif in_section and el["paragraph"].get("bullet"):
-            lines.append(f"\u2022 {text}")
+            items.append((f"\u2022 {text}", False))
 
-    return [l for l in lines if l.strip()]
+    return items
 
 
-def _insert_jd_into_annexure(docs: Resource, contract_id: str, jd_lines: list[str]) -> None:
-    """Insert JD bullet lines after the 'Key Responsibilities' heading in Annexure A."""
-    if not jd_lines:
+def _insert_jd_into_annexure(docs: Resource, contract_id: str, jd_items: list[tuple[str, bool]]) -> None:
+    """Insert JD items after the 'Key Responsibilities' heading — clean spacing
+    (one line per item, NO blank lines) and bold the heading + every sub-heading."""
+    if not jd_items:
         return
     doc = docs.documents().get(documentId=contract_id).execute()
-    insert_idx = None
+    kr_idx = jd_idx = None
     for el in doc["body"]["content"]:
         if "paragraph" not in el:
             continue
@@ -210,20 +406,54 @@ def _insert_jd_into_annexure(docs: Resource, contract_id: str, jd_lines: list[st
             pe.get("textRun", {}).get("content", "")
             for pe in el["paragraph"].get("elements", [])
         ).strip()
-        if text in ("Key Responsibilities", "Key Responsibilities:", "Job Description:", "Job Description"):
-            insert_idx = el["endIndex"]
-            break
+        if text in ("Key Responsibilities", "Key Responsibilities:") and kr_idx is None:
+            kr_idx = el["endIndex"]
+        elif text in ("Job Description:", "Job Description") and jd_idx is None:
+            jd_idx = el["endIndex"]
+    # Prefer inserting right after "Key Responsibilities"; fall back to "Job Description"
+    insert_idx = kr_idx if kr_idx is not None else jd_idx
     if insert_idx is None:
         return
-    jd_text = "\n".join(jd_lines) + "\n"
+
+    # Clean insert: one line per item, no extra blank lines, no leading newline
+    jd_text = "\n".join(text for text, _ in jd_items) + "\n"
     docs.documents().batchUpdate(
         documentId=contract_id,
-        body={"requests": [{"insertText": {"location": {"index": insert_idx}, "text": "\n" + jd_text}}]},
+        body={"requests": [{"insertText": {"location": {"index": insert_idx}, "text": jd_text}}]},
     ).execute()
+
+    # Bold the "Key Responsibilities" heading and each sub-heading line
+    headings = {"Key Responsibilities"} | {text for text, is_h in jd_items if is_h}
+    doc = docs.documents().get(documentId=contract_id).execute()
+    requests: list[dict] = []
+
+    def walk(elements):
+        for el in elements:
+            if "paragraph" in el:
+                runs = [pe for pe in el["paragraph"].get("elements", []) if "textRun" in pe]
+                if runs:
+                    full = "".join(pe["textRun"].get("content", "") for pe in runs)
+                    if full.strip() in headings:
+                        base = runs[0].get("startIndex", 0)
+                        length = len(full.rstrip("\n"))
+                        requests.append({"updateTextStyle": {
+                            "range": {"startIndex": base, "endIndex": base + length},
+                            "textStyle": {"bold": True},
+                            "fields": "bold",
+                        }})
+            elif "table" in el:
+                for row in el["table"].get("tableRows", []):
+                    for cell in row.get("tableCells", []):
+                        walk(cell.get("content", []))
+
+    walk(doc["body"]["content"])
+    for i in range(0, len(requests), 50):
+        docs.documents().batchUpdate(documentId=contract_id, body={"requests": requests[i:i+50]}).execute()
 
 
 def _fill_header_date(docs: Resource, contract_id: str, date_str: str) -> None:
-    """Insert the date into the blank date cell in the contract header, then bold it."""
+    """Insert the date into the blank date cell in the contract header.
+    The value is left UN-bold — only the 'Date:' label is bold (see _bold_contract)."""
     doc = docs.documents().get(documentId=contract_id).execute()
     for el in doc["body"]["content"]:
         if "paragraph" not in el:
@@ -242,17 +472,6 @@ def _fill_header_date(docs: Resource, contract_id: str, date_str: str) -> None:
                     body={"requests": [
                         {"insertText": {"location": {"index": insert_at}, "text": date_str}},
                     ]},
-                ).execute()
-                # Bold the inserted date to match Name / CNIC formatting
-                docs.documents().batchUpdate(
-                    documentId=contract_id,
-                    body={"requests": [{
-                        "updateTextStyle": {
-                            "range": {"startIndex": insert_at, "endIndex": insert_at + len(date_str)},
-                            "textStyle": {"bold": True},
-                            "fields": "bold",
-                        }
-                    }]},
                 ).execute()
             break
 
@@ -282,6 +501,106 @@ def _fill_offer_acceptance(docs: Resource, contract_id: str, name: str, cnic: st
         documentId=contract_id,
         body={"requests": requests},
     ).execute()
+
+
+def _fill_hod_block(docs: Resource, contract_id: str, name: str, designation: str, date_str: str) -> None:
+    """Fill the HoD signing block: name + designation via labels, and the standalone
+    'Date' line surgically (so 'Commencement Date' / 'Offer Acceptance Date' are untouched)."""
+    pairs: list[tuple[str, str]] = []
+    if name:
+        pairs.append(("Head of Department's Name", name))
+        pairs.append(("HOD Name", name))
+    if designation:
+        pairs.append(("Designation", designation))
+    if pairs:
+        _apply_replacements(docs, contract_id, pairs)
+
+    # Surgically replace the standalone "Date" paragraph (the HoD date line)
+    doc = docs.documents().get(documentId=contract_id).execute()
+    target = {"idx": None}
+
+    def find(elements):
+        for el in elements:
+            if target["idx"] is not None:
+                return
+            if "paragraph" in el:
+                runs = el["paragraph"].get("elements", [])
+                t = "".join(pe.get("textRun", {}).get("content", "") for pe in runs).strip()
+                if t == "Date":
+                    for pe in runs:
+                        if pe.get("textRun", {}).get("content", "").strip() == "Date":
+                            target["idx"] = pe.get("startIndex")
+                            return
+            elif "table" in el:
+                for row in el["table"].get("tableRows", []):
+                    for cell in row.get("tableCells", []):
+                        find(cell.get("content", []))
+
+    find(doc["body"]["content"])
+    if target["idx"] is not None:
+        i = target["idx"]
+        docs.documents().batchUpdate(
+            documentId=contract_id,
+            body={"requests": [
+                {"deleteContentRange": {"range": {"startIndex": i, "endIndex": i + 4}}},
+                {"insertText": {"location": {"index": i}, "text": date_str}},
+            ]},
+        ).execute()
+
+
+def _remove_probation_clause(docs: Resource, contract_id: str) -> None:
+    """Remove the Probation heading + clause (used for internal transitions).
+    Deletes everything from the 'Probation' heading up to the next 'Compensation' heading."""
+    doc = docs.documents().get(documentId=contract_id).execute()
+    content = doc["body"]["content"]
+    start_idx = end_idx = None
+    for i, el in enumerate(content):
+        if "paragraph" not in el:
+            continue
+        t = "".join(pe.get("textRun", {}).get("content", "") for pe in el["paragraph"].get("elements", [])).strip()
+        if t == "Probation":
+            start_idx = el["startIndex"]
+            for el2 in content[i + 1:]:
+                if "paragraph" not in el2:
+                    continue
+                t2 = "".join(pe.get("textRun", {}).get("content", "") for pe in el2["paragraph"].get("elements", [])).strip()
+                if t2 == "Compensation":
+                    end_idx = el2["startIndex"]
+                    break
+            break
+    if start_idx is not None and end_idx is not None and end_idx > start_idx:
+        docs.documents().batchUpdate(
+            documentId=contract_id,
+            body={"requests": [{"deleteContentRange": {"range": {"startIndex": start_idx, "endIndex": end_idx}}}]},
+        ).execute()
+
+
+def _insert_page_breaks(docs: Resource, contract_id: str) -> None:
+    """Start the Offer Acceptance section and the Annexure-A (Job Description) on new pages."""
+    for marker in ("Annexure- A", "OFFER ACCEPTANCE:"):   # fresh fetch each time → order-independent
+        doc = docs.documents().get(documentId=contract_id).execute()
+        found = {"idx": None}
+
+        def find(elements):
+            for el in elements:
+                if found["idx"] is not None:
+                    return
+                if "paragraph" in el:
+                    t = "".join(pe.get("textRun", {}).get("content", "") for pe in el["paragraph"].get("elements", [])).strip()
+                    if t == marker or (marker.startswith("Annexure") and t.startswith("Annexure")):
+                        found["idx"] = el.get("startIndex")
+                        return
+                elif "table" in el:
+                    for row in el["table"].get("tableRows", []):
+                        for cell in row.get("tableCells", []):
+                            find(cell.get("content", []))
+
+        find(doc["body"]["content"])
+        if found["idx"]:
+            docs.documents().batchUpdate(
+                documentId=contract_id,
+                body={"requests": [{"insertPageBreak": {"location": {"index": found["idx"]}}}]},
+            ).execute()
 
 
 # ── Salutation + joining line helpers ─────────────────────────────────────────
@@ -357,7 +676,8 @@ def _replacements(template_key: str, emp: dict) -> list[tuple[str, str]]:
              f"{sal} {name} (hereinafter referred to as"),
             (
                 "position of XYZ as part of the XYZ Team of Orenda Private Limited",
-                f"position of {designation} as part of the {department} Team of Orenda Private Limited",
+                # Standard: first paragraph says only "Orenda" (not the full legal name)
+                f"position of {designation} as part of the {department} Team of Orenda",
             ),
             ('effect from XYZ (the "Commencement Date").',
              f'effect from {joining_date} (the "Commencement Date").{j_line}'),
@@ -435,12 +755,18 @@ def draft_contracts(drive: Resource, docs: Resource, emp: dict) -> dict:
                 end_date        project / addendum
                 duration        project contracts (months as string)
                 prev_contract_date  addendum only
-                hod_name        Head of Department name for signing section
-                hod_designation Head of Department designation
+                hod_name        HoD / signatory name (ALWAYS ask if not provided)
+                hod_designation HoD / signatory designation
                 jd_doc_id       Google Doc ID of the Job Description (fills Annexure A)
+                is_transition   True for internal transitions → omits the probation clause
 
     entity:          "owt" | "opl" | "taleemabad" | "orenda"
     employment_type: "full_time" | "project" | "part_time" | "addendum"
+
+    Formatting follows the locked standards in skills/3-document-drafting.md:
+    header labels bold (not values), first-paragraph name-only bold + "Orenda",
+    offer-acceptance name+CNIC bold, page breaks before Offer Acceptance & Annexure-A,
+    clean JD spacing with bold headings, branded footer.
     """
     entity   = emp["entity"].lower().strip()
     emp_type = emp["employment_type"].lower().strip()
@@ -454,24 +780,11 @@ def draft_contracts(drive: Resource, docs: Resource, emp: dict) -> dict:
 
     contract_key, nda_key = CONTRACT_PAIRS[pair_key]
 
-    # Values to bold (skip blanks and very short strings)
-    # Use "Miss/Mr. Name" as the bold target — NOT the full sentence with parentheticals
-    sal = _salutation(emp)
-    bold_values = [
-        v for k in ("cnic", "designation", "department", "salary",
-                    "joining_date", "remote_date", "inperson_date")
-        if (v := emp.get(k, "")) and len(v) > 2
+    # NDA bolding values — name + dates (contract is bolded separately by _bold_contract)
+    nda_bold_values = [
+        v for k in ("cnic", "joining_date") if (v := emp.get(k, "")) and len(v) > 2
     ]
-    # Bold salutation + name (e.g. "Miss Ayat Butt") and bare name (e.g. "Ayat Butt" in Offer Acceptance)
-    bold_values.append(f"{sal} {emp['name']}")
-    bold_values.append(emp["name"])
-
-    # OPL-specific: bold entity name and "{department} Team" phrase
-    if contract_key in ("opl_full_time", "opl_project"):
-        dept = emp.get("department", "")
-        if dept:
-            bold_values.append(f"{dept} Team")
-        bold_values.append("Orenda Private Limited")
+    nda_bold_values.append(emp["name"])
 
     # 1. Ensure parent folder
     parent_id = _get_or_create_parent_folder(drive)
@@ -480,41 +793,47 @@ def draft_contracts(drive: Resource, docs: Resource, emp: dict) -> dict:
     emp_folder_id = _create_employee_folder(drive, parent_id, emp)
     print(f"  Created folder: {emp['name']} - {emp['joining_date']}")
 
-    # 3. Contract: copy → fill → remove highlights → bold
+    today_str = datetime.now().strftime("%d %B %Y")
+
+    # 3. Contract: copy → fill placeholders → remove highlights
     contract_title = f"{emp['name']} - Contract"
     contract_id = _copy_template(drive, TEMPLATE_IDS[contract_key], contract_title, emp_folder_id)
     _apply_replacements(docs, contract_id, _replacements(contract_key, emp))
     _remove_highlights(docs, contract_id)
-    _bold_fields(docs, contract_id, bold_values)
 
-    # 3a. Fill header date (OPL/OWT full-time templates have a blank date cell)
-    today_str = datetime.now().strftime("%d %B %Y")
+    # 3a. Header date (value left un-bold — only the label is bold)
     _fill_header_date(docs, contract_id, today_str)
 
-    # 3b. Fill offer acceptance section (NAME / CNIC XYZ placeholders)
+    # 3b. Offer acceptance placeholders (NAME / CNIC)
     _fill_offer_acceptance(docs, contract_id, emp["name"], emp["cnic"])
 
-    # 3c. Fill HoD signing section if provided (name, designation, and today's date)
+    # 3c. HoD signing block (name + designation + today's date, surgical)
     hod_name = emp.get("hod_name", "")
     hod_designation = emp.get("hod_designation", "")
     if hod_name or hod_designation:
-        hod_pairs = []
-        if hod_name:
-            # OPL uses "Head of Department's Name", OWT uses "HOD Name"
-            hod_pairs.append(("Head of Department's Name", hod_name))
-            hod_pairs.append(("HOD Name", hod_name))
-        if hod_designation:
-            hod_pairs.append(("Designation", hod_designation))
-        # Always fill the HoD date with today's date
-        hod_pairs.append(("Date", today_str))
-        _apply_replacements(docs, contract_id, hod_pairs)
+        _fill_hod_block(docs, contract_id, hod_name, hod_designation, today_str)
 
-    # 3d. Insert JD into Annexure A if a JD doc ID is provided
+    # 3d. Internal transition → remove the probation clause
+    if emp.get("is_transition"):
+        _remove_probation_clause(docs, contract_id)
+        print("  Removed probation clause (internal transition)")
+
+    # 3e. Insert JD into Annexure A (clean spacing, bold headings)
     jd_doc_id = emp.get("jd_doc_id", "")
     if jd_doc_id:
-        jd_lines = _extract_jd_lines(docs, jd_doc_id)
-        _insert_jd_into_annexure(docs, contract_id, jd_lines)
-        print(f"  Inserted JD ({len(jd_lines)} lines) into Annexure A")
+        jd_items = _extract_jd_lines(docs, jd_doc_id)
+        _insert_jd_into_annexure(docs, contract_id, jd_items)
+        print(f"  Inserted JD ({len(jd_items)} items) into Annexure A")
+
+    # 3f. Page breaks: Offer Acceptance + Annexure-A each start on a new page
+    _insert_page_breaks(docs, contract_id)
+
+    # 3g. Bold contract fields per standards (segment-aware)
+    _bold_contract(docs, contract_id, emp)
+
+    # 3h. Branded footer (logo + centred address) on every page
+    _add_footer(docs, contract_id)
+    print("  Added branded footer")
 
     print(f"  Drafted contract:  {contract_title}")
     audit_log("CONTRACT_CREATED", f"employee='{emp['name']}' entity={entity} type={emp_type} doc_id={contract_id}")
@@ -527,7 +846,7 @@ def draft_contracts(drive: Resource, docs: Resource, emp: dict) -> dict:
         nda_id = _copy_template(drive, TEMPLATE_IDS[nda_key], nda_title, emp_folder_id)
         _apply_replacements(docs, nda_id, _replacements(nda_key, emp))
         _remove_highlights(docs, nda_id)
-        _bold_fields(docs, nda_id, bold_values)
+        _bold_fields(docs, nda_id, nda_bold_values)
         print(f"  Drafted NDA:       {nda_title}")
         audit_log("NDA_CREATED", f"employee='{emp['name']}' doc_id={nda_id}")
         nda_url = f"https://docs.google.com/document/d/{nda_id}/edit"

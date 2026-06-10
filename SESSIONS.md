@@ -99,6 +99,54 @@ Chronological record of all working sessions. Each entry captures what was compl
 
 ---
 
+## Session 2 — 2026-06-10
+
+**Person:** Ayat Butt
+**Focus:** Momina Raja transition contract/NDA/email + contract-generator formatting overhaul
+
+### Completed
+- **Momina Raja** (internal transition, Programs → Impact & Policy): drafted **OPL full-time permanent contract + NDA**. Role **Policy & Advocacy Specialist**, gross **PKR 273,636**, joining **9 June 2026**. JD responsibilities inserted into Annexure-A; probation clause removed (transition); HoD signing = **Sabeena Abbasi, Chief Impact Officer**.
+- **Sent** the transition-confirmation email to Momina (momina.raja@niete.edu.pk + momina.raja@taleemabad.com), CC: hr, accounts.query, ali.sipra, sabeena.abbasi, muzzammil.patel. Preview sent to ayat@niete.edu.pk first; approved; then rolled out.
+- Added **branded footer** (single tree logo + centered address, 9pt grey) — to Momina's contract and baked into the generator.
+- Fixed **EMPLOYEEE → EMPLOYEE** typo in BOTH NDA source templates (nda_full_time, nda_project).
+- **Overhauled `contract_service.py`** to auto-apply Ayat's formatting standards (header labels-only bold, first-para name-only bold + "Orenda" short form, `is_transition` removes probation, name+CNIC bold in Offer Acceptance, page breaks before Offer Acceptance & Annexure-A, clean JD spacing + bold headings, surgical HoD date fill). Verified on throwaway contracts via rendered PDF; test docs deleted.
+
+### Scripts Created/Modified
+- `hr_assistant/contract_service.py` — major refactor (_bold_contract, _fill_hod_block, _remove_probation_clause, _insert_page_breaks, _add_footer/_footer_has_logo, FOOTER_ADDRESS, clean JD insert, draft_contracts reorder + `is_transition`)
+- `skills/3-document-drafting.md` — added "⭐ Contract Formatting Standards (LOCKED)" section
+- NDA source templates (Google Docs) — typo fix
+- memory: feedback_contract_formatting.md, feedback_contract_footer.md (+ MEMORY.md index)
+
+### Key Decisions Locked In
+- Contract formatting standards are canonical in `skills/3-document-drafting.md` + memory; auto-applied by `draft_contracts()`.
+- Footer address: "2nd Floor, Time Square Plaza, Korang Road, I-10 Markaz, Islamabad | taleemabad.com".
+- Transitions omit the probation clause; always ASK who the HoD signatory is.
+- Source templates edited only for typo fixes, with explicit approval.
+
+### Database Writes / External Actions
+- Sent the Momina transition email (real send, Ayat-authorized).
+- Created Momina contract + NDA Google Docs in "CONTRACT FOR AGENT OREO" Drive folder.
+- Edited both NDA source templates (typo fix).
+
+### Open Items for Next Session
+- [ ] **JD auto-extraction limitation:** improve `_extract_jd_lines()` to handle JD docs without proper "Key Responsibilities" headings (e.g. Momina's "WHAT YOU'LL DO" layout — currently extracts nothing, needs manual insert).
+- [ ] Decide whether the **NDA** should also carry the branded footer.
+- [ ] Decide whether to apply the **"Orenda" short-form** first-paragraph rule to the OWT template too (currently OPL only).
+- [ ] Verify the new generator formatting on OWT / Taleemabad / project templates (only OPL full-time tested so far).
+
+---
+
+## 🔑 PAYROLL Sessions — Separate Tracking
+
+**⚠️ IMPORTANT:** All payroll-related sessions are tracked in `payroll/SESSIONS.md`
+
+When a session involves the PAYROLL keyword, it goes to the payroll-specific file, NOT here.
+This keeps payroll domain separate from onboarding/general HR work.
+
+See: [`payroll/SESSIONS.md`](payroll/SESSIONS.md)
+
+---
+
 **Format Reference:**
 - Each session starts with: ## Session N — YYYY-MM-DD (title)
 - Include: Person, Duration, Focus
