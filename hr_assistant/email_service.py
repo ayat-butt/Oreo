@@ -53,6 +53,7 @@ def _build_email_body(emp: dict) -> str:
     salary        = emp["salary"]
     remote_date   = emp.get("remote_date", "")
     inperson_date = emp.get("inperson_date", "")
+    onboarding_form = emp.get("onboarding_form", _ONBOARDING_FORM)
 
     # Joining arrangement line
     if remote_date and inperson_date:
@@ -82,7 +83,7 @@ def _build_email_body(emp: dict) -> str:
         f'Additionally, please take note of the essential logistical requirements outlined below:<br><br>'
         f'Complete the form linked here with your information for record-keeping purposes and upload your educational '
         f'documents, signed contracts, a signed NDA, and an experience letter: '
-        f'<a href="{_ONBOARDING_FORM}" target="_blank">Click here</a><br><br>'
+        f'<a href="{onboarding_form}" target="_blank">Click here</a><br><br>'
         f'Provide your bank name, account title, and IBAN number, matching the details on your cheque book. '
         f'Upon the submission of all required documents, we will proceed to set up your teams and email ID.<br><br>'
         f'Join the <b>Orenda | Taleemabad WhatsApp Group</b> via the following link: '
@@ -97,6 +98,45 @@ def _build_email_body(emp: dict) -> str:
     )
 
 
+def _build_raw_message(
+    drive: Resource,
+    emp: dict,
+    contract_id: str,
+    nda_id: str | None,
+    to_address: str,
+    cc: list[str] | None,
+    subject_prefix: str,
+) -> tuple[str, str]:
+    """Export Contract (+NDA) PDFs, build the MIME message, return (raw_base64, subject).
+
+    Shared by both draft_welcome_email and send_welcome_email so the email is byte-identical
+    whether drafted, piloted, or sent live. The sent PDFs are exported live from the docs here.
+    """
+    name    = emp["name"]
+    subject = f"{subject_prefix}Welcome to Taleemabad - {emp['designation']}"
+
+    contract_pdf = drive.files().export(fileId=contract_id, mimeType="application/pdf").execute()
+    nda_pdf = drive.files().export(fileId=nda_id, mimeType="application/pdf").execute() if nda_id else None
+
+    msg = MIMEMultipart()
+    msg["To"]      = to_address
+    msg["Subject"] = subject
+    if cc:
+        msg["Cc"] = ", ".join(cc)
+    msg.attach(MIMEText(_build_email_body(emp), "html"))
+
+    contract_part = MIMEApplication(contract_pdf, _subtype="pdf")
+    contract_part.add_header("Content-Disposition", "attachment", filename=f"{name} - Contract.pdf")
+    msg.attach(contract_part)
+    if nda_pdf:
+        nda_part = MIMEApplication(nda_pdf, _subtype="pdf")
+        nda_part.add_header("Content-Disposition", "attachment", filename=f"{name} - NDA.pdf")
+        msg.attach(nda_part)
+
+    raw = base64.urlsafe_b64encode(msg.as_bytes()).decode()
+    return raw, subject
+
+
 def draft_welcome_email(
     drive: Resource,
     gmail: Resource,
@@ -109,73 +149,54 @@ def draft_welcome_email(
     """
     Export Contract (+NDA) as PDFs, build the welcome email, save as Gmail draft.
 
-    emp dict keys used:
-        name, designation, salary, joining_date
-        remote_date, inperson_date  (optional — adds joining arrangement line)
-        email                       (recipient address)
+    emp dict keys used: name, designation, salary, joining_date, email,
+                        remote_date/inperson_date (optional).
+    cc — optional CC list (allowlist-checked). subject_prefix — e.g. "[TEST] ".
 
-    cc             — optional list of CC addresses
-    subject_prefix — e.g. "[TEST] " prepended to the subject line
-
-    Returns dict with draft_id and subject.
-    Nothing is sent — open Gmail Drafts to review and send manually.
+    Returns {draft_id, subject, to}. Nothing is sent — review in Gmail Drafts.
     """
-    name       = emp["name"]
     to_address = emp["email"]
-    subject    = f"{subject_prefix}Welcome to Taleemabad - {emp['designation']}"
-
-    # ── Hard allowlist check — raises immediately if domain not approved ──────
-    _assert_allowed(to_address)
+    # CC is allowlist-checked; To may be a personal candidate email (HR-authorized).
     for cc_addr in (cc or []):
         _assert_allowed(cc_addr)
 
-    # ── Export PDFs ───────────────────────────────────────────────────────────
-    print("  Exporting Contract as PDF...")
-    contract_pdf = drive.files().export(
-        fileId=contract_id, mimeType="application/pdf"
-    ).execute()
+    raw, subject = _build_raw_message(drive, emp, contract_id, nda_id, to_address, cc, subject_prefix)
+    draft = gmail.users().drafts().create(userId="me", body={"message": {"raw": raw}}).execute()
 
-    nda_pdf = None
-    if nda_id:
-        print("  Exporting NDA as PDF...")
-        nda_pdf = drive.files().export(
-            fileId=nda_id, mimeType="application/pdf"
-        ).execute()
-
-    # ── Build MIME message ────────────────────────────────────────────────────
-    msg = MIMEMultipart()
-    msg["To"]      = to_address
-    msg["Subject"] = subject
-    if cc:
-        msg["Cc"] = ", ".join(cc)
-    msg.attach(MIMEText(_build_email_body(emp), "html"))
-
-    contract_part = MIMEApplication(contract_pdf, _subtype="pdf")
-    contract_part.add_header(
-        "Content-Disposition", "attachment",
-        filename=f"{name} - Contract.pdf"
-    )
-    msg.attach(contract_part)
-
-    if nda_pdf:
-        nda_part = MIMEApplication(nda_pdf, _subtype="pdf")
-        nda_part.add_header(
-            "Content-Disposition", "attachment",
-            filename=f"{name} - NDA.pdf"
-        )
-        msg.attach(nda_part)
-
-    # ── Save as Gmail draft ───────────────────────────────────────────────────
-    raw   = base64.urlsafe_b64encode(msg.as_bytes()).decode()
-    draft = gmail.users().drafts().create(
-        userId="me",
-        body={"message": {"raw": raw}}
-    ).execute()
-
-    print(f"  Gmail draft saved: '{subject}' → {to_address}")
+    print(f"  Gmail draft saved: '{subject}' -> {to_address}")
     audit_log("EMAIL_DRAFTED", f"to={to_address} cc={cc or []} subject='{subject}'")
-    return {
-        "draft_id": draft["id"],
-        "subject":  subject,
-        "to":       to_address,
-    }
+    return {"draft_id": draft["id"], "subject": subject, "to": to_address}
+
+
+def send_welcome_email(
+    drive: Resource,
+    gmail: Resource,
+    emp: dict,
+    contract_id: str,
+    nda_id: str | None,
+    cc: list[str] | None = None,
+    subject_prefix: str = "",
+    to_override: str | None = None,
+) -> dict:
+    """
+    SEND the welcome email (contract + NDA attached) via Gmail.
+
+    to_override — when set (PILOT/test), send here instead of the candidate; the test address
+                  MUST be inside the approved domains. When None (LIVE), To is the candidate
+                  (personal email allowed). CC is always allowlist-checked either way.
+
+    Returns {message_id, subject, to}. This actually sends — gate it behind explicit confirmation.
+    """
+    to_address = to_override or emp["email"]
+    if to_override:
+        _assert_allowed(to_address)          # pilot/test must be an approved Taleemabad/NIETE address
+    for cc_addr in (cc or []):
+        _assert_allowed(cc_addr)
+
+    raw, subject = _build_raw_message(drive, emp, contract_id, nda_id, to_address, cc, subject_prefix)
+    sent = gmail.users().messages().send(userId="me", body={"raw": raw}).execute()
+
+    kind = "PILOT" if to_override else "LIVE"
+    print(f"  Email SENT ({kind}): '{subject}' -> {to_address}")
+    audit_log("EMAIL_SENT", f"kind={kind} to={to_address} cc={cc or []} subject='{subject}' msg_id={sent.get('id')}")
+    return {"message_id": sent["id"], "subject": subject, "to": to_address}

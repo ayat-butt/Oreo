@@ -1,0 +1,11 @@
+# Railway build config for the FastAPI backend (api/), which imports hr_assistant/.
+# Installs the web requirements (a superset of the engine's deps), not the root CLI requirements.
+
+[phases.install]
+cmds = [
+  "python -m pip install --upgrade pip",
+  "pip install -r api/requirements.txt",
+]
+
+[start]
+cmd = "uvicorn api.main:app --host 0.0.0.0 --port $PORT"

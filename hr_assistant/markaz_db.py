@@ -355,12 +355,93 @@ def get_active_jobs():
 
 
 def get_candidates(status: str = None):
-    """Get candidates, optionally filtered by status."""
+    """DEPRECATED: the `candidates` table has no `status` column (it is a raw applicant pool).
+    The hiring pipeline lives in `applications`. Use get_offer_pipeline() instead.
+    Kept only for backward-compatibility; passing `status` will raise (no such column)."""
     with _conn() as (cur, _):
         where = "WHERE status = %s" if status else ""
         params = [status] if status else []
         cur.execute(f"SELECT * FROM candidates {where} ORDER BY created_at DESC", params)
         return cur.fetchall()
+
+
+# ── Offer pipeline (contract-drafting dashboard source) ──────────────────────
+
+# Markaz job.employment_type -> engine employment_type. None/unknown => manual choice.
+EMPLOYMENT_TYPE_MAP = {
+    "Permanent":   "full_time",
+    "Contractual": "project",
+}
+
+# Application statuses that mean "offer extended / accepted" — the dashboard pool.
+OFFER_STATUSES = ("offer", "hired")
+
+
+def map_employment_type(job_value: str | None) -> str | None:
+    """Map a Markaz jobs.employment_type to the engine's employment_type (best-effort)."""
+    if not job_value:
+        return None
+    return EMPLOYMENT_TYPE_MAP.get(job_value.strip())
+
+
+def get_offer_pipeline(statuses: tuple[str, ...] = OFFER_STATUSES):
+    """Candidates at the offer/hired stage, joined to candidate + job, for the contract dashboard.
+
+    Returns rows with everything the dashboard + form prefill need. `ready_to_draft` is True when
+    the candidate has submitted their legal name + CNIC (contract_drafting_submitted_at IS NOT NULL).
+    Read-only.
+    """
+    with _conn() as (cur, _):
+        cur.execute("""
+            SELECT
+                a.id              AS application_id,
+                a.candidate_id,
+                a.job_id,
+                a.status,
+                a.stage,
+                a.contract_drafting_full_legal_name AS legal_name,
+                a.contract_drafting_cnic_number      AS cnic,
+                a.contract_drafting_submitted_at     AS contract_submitted_at,
+                (a.contract_drafting_submitted_at IS NOT NULL) AS ready_to_draft,
+                a.updated_at,
+                c.first_name, c.last_name, c.email, c.phone,
+                j.title             AS job_title,
+                j.department        AS job_department,
+                j.employment_type   AS job_employment_type,
+                j.work_type         AS job_work_type,
+                j.min_budget, j.max_budget, j.currency,
+                j.hiring_manager, j.poc_person
+            FROM applications a
+            LEFT JOIN candidates c ON a.candidate_id = c.id
+            LEFT JOIN jobs j       ON a.job_id = j.id
+            WHERE a.status = ANY(%s)
+            ORDER BY (a.contract_drafting_submitted_at IS NOT NULL) DESC,
+                     j.department NULLS LAST, j.title NULLS LAST, a.updated_at DESC
+        """, (list(statuses),))
+        return cur.fetchall()
+
+
+def get_application_detail(application_id: int):
+    """Full application + candidate + job for one pipeline entry (contract form prefill). Read-only."""
+    with _conn() as (cur, _):
+        cur.execute("""
+            SELECT
+                a.id AS application_id, a.candidate_id, a.job_id, a.status, a.stage,
+                a.contract_drafting_full_legal_name AS legal_name,
+                a.contract_drafting_cnic_number      AS cnic,
+                a.contract_drafting_submitted_at     AS contract_submitted_at,
+                c.first_name, c.last_name, c.email, c.phone,
+                c.area_of_interest, c.university, c.semester,
+                j.title AS job_title, j.department AS job_department,
+                j.employment_type AS job_employment_type, j.work_type AS job_work_type,
+                j.min_budget, j.max_budget, j.currency,
+                j.hiring_manager, j.poc_person, j.jd_text, j.description AS job_description
+            FROM applications a
+            LEFT JOIN candidates c ON a.candidate_id = c.id
+            LEFT JOIN jobs j       ON a.job_id = j.id
+            WHERE a.id = %s
+        """, (application_id,))
+        return cur.fetchone()
 
 
 # ── Activity & Audit ─────────────────────────────────────────────────────────

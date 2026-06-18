@@ -392,6 +392,28 @@ def _extract_jd_lines(docs: Resource, jd_doc_id: str) -> list[tuple[str, bool]]:
     return items
 
 
+def _jd_text_to_items(raw: str) -> list[tuple[str, bool]]:
+    """Convert pasted/Markaz JD text into (text, is_heading) items for Annexure-A.
+
+    - blank lines are dropped
+    - a short line ending with ':' is treated as a bold sub-heading
+    - everything else becomes a bullet (existing bullet glyphs/dashes are normalised)
+    """
+    items: list[tuple[str, bool]] = []
+    for line in raw.splitlines():
+        t = line.strip()
+        if not t:
+            continue
+        stripped = t.lstrip("•-*• ").strip()
+        if not stripped:
+            continue
+        if stripped.endswith(":") and len(stripped) <= 70:
+            items.append((stripped, True))            # sub-heading → bold
+        else:
+            items.append((f"• {stripped}", False))  # bullet
+    return items
+
+
 def _insert_jd_into_annexure(docs: Resource, contract_id: str, jd_items: list[tuple[str, bool]]) -> None:
     """Insert JD items after the 'Key Responsibilities' heading — clean spacing
     (one line per item, NO blank lines) and bold the heading + every sub-heading."""
@@ -818,10 +840,16 @@ def draft_contracts(drive: Resource, docs: Resource, emp: dict) -> dict:
         _remove_probation_clause(docs, contract_id)
         print("  Removed probation clause (internal transition)")
 
-    # 3e. Insert JD into Annexure A (clean spacing, bold headings)
+    # 3e. Insert JD into Annexure A (clean spacing, bold headings).
+    #     Source priority: a JD Google Doc link (structured), else pasted/Markaz JD text.
     jd_doc_id = emp.get("jd_doc_id", "")
+    jd_text = emp.get("jd_text", "")
+    jd_items: list[tuple[str, bool]] = []
     if jd_doc_id:
         jd_items = _extract_jd_lines(docs, jd_doc_id)
+    if not jd_items and jd_text:
+        jd_items = _jd_text_to_items(jd_text)
+    if jd_items:
         _insert_jd_into_annexure(docs, contract_id, jd_items)
         print(f"  Inserted JD ({len(jd_items)} items) into Annexure A")
 

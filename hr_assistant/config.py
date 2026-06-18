@@ -1,6 +1,7 @@
 """Configuration — Google + Microsoft Teams auth setup."""
 
 import os
+import json
 from pathlib import Path
 from dotenv import load_dotenv
 from google.oauth2.credentials import Credentials
@@ -68,20 +69,33 @@ CATEGORY_KEYWORDS = {
 }
 
 
-def get_google_services():
-    """Authenticate and return Gmail, Calendar, and Drive service clients."""
-    creds = None
+def load_credentials(allow_interactive: bool = True) -> Credentials:
+    """Resolve Google credentials for the service identity (ayat@niete.edu.pk).
 
-    if Path(GOOGLE_TOKEN_FILE).exists():
-        # Load with the token's own granted scopes (not SCOPES) so refreshes
-        # never fail with invalid_scope when SCOPES later gains a scope the
-        # saved token was never granted. New scopes apply only on fresh OAuth.
+    Resolution order:
+      1. env GOOGLE_SERVICE_TOKEN_JSON  → web/Railway path (no disk writes; FS is ephemeral)
+      2. token.json on disk             → CLI path (refreshed token persisted back to disk)
+      3. interactive OAuth (CLI only)   → only if allow_interactive=True
+
+    The web backend calls this with allow_interactive=False so it can never block on a
+    browser flow; it must have GOOGLE_SERVICE_TOKEN_JSON or a valid token.json.
+    """
+    creds = None
+    from_env = False
+
+    env_blob = os.getenv("GOOGLE_SERVICE_TOKEN_JSON")
+    if env_blob:
+        creds = Credentials.from_authorized_user_info(json.loads(env_blob))
+        from_env = True
+    elif Path(GOOGLE_TOKEN_FILE).exists():
+        # Load with the token's own granted scopes (not SCOPES) so refreshes never fail
+        # with invalid_scope when SCOPES later gains a scope the saved token never had.
         creds = Credentials.from_authorized_user_file(GOOGLE_TOKEN_FILE)
 
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
-        else:
+        elif allow_interactive:
             if not Path(GOOGLE_CREDENTIALS_FILE).exists():
                 raise FileNotFoundError(
                     f"Google credentials file '{GOOGLE_CREDENTIALS_FILE}' not found.\n"
@@ -89,14 +103,30 @@ def get_google_services():
                 )
             flow = InstalledAppFlow.from_client_secrets_file(GOOGLE_CREDENTIALS_FILE, SCOPES)
             creds = flow.run_local_server(port=0)
+        else:
+            raise RuntimeError(
+                "No valid Google credentials and interactive auth is disabled (web context). "
+                "Set GOOGLE_SERVICE_TOKEN_JSON or provide a refreshable token.json."
+            )
+        # Persist only when using the on-disk token (never write back in the web/env path).
+        if not from_env:
+            with open(GOOGLE_TOKEN_FILE, "w") as token:
+                token.write(creds.to_json())
 
-        with open(GOOGLE_TOKEN_FILE, "w") as token:
-            token.write(creds.to_json())
+    return creds
 
+
+def get_google_services(allow_interactive: bool = True):
+    """Authenticate and return Gmail, Calendar, Drive, Docs, Sheets service clients.
+
+    CLI scripts call this with no args (interactive allowed). The web backend passes
+    allow_interactive=False. cache_discovery=False avoids file-cache writes on read-only/ephemeral FS.
+    """
+    creds = load_credentials(allow_interactive=allow_interactive)
     return {
-        "gmail": build("gmail", "v1", credentials=creds),
-        "calendar": build("calendar", "v3", credentials=creds),
-        "drive": build("drive", "v3", credentials=creds),
-        "docs": build("docs", "v1", credentials=creds),
-        "sheets": build("sheets", "v4", credentials=creds),
+        "gmail": build("gmail", "v1", credentials=creds, cache_discovery=False),
+        "calendar": build("calendar", "v3", credentials=creds, cache_discovery=False),
+        "drive": build("drive", "v3", credentials=creds, cache_discovery=False),
+        "docs": build("docs", "v1", credentials=creds, cache_discovery=False),
+        "sheets": build("sheets", "v4", credentials=creds, cache_discovery=False),
     }
