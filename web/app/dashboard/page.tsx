@@ -1,11 +1,11 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { getCandidates } from "@/lib/api";
 import { AppShell } from "@/components/AppShell";
 import { StatusBadge } from "@/components/StatusBadge";
-import type { PipelineCandidate } from "@/lib/types";
-
-export const dynamic = "force-dynamic";
+import { apiGet } from "@/lib/client";
+import type { CandidatesResponse, PipelineCandidate } from "@/lib/types";
 
 function CandidateRow({ c }: { c: PipelineCandidate }) {
   return (
@@ -34,19 +34,44 @@ function CandidateRow({ c }: { c: PipelineCandidate }) {
   );
 }
 
-export default async function DashboardPage() {
-  let data;
-  try {
-    data = await getCandidates();
-  } catch (e) {
-    if ((e as { code?: number })?.code === 401) redirect("/login");
+function Stat({ label, value, accent }: { label: string; value: number; accent?: boolean }) {
+  return (
+    <div className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-center shadow-card">
+      <div className={`text-xl font-semibold tnum ${accent ? "text-brand-green-strong" : "text-slate-900"}`}>
+        {value}
+      </div>
+      <div className="text-[11px] uppercase tracking-wide text-slate-500">{label}</div>
+    </div>
+  );
+}
+
+export default function DashboardPage() {
+  const [data, setData] = useState<CandidatesResponse | null>(null);
+  const [err, setErr] = useState("");
+
+  useEffect(() => {
+    // Fetch in the browser so the cross-site session cookie is sent (credentials: include).
+    apiGet<CandidatesResponse>("/candidates").then(setData).catch((e) => setErr(String(e)));
+  }, []);
+
+  if (err) {
     return (
       <AppShell active="dashboard">
         <div className="rounded-xl border border-amber-200 bg-amber-50 p-6 text-amber-900">
-          <h2 className="font-semibold">Couldn’t reach the API</h2>
-          <p className="mt-1 text-sm">
-            Start the backend (<code>uvicorn api.main:app --port 8011</code>) and refresh.
-          </p>
+          <h2 className="font-semibold">Couldn’t load candidates</h2>
+          <p className="mt-1 text-sm">{err}</p>
+        </div>
+      </AppShell>
+    );
+  }
+
+  if (!data) {
+    return (
+      <AppShell active="dashboard">
+        <div className="space-y-3">
+          <div className="h-7 w-56 animate-pulse rounded bg-slate-200" />
+          <div className="h-20 animate-pulse rounded-xl bg-slate-100" />
+          <div className="h-20 animate-pulse rounded-xl bg-slate-100" />
         </div>
       </AppShell>
     );
@@ -93,16 +118,5 @@ export default async function DashboardPage() {
         </div>
       )}
     </AppShell>
-  );
-}
-
-function Stat({ label, value, accent }: { label: string; value: number; accent?: boolean }) {
-  return (
-    <div className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-center shadow-card">
-      <div className={`text-xl font-semibold tnum ${accent ? "text-brand-green-strong" : "text-slate-900"}`}>
-        {value}
-      </div>
-      <div className="text-[11px] uppercase tracking-wide text-slate-500">{label}</div>
-    </div>
   );
 }
