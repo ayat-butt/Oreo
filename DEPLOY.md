@@ -47,14 +47,13 @@ Google Cloud Console (taleemabad.com org):
 | `FRONTEND_URL` | `<FRONTEND_URL>` |
 | `CORS_ALLOWED_ORIGINS` | `<FRONTEND_URL>` |
 | `JWT_SECRET` | *(generated 48-char secret — see chat)* |
-| `ALLOWLIST_EMAILS` | `ayat@taleemabad.com,ahsan.javed@taleemabad.com,ayesha.khan@taleemabad.com,aymen.abid@taleemabad.com,javariya.mufarrakh@taleemabad.com,jawwad.ali@taleemabad.com,mehwish.bibi@taleemabad.com,salman.iqbal@taleemabad.com,zeshan.dhillon@taleemabad.com` |
+| `ALLOWLIST_EMAILS` | `ayat@taleemabad.com,ayesha.khan@taleemabad.com,aymen.abid@taleemabad.com,javariya.mufarrakh@taleemabad.com,jawwad.ali@taleemabad.com,salman.iqbal@taleemabad.com,zeshan.dhillon@taleemabad.com` |
 | `TEST_PILOT_EMAIL` | `ayat@taleemabad.com` |
 | `ANTHROPIC_API_KEY` | *(optional — only if AI features are added later)* |
 
-> Access is **deny-by-default**: only the `ALLOWLIST_EMAILS` (the People & Culture team, extracted from Markaz)
-> can log in — not every Taleemabad employee. `ALLOWED_LOGIN_DOMAINS` is left empty on purpose. To add/remove a
-> P&C member later, just edit `ALLOWLIST_EMAILS` in Railway. (niete-only P&C members — Babar, Shoaib — are not
-> included since you asked for Taleemabad-domain accounts; add them here if needed.)
+> Access is **deny-by-default**: only the 7 emails in `ALLOWLIST_EMAILS` can log in — not every Taleemabad
+> employee. `ALLOWED_LOGIN_DOMAINS` is left empty on purpose. To add/remove a person later, just edit
+> `ALLOWLIST_EMAILS` in Railway and redeploy.
 
 After setting these, redeploy the Railway service.
 
