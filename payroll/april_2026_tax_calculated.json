@@ -1,0 +1,2572 @@
+{
+  "aamish akbar": {
+    "name": "Aamish Akbar",
+    "months_active": 5,
+    "average_gross": 120593.0,
+    "total_tax_9m": 7856.0,
+    "average_monthly_tax": 1571.2,
+    "projected_annual_tax": 18854.4,
+    "remaining_tax": 10998.4,
+    "april_tax": 3666.13
+  },
+  "aisha bashir": {
+    "name": "Aisha Bashir",
+    "months_active": 6,
+    "average_gross": 150888.0,
+    "total_tax_9m": 27624.0,
+    "average_monthly_tax": 4604.0,
+    "projected_annual_tax": 55248.0,
+    "remaining_tax": 27624.0,
+    "april_tax": 9208.0
+  },
+  "anam masood": {
+    "name": "Anam Masood",
+    "months_active": 8,
+    "average_gross": 248453.0,
+    "total_tax_9m": 156008.0,
+    "average_monthly_tax": 19501.0,
+    "projected_annual_tax": 234012.0,
+    "remaining_tax": 78004.0,
+    "april_tax": 26001.33
+  },
+  "aneela khaliq": {
+    "name": "Aneela Khaliq",
+    "months_active": 8,
+    "average_gross": 100005.0,
+    "total_tax_9m": 18304.0,
+    "average_monthly_tax": 2288.0,
+    "projected_annual_tax": 27456.0,
+    "remaining_tax": 9152.0,
+    "april_tax": 3050.67
+  },
+  "aown raza": {
+    "name": "Aown Raza",
+    "months_active": 8,
+    "average_gross": 49378.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "areej noshad": {
+    "name": "Areej Noshad",
+    "months_active": 8,
+    "average_gross": 100005.0,
+    "total_tax_9m": 12804.0,
+    "average_monthly_tax": 1600.5,
+    "projected_annual_tax": 19206.0,
+    "remaining_tax": 6402.0,
+    "april_tax": 2134.0
+  },
+  "arjumand syed": {
+    "name": "Arjumand Syed",
+    "months_active": 1,
+    "average_gross": 104000.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "ashas khan": {
+    "name": "Ashas Khan",
+    "months_active": 8,
+    "average_gross": 119809.0,
+    "total_tax_9m": 25538.0,
+    "average_monthly_tax": 3192.25,
+    "projected_annual_tax": 38307.0,
+    "remaining_tax": 12769.0,
+    "april_tax": 4256.33
+  },
+  "asma zaheer": {
+    "name": "Asma Zaheer",
+    "months_active": 8,
+    "average_gross": 204293.12,
+    "total_tax_9m": 77775.0,
+    "average_monthly_tax": 9721.88,
+    "projected_annual_tax": 116662.5,
+    "remaining_tax": 38887.5,
+    "april_tax": 12962.5
+  },
+  "atif nawaz khan": {
+    "name": "Atif Nawaz Khan",
+    "months_active": 5,
+    "average_gross": 50199.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "ayat butt": {
+    "name": "Ayat Butt",
+    "months_active": 8,
+    "average_gross": 105000.0,
+    "total_tax_9m": 3661.0,
+    "average_monthly_tax": 457.62,
+    "projected_annual_tax": 5491.5,
+    "remaining_tax": 1830.5,
+    "april_tax": 610.17
+  },
+  "bushra": {
+    "name": "Bushra",
+    "months_active": 8,
+    "average_gross": 127048.0,
+    "total_tax_9m": 34103.0,
+    "average_monthly_tax": 4262.88,
+    "projected_annual_tax": 51154.5,
+    "remaining_tax": 17051.5,
+    "april_tax": 5683.83
+  },
+  "chaudhary hashir hussain shahid": {
+    "name": "Chaudhary Hashir Hussain Shahid",
+    "months_active": 8,
+    "average_gross": 175002.25,
+    "total_tax_9m": 51005.0,
+    "average_monthly_tax": 6375.62,
+    "projected_annual_tax": 76507.5,
+    "remaining_tax": 25502.5,
+    "april_tax": 8500.83
+  },
+  "danish iqbal": {
+    "name": "Danish Iqbal",
+    "months_active": 8,
+    "average_gross": 108095.0,
+    "total_tax_9m": 21459.0,
+    "average_monthly_tax": 2682.38,
+    "projected_annual_tax": 32188.5,
+    "remaining_tax": 10729.5,
+    "april_tax": 3576.5
+  },
+  "eysha qadeer": {
+    "name": "Eysha Qadeer",
+    "months_active": 8,
+    "average_gross": 100003.0,
+    "total_tax_9m": 11130.0,
+    "average_monthly_tax": 1391.25,
+    "projected_annual_tax": 16695.0,
+    "remaining_tax": 5565.0,
+    "april_tax": 1855.0
+  },
+  "gul perwasha cheema": {
+    "name": "Gul Perwasha Cheema",
+    "months_active": 7,
+    "average_gross": 328958.57,
+    "total_tax_9m": 270562.0,
+    "average_monthly_tax": 38651.71,
+    "projected_annual_tax": 463820.57,
+    "remaining_tax": 193258.57,
+    "april_tax": 64419.52
+  },
+  "hafiz abdul malik": {
+    "name": "Hafiz Abdul Malik",
+    "months_active": 8,
+    "average_gross": 119671.0,
+    "total_tax_9m": 30569.0,
+    "average_monthly_tax": 3821.12,
+    "projected_annual_tax": 45853.5,
+    "remaining_tax": 15284.5,
+    "april_tax": 5094.83
+  },
+  "hafsa bashir": {
+    "name": "Hafsa Bashir",
+    "months_active": 8,
+    "average_gross": 121187.0,
+    "total_tax_9m": 13356.0,
+    "average_monthly_tax": 1669.5,
+    "projected_annual_tax": 20034.0,
+    "remaining_tax": 6678.0,
+    "april_tax": 2226.0
+  },
+  "hamza shahid": {
+    "name": "Hamza Shahid",
+    "months_active": 8,
+    "average_gross": 257167.0,
+    "total_tax_9m": 172338.0,
+    "average_monthly_tax": 21542.25,
+    "projected_annual_tax": 258507.0,
+    "remaining_tax": 86169.0,
+    "april_tax": 28723.0
+  },
+  "hamza siddique": {
+    "name": "Hamza Siddique",
+    "months_active": 8,
+    "average_gross": 100007.0,
+    "total_tax_9m": 3280.0,
+    "average_monthly_tax": 410.0,
+    "projected_annual_tax": 4920.0,
+    "remaining_tax": 1640.0,
+    "april_tax": 546.67
+  },
+  "hareem abid": {
+    "name": "Hareem Abid",
+    "months_active": 8,
+    "average_gross": 100001.0,
+    "total_tax_9m": 11128.0,
+    "average_monthly_tax": 1391.0,
+    "projected_annual_tax": 16692.0,
+    "remaining_tax": 5564.0,
+    "april_tax": 1854.67
+  },
+  "hareem fatima": {
+    "name": "Hareem Fatima",
+    "months_active": 8,
+    "average_gross": 130388.5,
+    "total_tax_9m": 20677.0,
+    "average_monthly_tax": 2584.62,
+    "projected_annual_tax": 31015.5,
+    "remaining_tax": 10338.5,
+    "april_tax": 3446.17
+  },
+  "hasnat tariq": {
+    "name": "Hasnat Tariq",
+    "months_active": 8,
+    "average_gross": 205000.0,
+    "total_tax_9m": 87287.0,
+    "average_monthly_tax": 10910.88,
+    "projected_annual_tax": 130930.5,
+    "remaining_tax": 43643.5,
+    "april_tax": 14547.83
+  },
+  "hassan saifullah": {
+    "name": "Hassan Saifullah",
+    "months_active": 3,
+    "average_gross": 89485.0,
+    "total_tax_9m": 921.0,
+    "average_monthly_tax": 307.0,
+    "projected_annual_tax": 3684.0,
+    "remaining_tax": 2763.0,
+    "april_tax": 921.0
+  },
+  "hiba anwer": {
+    "name": "Hiba Anwer",
+    "months_active": 8,
+    "average_gross": 118091.0,
+    "total_tax_9m": 23181.0,
+    "average_monthly_tax": 2897.62,
+    "projected_annual_tax": 34771.5,
+    "remaining_tax": 11590.5,
+    "april_tax": 3863.5
+  },
+  "hifza nisar": {
+    "name": "Hifza Nisar",
+    "months_active": 8,
+    "average_gross": 128080.0,
+    "total_tax_9m": 36439.0,
+    "average_monthly_tax": 4554.88,
+    "projected_annual_tax": 54658.5,
+    "remaining_tax": 18219.5,
+    "april_tax": 6073.17
+  },
+  "hira abbas": {
+    "name": "Hira Abbas",
+    "months_active": 8,
+    "average_gross": 109602.0,
+    "total_tax_9m": 3979.0,
+    "average_monthly_tax": 497.38,
+    "projected_annual_tax": 5968.5,
+    "remaining_tax": 1989.5,
+    "april_tax": 663.17
+  },
+  "hira naz": {
+    "name": "Hira Naz",
+    "months_active": 7,
+    "average_gross": 121428.57,
+    "total_tax_9m": 14515.0,
+    "average_monthly_tax": 2073.57,
+    "projected_annual_tax": 24882.86,
+    "remaining_tax": 10367.86,
+    "april_tax": 3455.95
+  },
+  "iffat maab akhtar": {
+    "name": "Iffat Maab Akhtar",
+    "months_active": 8,
+    "average_gross": 136048.88,
+    "total_tax_9m": 27148.0,
+    "average_monthly_tax": 3393.5,
+    "projected_annual_tax": 40722.0,
+    "remaining_tax": 13574.0,
+    "april_tax": 4524.67
+  },
+  "iqra arshad": {
+    "name": "Iqra Arshad",
+    "months_active": 8,
+    "average_gross": 100542.0,
+    "total_tax_9m": 3358.0,
+    "average_monthly_tax": 419.75,
+    "projected_annual_tax": 5037.0,
+    "remaining_tax": 1679.0,
+    "april_tax": 559.67
+  },
+  "jamshaid ahmad": {
+    "name": "Jamshaid Ahmad",
+    "months_active": 8,
+    "average_gross": 126166.0,
+    "total_tax_9m": 37397.0,
+    "average_monthly_tax": 4674.62,
+    "projected_annual_tax": 56095.5,
+    "remaining_tax": 18698.5,
+    "april_tax": 6232.83
+  },
+  "javeria nayyab": {
+    "name": "Javeria Nayyab",
+    "months_active": 8,
+    "average_gross": 118657.0,
+    "total_tax_9m": 31383.0,
+    "average_monthly_tax": 3922.88,
+    "projected_annual_tax": 47074.5,
+    "remaining_tax": 15691.5,
+    "april_tax": 5230.5
+  },
+  "junaid ahmed": {
+    "name": "Junaid Ahmed",
+    "months_active": 6,
+    "average_gross": 101444.0,
+    "total_tax_9m": 9555.0,
+    "average_monthly_tax": 1592.5,
+    "projected_annual_tax": 19110.0,
+    "remaining_tax": 9555.0,
+    "april_tax": 3185.0
+  },
+  "kashmala ali muluk": {
+    "name": "Kashmala Ali Muluk",
+    "months_active": 4,
+    "average_gross": 104000.0,
+    "total_tax_9m": 6522.0,
+    "average_monthly_tax": 1630.5,
+    "projected_annual_tax": 19566.0,
+    "remaining_tax": 13044.0,
+    "april_tax": 4348.0
+  },
+  "khadija akbar": {
+    "name": "Khadija Akbar",
+    "months_active": 8,
+    "average_gross": 100003.0,
+    "total_tax_9m": 6171.0,
+    "average_monthly_tax": 771.38,
+    "projected_annual_tax": 9256.5,
+    "remaining_tax": 3085.5,
+    "april_tax": 1028.5
+  },
+  "mahnoor tanweer": {
+    "name": "Mahnoor Tanweer",
+    "months_active": 8,
+    "average_gross": 303933.0,
+    "total_tax_9m": 254456.0,
+    "average_monthly_tax": 31807.0,
+    "projected_annual_tax": 381684.0,
+    "remaining_tax": 127228.0,
+    "april_tax": 42409.33
+  },
+  "maroof anwar": {
+    "name": "Maroof Anwar",
+    "months_active": 8,
+    "average_gross": 127785.0,
+    "total_tax_9m": 30318.0,
+    "average_monthly_tax": 3789.75,
+    "projected_annual_tax": 45477.0,
+    "remaining_tax": 15159.0,
+    "april_tax": 5053.0
+  },
+  "mehran khan": {
+    "name": "Mehran Khan",
+    "months_active": 6,
+    "average_gross": 121420.0,
+    "total_tax_9m": 12480.0,
+    "average_monthly_tax": 2080.0,
+    "projected_annual_tax": 24960.0,
+    "remaining_tax": 12480.0,
+    "april_tax": 4160.0
+  },
+  "mehwish allah ditta": {
+    "name": "Mehwish Allah Ditta",
+    "months_active": 8,
+    "average_gross": 100065.0,
+    "total_tax_9m": 6437.0,
+    "average_monthly_tax": 804.62,
+    "projected_annual_tax": 9655.5,
+    "remaining_tax": 3218.5,
+    "april_tax": 1072.83
+  },
+  "misbah iqbal": {
+    "name": "Misbah Iqbal",
+    "months_active": 8,
+    "average_gross": 100004.0,
+    "total_tax_9m": 8624.0,
+    "average_monthly_tax": 1078.0,
+    "projected_annual_tax": 12936.0,
+    "remaining_tax": 4312.0,
+    "april_tax": 1437.33
+  },
+  "moiz khan": {
+    "name": "Moiz Khan",
+    "months_active": 8,
+    "average_gross": 108945.0,
+    "total_tax_9m": 15120.0,
+    "average_monthly_tax": 1890.0,
+    "projected_annual_tax": 22680.0,
+    "remaining_tax": 7560.0,
+    "april_tax": 2520.0
+  },
+  "momina raja": {
+    "name": "Momina Raja",
+    "months_active": 8,
+    "average_gross": 273636.0,
+    "total_tax_9m": 198176.0,
+    "average_monthly_tax": 24772.0,
+    "projected_annual_tax": 297264.0,
+    "remaining_tax": 99088.0,
+    "april_tax": 33029.33
+  },
+  "momna tariq": {
+    "name": "Momna Tariq",
+    "months_active": 8,
+    "average_gross": 131202.5,
+    "total_tax_9m": 21066.0,
+    "average_monthly_tax": 2633.25,
+    "projected_annual_tax": 31599.0,
+    "remaining_tax": 10533.0,
+    "april_tax": 3511.0
+  },
+  "mubashar zia": {
+    "name": "Mubashar Zia",
+    "months_active": 8,
+    "average_gross": 123605.0,
+    "total_tax_9m": 31606.0,
+    "average_monthly_tax": 3950.75,
+    "projected_annual_tax": 47409.0,
+    "remaining_tax": 15803.0,
+    "april_tax": 5267.67
+  },
+  "mubasher irfan": {
+    "name": "Mubasher Irfan",
+    "months_active": 8,
+    "average_gross": 126359.0,
+    "total_tax_9m": 35953.0,
+    "average_monthly_tax": 4494.12,
+    "projected_annual_tax": 53929.5,
+    "remaining_tax": 17976.5,
+    "april_tax": 5992.17
+  },
+  "muhammad abubakar": {
+    "name": "Muhammad Abubakar",
+    "months_active": 8,
+    "average_gross": 100278.0,
+    "total_tax_9m": 3380.0,
+    "average_monthly_tax": 422.5,
+    "projected_annual_tax": 5070.0,
+    "remaining_tax": 1690.0,
+    "april_tax": 563.33
+  },
+  "muhammad bilal sadiq": {
+    "name": "Muhammad Bilal Sadiq",
+    "months_active": 8,
+    "average_gross": 287124.25,
+    "total_tax_9m": 224055.0,
+    "average_monthly_tax": 28006.88,
+    "projected_annual_tax": 336082.5,
+    "remaining_tax": 112027.5,
+    "april_tax": 37342.5
+  },
+  "muhammad imran": {
+    "name": "Muhammad Imran",
+    "months_active": 8,
+    "average_gross": 114250.0,
+    "total_tax_9m": 25061.0,
+    "average_monthly_tax": 3132.62,
+    "projected_annual_tax": 37591.5,
+    "remaining_tax": 12530.5,
+    "april_tax": 4176.83
+  },
+  "muhammad kamran taj": {
+    "name": "Muhammad Kamran Taj",
+    "months_active": 8,
+    "average_gross": 292112.62,
+    "total_tax_9m": 229113.0,
+    "average_monthly_tax": 28639.12,
+    "projected_annual_tax": 343669.5,
+    "remaining_tax": 114556.5,
+    "april_tax": 38185.5
+  },
+  "muhammad salman": {
+    "name": "Muhammad Salman",
+    "months_active": 8,
+    "average_gross": 112000.0,
+    "total_tax_9m": 5262.0,
+    "average_monthly_tax": 657.75,
+    "projected_annual_tax": 7893.0,
+    "remaining_tax": 2631.0,
+    "april_tax": 877.0
+  },
+  "munira": {
+    "name": "Munira",
+    "months_active": 8,
+    "average_gross": 125525.0,
+    "total_tax_9m": 23945.0,
+    "average_monthly_tax": 2993.12,
+    "projected_annual_tax": 35917.5,
+    "remaining_tax": 11972.5,
+    "april_tax": 3990.83
+  },
+  "nadeem ahmad": {
+    "name": "Nadeem Ahmad",
+    "months_active": 5,
+    "average_gross": 202750.0,
+    "total_tax_9m": 49679.0,
+    "average_monthly_tax": 9935.8,
+    "projected_annual_tax": 119229.6,
+    "remaining_tax": 69550.6,
+    "april_tax": 23183.53
+  },
+  "naveera khan": {
+    "name": "Naveera Khan",
+    "months_active": 8,
+    "average_gross": 117113.0,
+    "total_tax_9m": 9784.0,
+    "average_monthly_tax": 1223.0,
+    "projected_annual_tax": 14676.0,
+    "remaining_tax": 4892.0,
+    "april_tax": 1630.67
+  },
+  "nidda asif": {
+    "name": "Nidda Asif",
+    "months_active": 8,
+    "average_gross": 127294.0,
+    "total_tax_9m": 35294.0,
+    "average_monthly_tax": 4411.75,
+    "projected_annual_tax": 52941.0,
+    "remaining_tax": 17647.0,
+    "april_tax": 5882.33
+  },
+  "noor faiz malik": {
+    "name": "Noor Faiz Malik",
+    "months_active": 7,
+    "average_gross": 120000.0,
+    "total_tax_9m": 10584.0,
+    "average_monthly_tax": 1512.0,
+    "projected_annual_tax": 18144.0,
+    "remaining_tax": 7560.0,
+    "april_tax": 2520.0
+  },
+  "nouman alam": {
+    "name": "Nouman Alam",
+    "months_active": 8,
+    "average_gross": 122446.0,
+    "total_tax_9m": 29739.0,
+    "average_monthly_tax": 3717.38,
+    "projected_annual_tax": 44608.5,
+    "remaining_tax": 14869.5,
+    "april_tax": 4956.5
+  },
+  "qurat ul ain": {
+    "name": "QURAT UL AIN",
+    "months_active": 8,
+    "average_gross": 130905.5,
+    "total_tax_9m": 20829.0,
+    "average_monthly_tax": 2603.62,
+    "projected_annual_tax": 31243.5,
+    "remaining_tax": 10414.5,
+    "april_tax": 3471.5
+  },
+  "rabia javed": {
+    "name": "Rabia Javed",
+    "months_active": 8,
+    "average_gross": 119966.0,
+    "total_tax_9m": 31323.0,
+    "average_monthly_tax": 3915.38,
+    "projected_annual_tax": 46984.5,
+    "remaining_tax": 15661.5,
+    "april_tax": 5220.5
+  },
+  "ramisha riaz sheikh": {
+    "name": "Ramisha Riaz Sheikh",
+    "months_active": 8,
+    "average_gross": 117293.0,
+    "total_tax_9m": 11908.0,
+    "average_monthly_tax": 1488.5,
+    "projected_annual_tax": 17862.0,
+    "remaining_tax": 5954.0,
+    "april_tax": 1984.67
+  },
+  "rida abbas": {
+    "name": "Rida Abbas",
+    "months_active": 8,
+    "average_gross": 116800.0,
+    "total_tax_9m": 9534.0,
+    "average_monthly_tax": 1191.75,
+    "projected_annual_tax": 14301.0,
+    "remaining_tax": 4767.0,
+    "april_tax": 1589.0
+  },
+  "ridda riaz": {
+    "name": "Ridda Riaz",
+    "months_active": 2,
+    "average_gross": 100002.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "rifat yasmeen": {
+    "name": "Rifat Yasmeen",
+    "months_active": 8,
+    "average_gross": 154999.0,
+    "total_tax_9m": 40273.0,
+    "average_monthly_tax": 5034.12,
+    "projected_annual_tax": 60409.5,
+    "remaining_tax": 20136.5,
+    "april_tax": 6712.17
+  },
+  "rosheen naeem": {
+    "name": "Rosheen Naeem",
+    "months_active": 1,
+    "average_gross": 107355.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "saba kokab": {
+    "name": "Saba Kokab",
+    "months_active": 8,
+    "average_gross": 128864.0,
+    "total_tax_9m": 35473.0,
+    "average_monthly_tax": 4434.12,
+    "projected_annual_tax": 53209.5,
+    "remaining_tax": 17736.5,
+    "april_tax": 5912.17
+  },
+  "safdar ullah": {
+    "name": "Safdar Ullah",
+    "months_active": 8,
+    "average_gross": 120000.0,
+    "total_tax_9m": 14289.0,
+    "average_monthly_tax": 1786.12,
+    "projected_annual_tax": 21433.5,
+    "remaining_tax": 7144.5,
+    "april_tax": 2381.5
+  },
+  "saher sajjad": {
+    "name": "Saher Sajjad",
+    "months_active": 8,
+    "average_gross": 108981.0,
+    "total_tax_9m": 3935.0,
+    "average_monthly_tax": 491.88,
+    "projected_annual_tax": 5902.5,
+    "remaining_tax": 1967.5,
+    "april_tax": 655.83
+  },
+  "salman sohail": {
+    "name": "Salman Sohail",
+    "months_active": 6,
+    "average_gross": 126717.0,
+    "total_tax_9m": 24451.0,
+    "average_monthly_tax": 4075.17,
+    "projected_annual_tax": 48902.0,
+    "remaining_tax": 24451.0,
+    "april_tax": 8150.33
+  },
+  "saman zahoor": {
+    "name": "Saman Zahoor",
+    "months_active": 8,
+    "average_gross": 117305.0,
+    "total_tax_9m": 16170.0,
+    "average_monthly_tax": 2021.25,
+    "projected_annual_tax": 24255.0,
+    "remaining_tax": 8085.0,
+    "april_tax": 2695.0
+  },
+  "sameer sheikh": {
+    "name": "Sameer Sheikh",
+    "months_active": 8,
+    "average_gross": 151567.5,
+    "total_tax_9m": 40610.0,
+    "average_monthly_tax": 5076.25,
+    "projected_annual_tax": 60915.0,
+    "remaining_tax": 20305.0,
+    "april_tax": 6768.33
+  },
+  "sammar amin": {
+    "name": "Sammar Amin",
+    "months_active": 4,
+    "average_gross": 100042.0,
+    "total_tax_9m": 2022.0,
+    "average_monthly_tax": 505.5,
+    "projected_annual_tax": 6066.0,
+    "remaining_tax": 4044.0,
+    "april_tax": 1348.0
+  },
+  "sana nawaz": {
+    "name": "Sana Nawaz",
+    "months_active": 8,
+    "average_gross": 109667.0,
+    "total_tax_9m": 4051.0,
+    "average_monthly_tax": 506.38,
+    "projected_annual_tax": 6076.5,
+    "remaining_tax": 2025.5,
+    "april_tax": 675.17
+  },
+  "sara fatima": {
+    "name": "Sara Fatima",
+    "months_active": 8,
+    "average_gross": 273646.0,
+    "total_tax_9m": 198192.0,
+    "average_monthly_tax": 24774.0,
+    "projected_annual_tax": 297288.0,
+    "remaining_tax": 99096.0,
+    "april_tax": 33032.0
+  },
+  "shafaq tahir": {
+    "name": "Shafaq Tahir",
+    "months_active": 8,
+    "average_gross": 127962.0,
+    "total_tax_9m": 26150.0,
+    "average_monthly_tax": 3268.75,
+    "projected_annual_tax": 39225.0,
+    "remaining_tax": 13075.0,
+    "april_tax": 4358.33
+  },
+  "shumaila aslam": {
+    "name": "Shumaila Aslam",
+    "months_active": 8,
+    "average_gross": 136499.0,
+    "total_tax_9m": 25457.0,
+    "average_monthly_tax": 3182.12,
+    "projected_annual_tax": 38185.5,
+    "remaining_tax": 12728.5,
+    "april_tax": 4242.83
+  },
+  "sumaya": {
+    "name": "Sumaya",
+    "months_active": 5,
+    "average_gross": 100002.0,
+    "total_tax_9m": 7670.0,
+    "average_monthly_tax": 1534.0,
+    "projected_annual_tax": 18408.0,
+    "remaining_tax": 10738.0,
+    "april_tax": 3579.33
+  },
+  "summaya shakur": {
+    "name": "Summaya Shakur",
+    "months_active": 8,
+    "average_gross": 293656.25,
+    "total_tax_9m": 224931.0,
+    "average_monthly_tax": 28116.38,
+    "projected_annual_tax": 337396.5,
+    "remaining_tax": 112465.5,
+    "april_tax": 37488.5
+  },
+  "syed ateeb ali kazmi": {
+    "name": "Syed Ateeb Ali Kazmi",
+    "months_active": 8,
+    "average_gross": 110041.0,
+    "total_tax_9m": 4120.0,
+    "average_monthly_tax": 515.0,
+    "projected_annual_tax": 6180.0,
+    "remaining_tax": 2060.0,
+    "april_tax": 686.67
+  },
+  "syed zaamin abbas": {
+    "name": "Syed Zaamin Abbas",
+    "months_active": 8,
+    "average_gross": 40000.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "syeda mehwish ali": {
+    "name": "Syeda Mehwish Ali",
+    "months_active": 8,
+    "average_gross": 128374.0,
+    "total_tax_9m": 38710.0,
+    "average_monthly_tax": 4838.75,
+    "projected_annual_tax": 58065.0,
+    "remaining_tax": 19355.0,
+    "april_tax": 6451.67
+  },
+  "tahir saleem": {
+    "name": "Tahir Saleem",
+    "months_active": 8,
+    "average_gross": 120000.0,
+    "total_tax_9m": 13085.0,
+    "average_monthly_tax": 1635.62,
+    "projected_annual_tax": 19627.5,
+    "remaining_tax": 6542.5,
+    "april_tax": 2180.83
+  },
+  "tameem fatima": {
+    "name": "Tameem Fatima",
+    "months_active": 6,
+    "average_gross": 163462.0,
+    "total_tax_9m": 35475.0,
+    "average_monthly_tax": 5912.5,
+    "projected_annual_tax": 70950.0,
+    "remaining_tax": 35475.0,
+    "april_tax": 11825.0
+  },
+  "tanveer abbas": {
+    "name": "Tanveer Abbas",
+    "months_active": 1,
+    "average_gross": 100966.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "tayyaba hamna": {
+    "name": "Tayyaba Hamna",
+    "months_active": 8,
+    "average_gross": 123647.25,
+    "total_tax_9m": 16204.0,
+    "average_monthly_tax": 2025.5,
+    "projected_annual_tax": 24306.0,
+    "remaining_tax": 8102.0,
+    "april_tax": 2700.67
+  },
+  "tehniat taqdees masood": {
+    "name": "Tehniat Taqdees Masood",
+    "months_active": 8,
+    "average_gross": 131900.5,
+    "total_tax_9m": 21625.0,
+    "average_monthly_tax": 2703.12,
+    "projected_annual_tax": 32437.5,
+    "remaining_tax": 10812.5,
+    "april_tax": 3604.17
+  },
+  "umair munir khan": {
+    "name": "Umair Munir Khan",
+    "months_active": 8,
+    "average_gross": 50705.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "umama gul siddiqui": {
+    "name": "Umama Gul Siddiqui",
+    "months_active": 8,
+    "average_gross": 130608.5,
+    "total_tax_9m": 20590.0,
+    "average_monthly_tax": 2573.75,
+    "projected_annual_tax": 30885.0,
+    "remaining_tax": 10295.0,
+    "april_tax": 3431.67
+  },
+  "vaneeza afrasiab": {
+    "name": "Vaneeza Afrasiab",
+    "months_active": 1,
+    "average_gross": 97271.0,
+    "total_tax_9m": 385.0,
+    "average_monthly_tax": 385.0,
+    "projected_annual_tax": 4620.0,
+    "remaining_tax": 4235.0,
+    "april_tax": 1411.67
+  },
+  "wajeeha ansar": {
+    "name": "Wajeeha Ansar",
+    "months_active": 5,
+    "average_gross": 119405.0,
+    "total_tax_9m": 7262.0,
+    "average_monthly_tax": 1452.4,
+    "projected_annual_tax": 17428.8,
+    "remaining_tax": 10166.8,
+    "april_tax": 3388.93
+  },
+  "waneza firdous": {
+    "name": "Waneza Firdous",
+    "months_active": 8,
+    "average_gross": 100147.0,
+    "total_tax_9m": 11687.0,
+    "average_monthly_tax": 1460.88,
+    "projected_annual_tax": 17530.5,
+    "remaining_tax": 5843.5,
+    "april_tax": 1947.83
+  },
+  "waqar hussain zaidi": {
+    "name": "Waqar Hussain Zaidi",
+    "months_active": 5,
+    "average_gross": 105000.0,
+    "total_tax_9m": 2278.0,
+    "average_monthly_tax": 455.6,
+    "projected_annual_tax": 5467.2,
+    "remaining_tax": 3189.2,
+    "april_tax": 1063.07
+  },
+  "waqas tanveer": {
+    "name": "Waqas Tanveer",
+    "months_active": 8,
+    "average_gross": 414461.25,
+    "total_tax_9m": 619249.0,
+    "average_monthly_tax": 77406.12,
+    "projected_annual_tax": 928873.5,
+    "remaining_tax": 309624.5,
+    "april_tax": 103208.17
+  },
+  "warda anwar": {
+    "name": "Warda Anwar",
+    "months_active": 8,
+    "average_gross": 100023.0,
+    "total_tax_9m": 11366.0,
+    "average_monthly_tax": 1420.75,
+    "projected_annual_tax": 17049.0,
+    "remaining_tax": 5683.0,
+    "april_tax": 1894.33
+  },
+  "zaigham abbas": {
+    "name": "Zaigham Abbas",
+    "months_active": 8,
+    "average_gross": 51456.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "zainab binte aftab": {
+    "name": "Zainab Binte Aftab",
+    "months_active": 6,
+    "average_gross": 122500.0,
+    "total_tax_9m": 9368.0,
+    "average_monthly_tax": 1561.33,
+    "projected_annual_tax": 18736.0,
+    "remaining_tax": 9368.0,
+    "april_tax": 3122.67
+  },
+  "zeshan ali": {
+    "name": "Zeshan Ali",
+    "months_active": 7,
+    "average_gross": 382850.86,
+    "total_tax_9m": 407280.0,
+    "average_monthly_tax": 58182.86,
+    "projected_annual_tax": 698194.29,
+    "remaining_tax": 290914.29,
+    "april_tax": 96971.43
+  },
+  "mariam ali bokhari": {
+    "name": "Mariam Ali Bokhari",
+    "months_active": 7,
+    "average_gross": 350000.0,
+    "total_tax_9m": 310682.0,
+    "average_monthly_tax": 44383.14,
+    "projected_annual_tax": 532597.71,
+    "remaining_tax": 221915.71,
+    "april_tax": 73971.9
+  },
+  "abdul ahad": {
+    "name": "ABDUL AHAD",
+    "months_active": 8,
+    "average_gross": 236022.25,
+    "total_tax_9m": 140090.0,
+    "average_monthly_tax": 17511.25,
+    "projected_annual_tax": 210135.0,
+    "remaining_tax": 70045.0,
+    "april_tax": 23348.33
+  },
+  "abdul rehman": {
+    "name": "Abdul Rehman",
+    "months_active": 8,
+    "average_gross": 161256.0,
+    "total_tax_9m": 45648.0,
+    "average_monthly_tax": 5706.0,
+    "projected_annual_tax": 68472.0,
+    "remaining_tax": 22824.0,
+    "april_tax": 7608.0
+  },
+  "abdul rehman siddiqi": {
+    "name": "Abdul Rehman Siddiqi",
+    "months_active": 7,
+    "average_gross": 212446.0,
+    "total_tax_9m": 87206.0,
+    "average_monthly_tax": 12458.0,
+    "projected_annual_tax": 149496.0,
+    "remaining_tax": 62290.0,
+    "april_tax": 20763.33
+  },
+  "abdur rehman": {
+    "name": "Abdur Rehman",
+    "months_active": 8,
+    "average_gross": 371686.0,
+    "total_tax_9m": 402429.0,
+    "average_monthly_tax": 50303.62,
+    "projected_annual_tax": 603643.5,
+    "remaining_tax": 201214.5,
+    "april_tax": 67071.5
+  },
+  "abdurrehman afridi": {
+    "name": "Abdurrehman Afridi",
+    "months_active": 3,
+    "average_gross": 223330.67,
+    "total_tax_9m": 44930.0,
+    "average_monthly_tax": 14976.67,
+    "projected_annual_tax": 179720.0,
+    "remaining_tax": 134790.0,
+    "april_tax": 44930.0
+  },
+  "afifa sultana": {
+    "name": "Afifa Sultana",
+    "months_active": 8,
+    "average_gross": 100000.0,
+    "total_tax_9m": 3280.0,
+    "average_monthly_tax": 410.0,
+    "projected_annual_tax": 4920.0,
+    "remaining_tax": 1640.0,
+    "april_tax": 546.67
+  },
+  "ahmed javed": {
+    "name": "Ahmed Javed",
+    "months_active": 8,
+    "average_gross": 278467.92,
+    "total_tax_9m": 53967.0,
+    "average_monthly_tax": 6745.88,
+    "projected_annual_tax": 80950.5,
+    "remaining_tax": 26983.5,
+    "april_tax": 8994.5
+  },
+  "ajlal hasan": {
+    "name": "Ajlal Hasan",
+    "months_active": 8,
+    "average_gross": 173730.25,
+    "total_tax_9m": 56879.0,
+    "average_monthly_tax": 7109.88,
+    "projected_annual_tax": 85318.5,
+    "remaining_tax": 28439.5,
+    "april_tax": 9479.83
+  },
+  "alishba anam": {
+    "name": "Alishba Anam",
+    "months_active": 8,
+    "average_gross": 128039.38,
+    "total_tax_9m": 18533.0,
+    "average_monthly_tax": 2316.62,
+    "projected_annual_tax": 27799.5,
+    "remaining_tax": 9266.5,
+    "april_tax": 3088.83
+  },
+  "aroma tahir": {
+    "name": "Aroma Tahir",
+    "months_active": 8,
+    "average_gross": 239600.0,
+    "total_tax_9m": 141186.0,
+    "average_monthly_tax": 17648.25,
+    "projected_annual_tax": 211779.0,
+    "remaining_tax": 70593.0,
+    "april_tax": 23531.0
+  },
+  "arooj mazhar": {
+    "name": "Arooj Mazhar",
+    "months_active": 1,
+    "average_gross": 170940.0,
+    "total_tax_9m": 6611.0,
+    "average_monthly_tax": 6611.0,
+    "projected_annual_tax": 79332.0,
+    "remaining_tax": 72721.0,
+    "april_tax": 24240.33
+  },
+  "ayesha ehtisham": {
+    "name": "Ayesha Ehtisham",
+    "months_active": 5,
+    "average_gross": 195670.0,
+    "total_tax_9m": 45433.0,
+    "average_monthly_tax": 9086.6,
+    "projected_annual_tax": 109039.2,
+    "remaining_tax": 63606.2,
+    "april_tax": 21202.07
+  },
+  "ayesha raza khan": {
+    "name": "Ayesha Raza Khan",
+    "months_active": 7,
+    "average_gross": 151428.57,
+    "total_tax_9m": 34904.0,
+    "average_monthly_tax": 4986.29,
+    "projected_annual_tax": 59835.43,
+    "remaining_tax": 24931.43,
+    "april_tax": 8310.48
+  },
+  "babar khan": {
+    "name": "Babar Khan",
+    "months_active": 8,
+    "average_gross": 53790.62,
+    "total_tax_9m": 258.0,
+    "average_monthly_tax": 32.25,
+    "projected_annual_tax": 387.0,
+    "remaining_tax": 129.0,
+    "april_tax": 43.0
+  },
+  "damil jamil": {
+    "name": "Damil Jamil",
+    "months_active": 6,
+    "average_gross": 89722.0,
+    "total_tax_9m": 1931.0,
+    "average_monthly_tax": 321.83,
+    "projected_annual_tax": 3862.0,
+    "remaining_tax": 1931.0,
+    "april_tax": 643.67
+  },
+  "fahad rao": {
+    "name": "Fahad Rao",
+    "months_active": 8,
+    "average_gross": 462577.8,
+    "total_tax_9m": 231974.0,
+    "average_monthly_tax": 28996.75,
+    "projected_annual_tax": 347961.0,
+    "remaining_tax": 115987.0,
+    "april_tax": 38662.33
+  },
+  "fatima khan": {
+    "name": "Fatima Khan",
+    "months_active": 8,
+    "average_gross": 121250.0,
+    "total_tax_9m": 15259.0,
+    "average_monthly_tax": 1907.38,
+    "projected_annual_tax": 22888.5,
+    "remaining_tax": 7629.5,
+    "april_tax": 2543.17
+  },
+  "fatima rahman": {
+    "name": "Fatima Rahman",
+    "months_active": 8,
+    "average_gross": 162288.75,
+    "total_tax_9m": 48511.0,
+    "average_monthly_tax": 6063.88,
+    "projected_annual_tax": 72766.5,
+    "remaining_tax": 24255.5,
+    "april_tax": 8085.17
+  },
+  "haroon ali": {
+    "name": "Haroon Ali",
+    "months_active": 8,
+    "average_gross": 40000.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "hassan ibrahim": {
+    "name": "Hassan Ibrahim",
+    "months_active": 4,
+    "average_gross": 93750.0,
+    "total_tax_9m": 1684.0,
+    "average_monthly_tax": 421.0,
+    "projected_annual_tax": 5052.0,
+    "remaining_tax": 3368.0,
+    "april_tax": 1122.67
+  },
+  "hassan shahzad": {
+    "name": "Hassan Shahzad",
+    "months_active": 8,
+    "average_gross": 65000.0,
+    "total_tax_9m": 490.0,
+    "average_monthly_tax": 61.25,
+    "projected_annual_tax": 735.0,
+    "remaining_tax": 245.0,
+    "april_tax": 81.67
+  },
+  "hataf bin atif": {
+    "name": "Hataf Bin Atif",
+    "months_active": 8,
+    "average_gross": 303236.0,
+    "total_tax_9m": 254603.0,
+    "average_monthly_tax": 31825.38,
+    "projected_annual_tax": 381904.5,
+    "remaining_tax": 127301.5,
+    "april_tax": 42433.83
+  },
+  "iqra zanib": {
+    "name": "Iqra Zanib",
+    "months_active": 8,
+    "average_gross": 101984.25,
+    "total_tax_9m": 3477.0,
+    "average_monthly_tax": 434.62,
+    "projected_annual_tax": 5215.5,
+    "remaining_tax": 1738.5,
+    "april_tax": 579.5
+  },
+  "jahan zaib": {
+    "name": "JAHAN ZAIB",
+    "months_active": 8,
+    "average_gross": 150000.0,
+    "total_tax_9m": 18823.0,
+    "average_monthly_tax": 2352.88,
+    "projected_annual_tax": 28234.5,
+    "remaining_tax": 9411.5,
+    "april_tax": 3137.17
+  },
+  "jahanzeb ahmad": {
+    "name": "Jahanzeb Ahmad",
+    "months_active": 8,
+    "average_gross": 90312.25,
+    "total_tax_9m": 2623.0,
+    "average_monthly_tax": 327.88,
+    "projected_annual_tax": 3934.5,
+    "remaining_tax": 1311.5,
+    "april_tax": 437.17
+  },
+  "jawwad ali": {
+    "name": "Jawwad Ali",
+    "months_active": 8,
+    "average_gross": 271879.25,
+    "total_tax_9m": 197149.0,
+    "average_monthly_tax": 24643.62,
+    "projected_annual_tax": 295723.5,
+    "remaining_tax": 98574.5,
+    "april_tax": 32858.17
+  },
+  "jeremy sigamony": {
+    "name": "Jeremy Sigamony",
+    "months_active": 1,
+    "average_gross": 40000.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "komal babar": {
+    "name": "Komal Babar",
+    "months_active": 1,
+    "average_gross": 127200.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "laraib sarfraz": {
+    "name": "Laraib Sarfraz",
+    "months_active": 8,
+    "average_gross": 204604.0,
+    "total_tax_9m": 92523.0,
+    "average_monthly_tax": 11565.38,
+    "projected_annual_tax": 138784.5,
+    "remaining_tax": 46261.5,
+    "april_tax": 15420.5
+  },
+  "mah noor": {
+    "name": "Mah Noor",
+    "months_active": 8,
+    "average_gross": 201739.0,
+    "total_tax_9m": 77792.0,
+    "average_monthly_tax": 9724.0,
+    "projected_annual_tax": 116688.0,
+    "remaining_tax": 38896.0,
+    "april_tax": 12965.33
+  },
+  "mahnoor shafique": {
+    "name": "Mahnoor Shafique",
+    "months_active": 8,
+    "average_gross": 278674.0,
+    "total_tax_9m": 217204.0,
+    "average_monthly_tax": 27150.5,
+    "projected_annual_tax": 325806.0,
+    "remaining_tax": 108602.0,
+    "april_tax": 36200.67
+  },
+  "mashhood ali rastgar": {
+    "name": "Mashhood Ali Rastgar",
+    "months_active": 8,
+    "average_gross": 683274.18,
+    "total_tax_9m": 834606.0,
+    "average_monthly_tax": 104325.75,
+    "projected_annual_tax": 1251909.0,
+    "remaining_tax": 417303.0,
+    "april_tax": 139101.0
+  },
+  "mateen sheikh": {
+    "name": "Mateen Sheikh",
+    "months_active": 5,
+    "average_gross": 214092.88,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "mavia": {
+    "name": "Mavia",
+    "months_active": 7,
+    "average_gross": 171382.57,
+    "total_tax_9m": 48614.0,
+    "average_monthly_tax": 6944.86,
+    "projected_annual_tax": 83338.29,
+    "remaining_tax": 34724.29,
+    "april_tax": 11574.76
+  },
+  "muhammad ahsan": {
+    "name": "Muhammad Ahsan",
+    "months_active": 6,
+    "average_gross": 406803.33,
+    "total_tax_9m": 374923.0,
+    "average_monthly_tax": 62487.17,
+    "projected_annual_tax": 749846.0,
+    "remaining_tax": 374923.0,
+    "april_tax": 124974.33
+  },
+  "muhammad danish iqbal": {
+    "name": "Muhammad Danish Iqbal",
+    "months_active": 8,
+    "average_gross": 226696.0,
+    "total_tax_9m": 121607.0,
+    "average_monthly_tax": 15200.88,
+    "projected_annual_tax": 182410.5,
+    "remaining_tax": 60803.5,
+    "april_tax": 20267.83
+  },
+  "muhammad hammad sarfraz": {
+    "name": "Muhammad Hammad Sarfraz",
+    "months_active": 8,
+    "average_gross": 74375.25,
+    "total_tax_9m": 1502.0,
+    "average_monthly_tax": 187.75,
+    "projected_annual_tax": 2253.0,
+    "remaining_tax": 751.0,
+    "april_tax": 250.33
+  },
+  "muhammad hassan dajana": {
+    "name": "Muhammad Hassan Dajana",
+    "months_active": 4,
+    "average_gross": 255080.0,
+    "total_tax_9m": 45954.0,
+    "average_monthly_tax": 11488.5,
+    "projected_annual_tax": 137862.0,
+    "remaining_tax": 91908.0,
+    "april_tax": 30636.0
+  },
+  "muhammad jalal khan": {
+    "name": "Muhammad Jalal Khan",
+    "months_active": 8,
+    "average_gross": 214732.25,
+    "total_tax_9m": 112790.0,
+    "average_monthly_tax": 14098.75,
+    "projected_annual_tax": 169185.0,
+    "remaining_tax": 56395.0,
+    "april_tax": 18798.33
+  },
+  "muhammad kamal": {
+    "name": "Muhammad Kamal",
+    "months_active": 8,
+    "average_gross": 400285.5,
+    "total_tax_9m": 485217.0,
+    "average_monthly_tax": 60652.12,
+    "projected_annual_tax": 727825.5,
+    "remaining_tax": 242608.5,
+    "april_tax": 80869.5
+  },
+  "muhammad omer mazhar rana": {
+    "name": "MUHAMMAD OMER MAZHAR RANA",
+    "months_active": 8,
+    "average_gross": 174435.75,
+    "total_tax_9m": 56692.0,
+    "average_monthly_tax": 7086.5,
+    "projected_annual_tax": 85038.0,
+    "remaining_tax": 28346.0,
+    "april_tax": 9448.67
+  },
+  "muhammad raees shujaan azhar": {
+    "name": "Muhammad Raees Shujaan Azhar",
+    "months_active": 8,
+    "average_gross": 170000.0,
+    "total_tax_9m": 52136.0,
+    "average_monthly_tax": 6517.0,
+    "projected_annual_tax": 78204.0,
+    "remaining_tax": 26068.0,
+    "april_tax": 8689.33
+  },
+  "muhammad saad bin idrees": {
+    "name": "Muhammad Saad bin Idrees",
+    "months_active": 5,
+    "average_gross": 213518.8,
+    "total_tax_9m": 64700.0,
+    "average_monthly_tax": 12940.0,
+    "projected_annual_tax": 155280.0,
+    "remaining_tax": 90580.0,
+    "april_tax": 30193.33
+  },
+  "muhammad shoaib khan": {
+    "name": "MUHAMMAD SHOAIB KHAN",
+    "months_active": 8,
+    "average_gross": 46728.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "muhammad talha": {
+    "name": "Muhammad Talha",
+    "months_active": 8,
+    "average_gross": 155175.0,
+    "total_tax_9m": 43147.0,
+    "average_monthly_tax": 5393.38,
+    "projected_annual_tax": 64720.5,
+    "remaining_tax": 21573.5,
+    "april_tax": 7191.17
+  },
+  "muhammad umar raza": {
+    "name": "Muhammad Umar Raza",
+    "months_active": 8,
+    "average_gross": 129909.75,
+    "total_tax_9m": 22894.0,
+    "average_monthly_tax": 2861.75,
+    "projected_annual_tax": 34341.0,
+    "remaining_tax": 11447.0,
+    "april_tax": 3815.67
+  },
+  "muhammad zain ul abadin": {
+    "name": "Muhammad Zain ul Abadin",
+    "months_active": 8,
+    "average_gross": 108125.0,
+    "total_tax_9m": 3167.0,
+    "average_monthly_tax": 395.88,
+    "projected_annual_tax": 4750.5,
+    "remaining_tax": 1583.5,
+    "april_tax": 527.83
+  },
+  "muhammad zeeshan usaid": {
+    "name": "Muhammad Zeeshan Usaid",
+    "months_active": 8,
+    "average_gross": 350066.0,
+    "total_tax_9m": 369720.0,
+    "average_monthly_tax": 46215.0,
+    "projected_annual_tax": 554580.0,
+    "remaining_tax": 184860.0,
+    "april_tax": 61620.0
+  },
+  "mujeeb ur rehman": {
+    "name": "Mujeeb ur Rehman",
+    "months_active": 1,
+    "average_gross": 439959.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "osama ahmad": {
+    "name": "Osama Ahmad",
+    "months_active": 8,
+    "average_gross": 218100.0,
+    "total_tax_9m": 106100.0,
+    "average_monthly_tax": 13262.5,
+    "projected_annual_tax": 159150.0,
+    "remaining_tax": 53050.0,
+    "april_tax": 17683.33
+  },
+  "raja rehan ahmed": {
+    "name": "Raja Rehan Ahmed",
+    "months_active": 4,
+    "average_gross": 229641.0,
+    "total_tax_9m": 45411.0,
+    "average_monthly_tax": 11352.75,
+    "projected_annual_tax": 136233.0,
+    "remaining_tax": 90822.0,
+    "april_tax": 30274.0
+  },
+  "ramsha khurshid": {
+    "name": "Ramsha Khurshid",
+    "months_active": 8,
+    "average_gross": 307527.0,
+    "total_tax_9m": 262306.0,
+    "average_monthly_tax": 32788.25,
+    "projected_annual_tax": 393459.0,
+    "remaining_tax": 131153.0,
+    "april_tax": 43717.67
+  },
+  "saad zahid": {
+    "name": "Saad Zahid",
+    "months_active": 8,
+    "average_gross": 342748.75,
+    "total_tax_9m": 345030.0,
+    "average_monthly_tax": 43128.75,
+    "projected_annual_tax": 517545.0,
+    "remaining_tax": 172515.0,
+    "april_tax": 57505.0
+  },
+  "sabeena abbasi": {
+    "name": "Sabeena Abbasi",
+    "months_active": 8,
+    "average_gross": 348482.3,
+    "total_tax_9m": 305337.73,
+    "average_monthly_tax": 38167.22,
+    "projected_annual_tax": 458006.59,
+    "remaining_tax": 152668.86,
+    "april_tax": 50889.62
+  },
+  "saleh muhammad": {
+    "name": "Saleh Muhammad",
+    "months_active": 8,
+    "average_gross": 65000.0,
+    "total_tax_9m": 504.0,
+    "average_monthly_tax": 63.0,
+    "projected_annual_tax": 756.0,
+    "remaining_tax": 252.0,
+    "april_tax": 84.0
+  },
+  "salman ahmad khan": {
+    "name": "Salman Ahmad Khan",
+    "months_active": 6,
+    "average_gross": 170000.0,
+    "total_tax_9m": 39102.0,
+    "average_monthly_tax": 6517.0,
+    "projected_annual_tax": 78204.0,
+    "remaining_tax": 39102.0,
+    "april_tax": 13034.0
+  },
+  "salwa abdul hayee": {
+    "name": "Salwa Abdul Hayee",
+    "months_active": 2,
+    "average_gross": 343000.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "sana akbar": {
+    "name": "Sana Akbar",
+    "months_active": 1,
+    "average_gross": 270160.0,
+    "total_tax_9m": 24045.0,
+    "average_monthly_tax": 24045.0,
+    "projected_annual_tax": 288540.0,
+    "remaining_tax": 264495.0,
+    "april_tax": 88165.0
+  },
+  "shayan ahmad": {
+    "name": "Shayan Ahmad",
+    "months_active": 8,
+    "average_gross": 228590.0,
+    "total_tax_9m": 122752.0,
+    "average_monthly_tax": 15344.0,
+    "projected_annual_tax": 184128.0,
+    "remaining_tax": 61376.0,
+    "april_tax": 20458.67
+  },
+  "sheikh nimra rasheed": {
+    "name": "Sheikh Nimra Rasheed",
+    "months_active": 8,
+    "average_gross": 161897.5,
+    "total_tax_9m": 47278.0,
+    "average_monthly_tax": 5909.75,
+    "projected_annual_tax": 70917.0,
+    "remaining_tax": 23639.0,
+    "april_tax": 7879.67
+  },
+  "soha tehreem": {
+    "name": "Soha Tehreem",
+    "months_active": 2,
+    "average_gross": 200000.0,
+    "total_tax_9m": 21989.0,
+    "average_monthly_tax": 10994.5,
+    "projected_annual_tax": 131934.0,
+    "remaining_tax": 109945.0,
+    "april_tax": 36648.33
+  },
+  "sualeha anjum": {
+    "name": "Sualeha Anjum",
+    "months_active": 2,
+    "average_gross": 115180.0,
+    "total_tax_9m": 1030.0,
+    "average_monthly_tax": 515.0,
+    "projected_annual_tax": 6180.0,
+    "remaining_tax": 5150.0,
+    "april_tax": 1716.67
+  },
+  "summar raja": {
+    "name": "Summar Raja",
+    "months_active": 2,
+    "average_gross": 232355.0,
+    "total_tax_9m": 21306.0,
+    "average_monthly_tax": 10653.0,
+    "projected_annual_tax": 127836.0,
+    "remaining_tax": 106530.0,
+    "april_tax": 35510.0
+  },
+  "syed junaid ali zaidi": {
+    "name": "Syed Junaid Ali Zaidi",
+    "months_active": 8,
+    "average_gross": 231073.25,
+    "total_tax_9m": 132384.0,
+    "average_monthly_tax": 16548.0,
+    "projected_annual_tax": 198576.0,
+    "remaining_tax": 66192.0,
+    "april_tax": 22064.0
+  },
+  "tajdar shakeel": {
+    "name": "Tajdar Shakeel",
+    "months_active": 5,
+    "average_gross": 40000.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "tariq asim": {
+    "name": "Tariq Asim",
+    "months_active": 8,
+    "average_gross": 219167.75,
+    "total_tax_9m": 111613.0,
+    "average_monthly_tax": 13951.62,
+    "projected_annual_tax": 167419.5,
+    "remaining_tax": 55806.5,
+    "april_tax": 18602.17
+  },
+  "usman imtiaz": {
+    "name": "Usman Imtiaz",
+    "months_active": 8,
+    "average_gross": 331287.0,
+    "total_tax_9m": 314198.0,
+    "average_monthly_tax": 39274.75,
+    "projected_annual_tax": 471297.0,
+    "remaining_tax": 157099.0,
+    "april_tax": 52366.33
+  },
+  "wajdan ahmed khan yousafzai": {
+    "name": "Wajdan Ahmed Khan Yousafzai",
+    "months_active": 8,
+    "average_gross": 135312.5,
+    "total_tax_9m": 26710.0,
+    "average_monthly_tax": 3338.75,
+    "projected_annual_tax": 40065.0,
+    "remaining_tax": 13355.0,
+    "april_tax": 4451.67
+  },
+  "zeeshan zahoor": {
+    "name": "Zeeshan Zahoor",
+    "months_active": 8,
+    "average_gross": 63419.0,
+    "total_tax_9m": 775.0,
+    "average_monthly_tax": 96.88,
+    "projected_annual_tax": 1162.5,
+    "remaining_tax": 387.5,
+    "april_tax": 129.17
+  },
+  "zunaira shahid": {
+    "name": "Zunaira Shahid",
+    "months_active": 8,
+    "average_gross": 101960.75,
+    "total_tax_9m": 3609.0,
+    "average_monthly_tax": 451.12,
+    "projected_annual_tax": 5413.5,
+    "remaining_tax": 1804.5,
+    "april_tax": 601.5
+  },
+  "razia kausar": {
+    "name": "Razia Kausar",
+    "months_active": 8,
+    "average_gross": 49313.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "ahwaz akhtar": {
+    "name": "Ahwaz Akhtar",
+    "months_active": 8,
+    "average_gross": 287378.25,
+    "total_tax_9m": 224626.0,
+    "average_monthly_tax": 28078.25,
+    "projected_annual_tax": 336939.0,
+    "remaining_tax": 112313.0,
+    "april_tax": 37437.67
+  },
+  "alina imran": {
+    "name": "Alina Imran",
+    "months_active": 5,
+    "average_gross": 141690.8,
+    "total_tax_9m": 19203.0,
+    "average_monthly_tax": 3840.6,
+    "projected_annual_tax": 46087.2,
+    "remaining_tax": 26884.2,
+    "april_tax": 8961.4
+  },
+  "amena ahmed": {
+    "name": "Amena Ahmed",
+    "months_active": 8,
+    "average_gross": 471999.75,
+    "total_tax_9m": 661322.0,
+    "average_monthly_tax": 82665.25,
+    "projected_annual_tax": 991983.0,
+    "remaining_tax": 330661.0,
+    "april_tax": 110220.33
+  },
+  "ayesha jamshaid": {
+    "name": "Ayesha Jamshaid",
+    "months_active": 8,
+    "average_gross": 332337.5,
+    "total_tax_9m": 319299.0,
+    "average_monthly_tax": 39912.38,
+    "projected_annual_tax": 478948.5,
+    "remaining_tax": 159649.5,
+    "april_tax": 53216.5
+  },
+  "gul jabeen": {
+    "name": "Gul Jabeen",
+    "months_active": 8,
+    "average_gross": 214224.0,
+    "total_tax_9m": 103366.0,
+    "average_monthly_tax": 12920.75,
+    "projected_annual_tax": 155049.0,
+    "remaining_tax": 51683.0,
+    "april_tax": 17227.67
+  },
+  "saad saeed": {
+    "name": "Saad Saeed",
+    "months_active": 2,
+    "average_gross": 150000.0,
+    "total_tax_9m": 5615.0,
+    "average_monthly_tax": 2807.5,
+    "projected_annual_tax": 33690.0,
+    "remaining_tax": 28075.0,
+    "april_tax": 9358.33
+  },
+  "mahrah ashraf": {
+    "name": "Mahrah Ashraf",
+    "months_active": 8,
+    "average_gross": 228262.0,
+    "total_tax_9m": 122200.0,
+    "average_monthly_tax": 15275.0,
+    "projected_annual_tax": 183300.0,
+    "remaining_tax": 61100.0,
+    "april_tax": 20366.67
+  },
+  "ahsan javed": {
+    "name": "Ahsan Javed",
+    "months_active": 8,
+    "average_gross": 271734.0,
+    "total_tax_9m": 196994.0,
+    "average_monthly_tax": 24624.25,
+    "projected_annual_tax": 295491.0,
+    "remaining_tax": 98497.0,
+    "april_tax": 32832.33
+  },
+  "muhammad usman javed": {
+    "name": "Muhammad Usman Javed",
+    "months_active": 7,
+    "average_gross": 346452.0,
+    "total_tax_9m": 305972.0,
+    "average_monthly_tax": 43710.29,
+    "projected_annual_tax": 524523.43,
+    "remaining_tax": 218551.43,
+    "april_tax": 72850.48
+  },
+  "muqadas saleem": {
+    "name": "Muqadas Saleem",
+    "months_active": 8,
+    "average_gross": 148920.5,
+    "total_tax_9m": 36874.0,
+    "average_monthly_tax": 4609.25,
+    "projected_annual_tax": 55311.0,
+    "remaining_tax": 18437.0,
+    "april_tax": 6145.67
+  },
+  "nawal khurram": {
+    "name": "Nawal Khurram",
+    "months_active": 8,
+    "average_gross": 250000.0,
+    "total_tax_9m": 137767.0,
+    "average_monthly_tax": 17220.88,
+    "projected_annual_tax": 206650.5,
+    "remaining_tax": 68883.5,
+    "april_tax": 22961.17
+  },
+  "nidya mukhtar": {
+    "name": "Nidya Mukhtar",
+    "months_active": 1,
+    "average_gross": 159615.0,
+    "total_tax_9m": 5478.0,
+    "average_monthly_tax": 5478.0,
+    "projected_annual_tax": 65736.0,
+    "remaining_tax": 60258.0,
+    "april_tax": 20086.0
+  },
+  "rabia tufail": {
+    "name": "Rabia Tufail",
+    "months_active": 5,
+    "average_gross": 257052.6,
+    "total_tax_9m": 109191.0,
+    "average_monthly_tax": 21838.2,
+    "projected_annual_tax": 262058.4,
+    "remaining_tax": 152867.4,
+    "april_tax": 50955.8
+  },
+  "rida nayyab": {
+    "name": "Rida Nayyab",
+    "months_active": 8,
+    "average_gross": 147584.0,
+    "total_tax_9m": 36883.0,
+    "average_monthly_tax": 4610.38,
+    "projected_annual_tax": 55324.5,
+    "remaining_tax": 18441.5,
+    "april_tax": 6147.17
+  },
+  "salman iqbal": {
+    "name": "Salman Iqbal",
+    "months_active": 8,
+    "average_gross": 118931.0,
+    "total_tax_9m": 11745.0,
+    "average_monthly_tax": 1468.12,
+    "projected_annual_tax": 17617.5,
+    "remaining_tax": 5872.5,
+    "april_tax": 1957.5
+  },
+  "muhammad mehdi abbas": {
+    "name": "Muhammad Mehdi Abbas",
+    "months_active": 8,
+    "average_gross": 82762.0,
+    "total_tax_9m": 2181.0,
+    "average_monthly_tax": 272.62,
+    "projected_annual_tax": 3271.5,
+    "remaining_tax": 1090.5,
+    "april_tax": 363.5
+  },
+  "sabeen fatima": {
+    "name": "Sabeen Fatima",
+    "months_active": 8,
+    "average_gross": 129474.0,
+    "total_tax_9m": 19682.0,
+    "average_monthly_tax": 2460.25,
+    "projected_annual_tax": 29523.0,
+    "remaining_tax": 9841.0,
+    "april_tax": 3280.33
+  },
+  "saima bibi": {
+    "name": "Saima Bibi",
+    "months_active": 8,
+    "average_gross": 238150.75,
+    "total_tax_9m": 143636.0,
+    "average_monthly_tax": 17954.5,
+    "projected_annual_tax": 215454.0,
+    "remaining_tax": 71818.0,
+    "april_tax": 23939.33
+  },
+  "sumbal naz": {
+    "name": "Sumbal Naz",
+    "months_active": 1,
+    "average_gross": 110000.0,
+    "total_tax_9m": 511.0,
+    "average_monthly_tax": 511.0,
+    "projected_annual_tax": 6132.0,
+    "remaining_tax": 5621.0,
+    "april_tax": 1873.67
+  },
+  "tahira malik": {
+    "name": "Tahira Malik",
+    "months_active": 8,
+    "average_gross": 433344.0,
+    "total_tax_9m": 558160.0,
+    "average_monthly_tax": 69770.0,
+    "projected_annual_tax": 837240.0,
+    "remaining_tax": 279080.0,
+    "april_tax": 93026.67
+  },
+  "unsa umar": {
+    "name": "Unsa Umar",
+    "months_active": 8,
+    "average_gross": 202564.0,
+    "total_tax_9m": 83320.0,
+    "average_monthly_tax": 10415.0,
+    "projected_annual_tax": 124980.0,
+    "remaining_tax": 41660.0,
+    "april_tax": 13886.67
+  },
+  "haya abid": {
+    "name": "Haya Abid",
+    "months_active": 8,
+    "average_gross": 125890.0,
+    "total_tax_9m": 18243.0,
+    "average_monthly_tax": 2280.38,
+    "projected_annual_tax": 27364.5,
+    "remaining_tax": 9121.5,
+    "april_tax": 3040.5
+  },
+  "urwa zafar": {
+    "name": "Urwa Zafar",
+    "months_active": 8,
+    "average_gross": 146247.5,
+    "total_tax_9m": 34703.0,
+    "average_monthly_tax": 4337.88,
+    "projected_annual_tax": 52054.5,
+    "remaining_tax": 17351.5,
+    "april_tax": 5783.83
+  },
+  "zulfiqar ahmed mughal": {
+    "name": "Zulfiqar Ahmed Mughal",
+    "months_active": 8,
+    "average_gross": 48160.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "haroon yasin": {
+    "name": "Haroon Yasin",
+    "months_active": 8,
+    "average_gross": 497597.92,
+    "total_tax_9m": 465618.08,
+    "average_monthly_tax": 58202.26,
+    "projected_annual_tax": 698427.12,
+    "remaining_tax": 232809.04,
+    "april_tax": 77603.01
+  },
+  "amina tayyub": {
+    "name": "Amina Tayyub",
+    "months_active": 8,
+    "average_gross": 228600.92,
+    "total_tax_9m": 53472.15,
+    "average_monthly_tax": 6684.02,
+    "projected_annual_tax": 80208.23,
+    "remaining_tax": 26736.08,
+    "april_tax": 8912.03
+  },
+  "shakoor ahmed": {
+    "name": "Shakoor Ahmed",
+    "months_active": 3,
+    "average_gross": 450000.0,
+    "total_tax_9m": 150150.0,
+    "average_monthly_tax": 50050.0,
+    "projected_annual_tax": 600600.0,
+    "remaining_tax": 450450.0,
+    "april_tax": 150150.0
+  },
+  "abdul waheed": {
+    "name": "Abdul Waheed",
+    "months_active": 8,
+    "average_gross": 212500.0,
+    "total_tax_9m": 97138.0,
+    "average_monthly_tax": 12142.25,
+    "projected_annual_tax": 145707.0,
+    "remaining_tax": 48569.0,
+    "april_tax": 16189.67
+  },
+  "zarmeen kausar": {
+    "name": "Zarmeen Kausar",
+    "months_active": 7,
+    "average_gross": 127000.0,
+    "total_tax_9m": 4067.0,
+    "average_monthly_tax": 581.0,
+    "projected_annual_tax": 6972.0,
+    "remaining_tax": 2905.0,
+    "april_tax": 968.33
+  },
+  "maria kareem": {
+    "name": "Maria Kareem",
+    "months_active": 5,
+    "average_gross": 119000.0,
+    "total_tax_9m": 2574.0,
+    "average_monthly_tax": 514.8,
+    "projected_annual_tax": 6177.6,
+    "remaining_tax": 3603.6,
+    "april_tax": 1201.2
+  },
+  "shazmina sharif": {
+    "name": "Shazmina Sharif",
+    "months_active": 7,
+    "average_gross": 108000.0,
+    "total_tax_9m": 4018.0,
+    "average_monthly_tax": 574.0,
+    "projected_annual_tax": 6888.0,
+    "remaining_tax": 2870.0,
+    "april_tax": 956.67
+  },
+  "shareen umer": {
+    "name": "Shareen Umer",
+    "months_active": 7,
+    "average_gross": 40000.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "saima jabeen": {
+    "name": "Saima Jabeen",
+    "months_active": 6,
+    "average_gross": 127000.0,
+    "total_tax_9m": 7572.0,
+    "average_monthly_tax": 1262.0,
+    "projected_annual_tax": 15144.0,
+    "remaining_tax": 7572.0,
+    "april_tax": 2524.0
+  },
+  "hamza razaq": {
+    "name": "Hamza Razaq",
+    "months_active": 5,
+    "average_gross": 119000.0,
+    "total_tax_9m": 4059.0,
+    "average_monthly_tax": 811.8,
+    "projected_annual_tax": 9741.6,
+    "remaining_tax": 5682.6,
+    "april_tax": 1894.2
+  },
+  "muhammad haris": {
+    "name": "Muhammad Haris",
+    "months_active": 7,
+    "average_gross": 157000.0,
+    "total_tax_9m": 18990.0,
+    "average_monthly_tax": 2712.86,
+    "projected_annual_tax": 32554.29,
+    "remaining_tax": 13564.29,
+    "april_tax": 4521.43
+  },
+  "maheen mirza": {
+    "name": "Maheen Mirza",
+    "months_active": 1,
+    "average_gross": 116000.0,
+    "total_tax_9m": 429.0,
+    "average_monthly_tax": 429.0,
+    "projected_annual_tax": 5148.0,
+    "remaining_tax": 4719.0,
+    "april_tax": 1573.0
+  },
+  "sohaib danish": {
+    "name": "Sohaib Danish",
+    "months_active": 7,
+    "average_gross": 121142.86,
+    "total_tax_9m": 6460.0,
+    "average_monthly_tax": 922.86,
+    "projected_annual_tax": 11074.29,
+    "remaining_tax": 4614.29,
+    "april_tax": 1538.1
+  },
+  "waleed abdullah": {
+    "name": "Waleed Abdullah",
+    "months_active": 6,
+    "average_gross": 108000.0,
+    "total_tax_9m": 1944.0,
+    "average_monthly_tax": 324.0,
+    "projected_annual_tax": 3888.0,
+    "remaining_tax": 1944.0,
+    "april_tax": 648.0
+  },
+  "toseef ur rehman": {
+    "name": "Toseef ur Rehman",
+    "months_active": 6,
+    "average_gross": 116000.0,
+    "total_tax_9m": 2851.0,
+    "average_monthly_tax": 475.17,
+    "projected_annual_tax": 5702.0,
+    "remaining_tax": 2851.0,
+    "april_tax": 950.33
+  },
+  "zainab zaheer": {
+    "name": "Zainab Zaheer",
+    "months_active": 6,
+    "average_gross": 127000.0,
+    "total_tax_9m": 3370.0,
+    "average_monthly_tax": 561.67,
+    "projected_annual_tax": 6740.0,
+    "remaining_tax": 3370.0,
+    "april_tax": 1123.33
+  },
+  "aymen abid": {
+    "name": "Aymen Abid",
+    "months_active": 6,
+    "average_gross": 250000.0,
+    "total_tax_9m": 67373.0,
+    "average_monthly_tax": 11228.83,
+    "projected_annual_tax": 134746.0,
+    "remaining_tax": 67373.0,
+    "april_tax": 22457.67
+  },
+  "jarrar ali khan": {
+    "name": "Jarrar Ali Khan",
+    "months_active": 5,
+    "average_gross": 230000.0,
+    "total_tax_9m": 39493.0,
+    "average_monthly_tax": 7898.6,
+    "projected_annual_tax": 94783.2,
+    "remaining_tax": 55290.2,
+    "april_tax": 18430.07
+  },
+  "minha khan": {
+    "name": "Minha Khan",
+    "months_active": 3,
+    "average_gross": 100000.0,
+    "total_tax_9m": 663.0,
+    "average_monthly_tax": 221.0,
+    "projected_annual_tax": 2652.0,
+    "remaining_tax": 1989.0,
+    "april_tax": 663.0
+  },
+  "javariya mafarrakh": {
+    "name": "Javariya Mafarrakh",
+    "months_active": 4,
+    "average_gross": 275000.0,
+    "total_tax_9m": 50076.0,
+    "average_monthly_tax": 12519.0,
+    "projected_annual_tax": 150228.0,
+    "remaining_tax": 100152.0,
+    "april_tax": 33384.0
+  },
+  "ali sipra": {
+    "name": "Ali Sipra",
+    "months_active": 6,
+    "average_gross": 761755.83,
+    "total_tax_9m": 440535.0,
+    "average_monthly_tax": 73422.5,
+    "projected_annual_tax": 881070.0,
+    "remaining_tax": 440535.0,
+    "april_tax": 146845.0
+  },
+  "sumaya imran": {
+    "name": "Sumaya Imran",
+    "months_active": 3,
+    "average_gross": 100002.0,
+    "total_tax_9m": 3420.0,
+    "average_monthly_tax": 1140.0,
+    "projected_annual_tax": 13680.0,
+    "remaining_tax": 10260.0,
+    "april_tax": 3420.0
+  },
+  "zainab fatima": {
+    "name": "Zainab Fatima",
+    "months_active": 4,
+    "average_gross": 116000.0,
+    "total_tax_9m": 1123.0,
+    "average_monthly_tax": 280.75,
+    "projected_annual_tax": 3369.0,
+    "remaining_tax": 2246.0,
+    "april_tax": 748.67
+  },
+  "samra tariq": {
+    "name": "Samra Tariq",
+    "months_active": 5,
+    "average_gross": 150000.0,
+    "total_tax_9m": 2900.0,
+    "average_monthly_tax": 580.0,
+    "projected_annual_tax": 6960.0,
+    "remaining_tax": 4060.0,
+    "april_tax": 1353.33
+  },
+  "zuhaib sheikh": {
+    "name": "Zuhaib Sheikh",
+    "months_active": 3,
+    "average_gross": 400995.33,
+    "total_tax_9m": 152987.41,
+    "average_monthly_tax": 50995.8,
+    "projected_annual_tax": 611949.64,
+    "remaining_tax": 458962.23,
+    "april_tax": 152987.41
+  },
+  "employee name": {
+    "name": "Employee Name",
+    "months_active": 1,
+    "average_gross": 0.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "javeria khalil": {
+    "name": "Javeria Khalil",
+    "months_active": 4,
+    "average_gross": 116000.0,
+    "total_tax_9m": 882.0,
+    "average_monthly_tax": 220.5,
+    "projected_annual_tax": 2646.0,
+    "remaining_tax": 1764.0,
+    "april_tax": 588.0
+  },
+  "aleeha noor": {
+    "name": "Aleeha Noor",
+    "months_active": 4,
+    "average_gross": 108000.0,
+    "total_tax_9m": 1152.0,
+    "average_monthly_tax": 288.0,
+    "projected_annual_tax": 3456.0,
+    "remaining_tax": 2304.0,
+    "april_tax": 768.0
+  },
+  "zunaira ahmed": {
+    "name": "Zunaira Ahmed",
+    "months_active": 4,
+    "average_gross": 302256.0,
+    "total_tax_9m": 49024.0,
+    "average_monthly_tax": 12256.0,
+    "projected_annual_tax": 147072.0,
+    "remaining_tax": 98048.0,
+    "april_tax": 32682.67
+  },
+  "taloot ahmad malik": {
+    "name": "Taloot Ahmad Malik",
+    "months_active": 4,
+    "average_gross": 170000.0,
+    "total_tax_9m": 2048.0,
+    "average_monthly_tax": 512.0,
+    "projected_annual_tax": 6144.0,
+    "remaining_tax": 4096.0,
+    "april_tax": 1365.33
+  },
+  "hamza razzaq": {
+    "name": "Hamza Razzaq",
+    "months_active": 2,
+    "average_gross": 119000.0,
+    "total_tax_9m": 2028.0,
+    "average_monthly_tax": 1014.0,
+    "projected_annual_tax": 12168.0,
+    "remaining_tax": 10140.0,
+    "april_tax": 3380.0
+  },
+  "maria karim": {
+    "name": "Maria Karim",
+    "months_active": 2,
+    "average_gross": 119000.0,
+    "total_tax_9m": 1054.0,
+    "average_monthly_tax": 527.0,
+    "projected_annual_tax": 6324.0,
+    "remaining_tax": 5270.0,
+    "april_tax": 1756.67
+  },
+  "\u200esaaim asif\u200e": {
+    "name": "\u200eSaaim Asif\u200e",
+    "months_active": 3,
+    "average_gross": 127000.0,
+    "total_tax_9m": 673.0,
+    "average_monthly_tax": 224.33,
+    "projected_annual_tax": 2692.0,
+    "remaining_tax": 2019.0,
+    "april_tax": 673.0
+  },
+  "`": {
+    "name": "`",
+    "months_active": 1,
+    "average_gross": 127000.0,
+    "total_tax_9m": 1394.0,
+    "average_monthly_tax": 1394.0,
+    "projected_annual_tax": 16728.0,
+    "remaining_tax": 15334.0,
+    "april_tax": 5111.33
+  },
+  "zara bibi": {
+    "name": "Zara Bibi",
+    "months_active": 2,
+    "average_gross": 145000.0,
+    "total_tax_9m": 1046.0,
+    "average_monthly_tax": 523.0,
+    "projected_annual_tax": 6276.0,
+    "remaining_tax": 5230.0,
+    "april_tax": 1743.33
+  },
+  "maryam yousuf": {
+    "name": "Maryam Yousuf",
+    "months_active": 2,
+    "average_gross": 145000.0,
+    "total_tax_9m": 1042.0,
+    "average_monthly_tax": 521.0,
+    "projected_annual_tax": 6252.0,
+    "remaining_tax": 5210.0,
+    "april_tax": 1736.67
+  },
+  "sohail anjum": {
+    "name": "Sohail Anjum",
+    "months_active": 2,
+    "average_gross": 145000.0,
+    "total_tax_9m": 1046.0,
+    "average_monthly_tax": 523.0,
+    "projected_annual_tax": 6276.0,
+    "remaining_tax": 5230.0,
+    "april_tax": 1743.33
+  },
+  "mariam naqvi": {
+    "name": "Mariam Naqvi",
+    "months_active": 2,
+    "average_gross": 145000.0,
+    "total_tax_9m": 1046.0,
+    "average_monthly_tax": 523.0,
+    "projected_annual_tax": 6276.0,
+    "remaining_tax": 5230.0,
+    "april_tax": 1743.33
+  },
+  "khuda bakhsh": {
+    "name": "Khuda Bakhsh",
+    "months_active": 2,
+    "average_gross": 37000.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "muhammad waqas zubair": {
+    "name": "Muhammad Waqas Zubair",
+    "months_active": 2,
+    "average_gross": 145000.0,
+    "total_tax_9m": 1046.0,
+    "average_monthly_tax": 523.0,
+    "projected_annual_tax": 6276.0,
+    "remaining_tax": 5230.0,
+    "april_tax": 1743.33
+  },
+  "abdullah durrani": {
+    "name": "Abdullah Durrani",
+    "months_active": 3,
+    "average_gross": 194950.0,
+    "total_tax_9m": 4273.0,
+    "average_monthly_tax": 1424.33,
+    "projected_annual_tax": 17092.0,
+    "remaining_tax": 12819.0,
+    "april_tax": 4273.0
+  },
+  "arbab abdul khalil kasi": {
+    "name": "Arbab Abdul Khalil Kasi",
+    "months_active": 2,
+    "average_gross": 145000.0,
+    "total_tax_9m": 656.0,
+    "average_monthly_tax": 328.0,
+    "projected_annual_tax": 3936.0,
+    "remaining_tax": 3280.0,
+    "april_tax": 1093.33
+  },
+  "amount (pkr)": {
+    "name": "Amount (PKR)",
+    "months_active": 1,
+    "average_gross": 0.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "660,000": {
+    "name": "660,000",
+    "months_active": 1,
+    "average_gross": 0.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "371,599": {
+    "name": "371,599",
+    "months_active": 1,
+    "average_gross": 0.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "ammad rasheed": {
+    "name": "Ammad Rasheed",
+    "months_active": 1,
+    "average_gross": 600000.0,
+    "total_tax_9m": 0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "javariya mufarrakh": {
+    "name": "Javariya Mufarrakh",
+    "months_active": 2,
+    "average_gross": 275000.0,
+    "total_tax_9m": 25038.0,
+    "average_monthly_tax": 12519.0,
+    "projected_annual_tax": 150228.0,
+    "remaining_tax": 125190.0,
+    "april_tax": 41730.0
+  },
+  "muhammad muzzammil patel": {
+    "name": "Muhammad Muzzammil Patel",
+    "months_active": 3,
+    "average_gross": 500000.0,
+    "total_tax_9m": 70986.0,
+    "average_monthly_tax": 23662.0,
+    "projected_annual_tax": 283944.0,
+    "remaining_tax": 212958.0,
+    "april_tax": 70986.0
+  },
+  "muhammad saim": {
+    "name": "Muhammad Saim",
+    "months_active": 3,
+    "average_gross": 260000.0,
+    "total_tax_9m": 15287.0,
+    "average_monthly_tax": 5095.67,
+    "projected_annual_tax": 61148.0,
+    "remaining_tax": 45861.0,
+    "april_tax": 15287.0
+  },
+  "salman ahmad": {
+    "name": "Salman Ahmad",
+    "months_active": 2,
+    "average_gross": 170000.0,
+    "total_tax_9m": 13034.0,
+    "average_monthly_tax": 6517.0,
+    "projected_annual_tax": 78204.0,
+    "remaining_tax": 65170.0,
+    "april_tax": 21723.33
+  },
+  "shamim mahmood": {
+    "name": "Shamim Mahmood",
+    "months_active": 3,
+    "average_gross": 476709.0,
+    "total_tax_9m": 104325.0,
+    "average_monthly_tax": 34775.0,
+    "projected_annual_tax": 417300.0,
+    "remaining_tax": 312975.0,
+    "april_tax": 104325.0
+  },
+  "zarrish ahmed": {
+    "name": "Zarrish Ahmed",
+    "months_active": 3,
+    "average_gross": 40000.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "zuhaib shaikh": {
+    "name": "Zuhaib Shaikh",
+    "months_active": 2,
+    "average_gross": 601493.0,
+    "total_tax_9m": 152986.0,
+    "average_monthly_tax": 76493.0,
+    "projected_annual_tax": 917916.0,
+    "remaining_tax": 764930.0,
+    "april_tax": 254976.67
+  },
+  "meerab din": {
+    "name": "Meerab Din",
+    "months_active": 2,
+    "average_gross": 119000.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "usman mughal": {
+    "name": "Usman Mughal",
+    "months_active": 2,
+    "average_gross": 450000.0,
+    "total_tax_9m": 29790.0,
+    "average_monthly_tax": 14895.0,
+    "projected_annual_tax": 178740.0,
+    "remaining_tax": 148950.0,
+    "april_tax": 49650.0
+  },
+  "noor faiz": {
+    "name": "Noor Faiz",
+    "months_active": 1,
+    "average_gross": 120000.0,
+    "total_tax_9m": 1512.0,
+    "average_monthly_tax": 1512.0,
+    "projected_annual_tax": 18144.0,
+    "remaining_tax": 16632.0,
+    "april_tax": 5544.0
+  },
+  "fakhr ul islam": {
+    "name": "Fakhr Ul Islam",
+    "months_active": 1,
+    "average_gross": 119000.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "abdulrehman siddiqi": {
+    "name": "AbdulRehman Siddiqi",
+    "months_active": 1,
+    "average_gross": 219600.0,
+    "total_tax_9m": 13851.0,
+    "average_monthly_tax": 13851.0,
+    "projected_annual_tax": 166212.0,
+    "remaining_tax": 152361.0,
+    "april_tax": 50787.0
+  },
+  "ayesha khan": {
+    "name": "Ayesha Khan",
+    "months_active": 1,
+    "average_gross": 160000.0,
+    "total_tax_9m": 6133.0,
+    "average_monthly_tax": 6133.0,
+    "projected_annual_tax": 73596.0,
+    "remaining_tax": 67463.0,
+    "april_tax": 22487.67
+  },
+  "gul perwasha": {
+    "name": "Gul Perwasha",
+    "months_active": 1,
+    "average_gross": 345000.0,
+    "total_tax_9m": 42930.0,
+    "average_monthly_tax": 42930.0,
+    "projected_annual_tax": 515160.0,
+    "remaining_tax": 472230.0,
+    "april_tax": 157410.0
+  },
+  "mavia qureshi": {
+    "name": "Mavia Qureshi",
+    "months_active": 1,
+    "average_gross": 180000.0,
+    "total_tax_9m": 8047.0,
+    "average_monthly_tax": 8047.0,
+    "projected_annual_tax": 96564.0,
+    "remaining_tax": 88517.0,
+    "april_tax": 29505.67
+  },
+  "zeshan ali dhillon": {
+    "name": "Zeshan Ali Dhillon",
+    "months_active": 1,
+    "average_gross": 500000.0,
+    "total_tax_9m": 93934.0,
+    "average_monthly_tax": 93934.0,
+    "projected_annual_tax": 1127208.0,
+    "remaining_tax": 1033274.0,
+    "april_tax": 344424.67
+  },
+  "shoaib ud din": {
+    "name": "Shoaib ud Din",
+    "months_active": 1,
+    "average_gross": 110000.0,
+    "total_tax_9m": 0.0,
+    "average_monthly_tax": 0.0,
+    "projected_annual_tax": 0.0,
+    "remaining_tax": 0.0,
+    "april_tax": 0.0
+  },
+  "bibi raheela": {
+    "name": "Bibi Raheela",
+    "months_active": 1,
+    "average_gross": 200000.0,
+    "total_tax_9m": 187.0,
+    "average_monthly_tax": 187.0,
+    "projected_annual_tax": 2244.0,
+    "remaining_tax": 2057.0,
+    "april_tax": 685.67
+  },
+  "mariam ali bukhari": {
+    "name": "Mariam Ali Bukhari",
+    "months_active": 1,
+    "average_gross": 350000.0,
+    "total_tax_9m": 44384.0,
+    "average_monthly_tax": 44384.0,
+    "projected_annual_tax": 532608.0,
+    "remaining_tax": 488224.0,
+    "april_tax": 162741.33
+  },
+  "usman javed": {
+    "name": "Usman Javed",
+    "months_active": 1,
+    "average_gross": 350000.0,
+    "total_tax_9m": 44797.0,
+    "average_monthly_tax": 44797.0,
+    "projected_annual_tax": 537564.0,
+    "remaining_tax": 492767.0,
+    "april_tax": 164255.67
+  }
+}

@@ -5,3 +5,69 @@
 2026-04-02 13:09:07 | FILE_UPDATED | Probation Tracker updated (Ammad Rasheed removed) → Drive ID: 1KxGKSbfUsSU6jyXMLchhywAlVbu_4rf6
 2026-04-02 13:12:03 | FILE_UPDATED | Probation Tracker v3 (Gmail verified + closure column) → Drive ID: 1V5n3nEvVzAGCN6o_xqnajUQaBhIU9amf
 2026-04-02 13:25:08 | FILE_UPDATED | Probation Tracker FINAL (17 employees, Nov-Mar verified) ID: 1YZ3diWv35YFq1q07GhFlEpBiwHCMQtZC
+2026-04-10 15:38:50 | CONTRACT_CREATED | employee='Ahwaz Akhtar' entity=owt type=full_time doc_id=1sXoOGFEuFuZoJndjppcTZR_IoGz3_YkhJ5oZLlMyIAY
+2026-04-10 15:38:58 | NDA_CREATED | employee='Ahwaz Akhtar' doc_id=1KbSJVbM9iqkeuKRkjBAZmkYzp-29ygcWaymPYS3beoA
+2026-04-10 15:39:06 | EMAIL_DRAFTED | to=ahwaz.akhtar@taleemabad.com cc=[] subject='Welcome to Taleemabad - M&E Lead'
+2026-04-10 15:56:48 | EMAIL_DRAFTED | to=ahwaz.akhtar@taleemabad.com cc=[] subject='Welcome to Taleemabad - M&E Lead'
+2026-04-10 15:57:13 | EMAIL_DRAFTED | to=ahwaz.akhtar@taleemabad.com cc=[] subject='Welcome to Taleemabad - M&E Lead'
+2026-04-10 16:01:04 | EMAIL_DRAFTED | to=ahwaz.akhtar@taleemabad.com subject='Congratulations - Role Change to M&E Lead' type=ROLE_CHANGE
+2026-04-10 16:03:23 | EMAIL_DRAFTED | to=ahwaz.akhtar@taleemabad.com subject='Confirmation of Updated Employment Terms - M&E Lead' type=ROLE_CHANGE
+2026-04-10 16:39:24 | EMAIL_SENT | to=ahwaz.akhtar@taleemabad.com cc=['sabeena.abbasi@taleemabad.com', 'hiring@taleemabad.com', 'hr@taleemabad.com', 'accounts.query@taleemabad.com'] subject='Confirmation of Updated Employment Terms - M&E Lead' type=ROLE_CHANGE
+2026-04-10 17:05:24 | CONTRACT_CREATED | employee='Muhammad Ahmed' entity=opl type=project doc_id=1a04rVQqmDSz_PQp1NPq3hfI2pm-uYg3uv_eZe67LF8o
+2026-04-10 17:05:33 | NDA_CREATED | employee='Muhammad Ahmed' doc_id=1tPjZBTbpDP2wO_FOpNO-Dq3xsGgIM4jXxJzW4hedXxE
+2026-04-14 13:59:01 | EMAIL_SENT | to=muhammadfgs7@gmail.com cc=['hr@taleemabad.com', 'hiring@taleemabad.com', 'accounts.query@taleemabad.com', 'mashhood.ali.rastgar@taleemabad.com'] subject='Welcome to Taleemabad - AI Engineer Intern (Fellowship)' type=FELLOWSHIP_OFFER
+2026-04-15 09:36:10 | CONTRACT_CREATED | employee='Irum Afzal' entity=taleemabad type=project doc_id=15ouPC3zkHQygzkrnIU_GpS59NrCbvTdANIQYWprwA_k
+2026-04-15 09:36:17 | NDA_CREATED | employee='Irum Afzal' doc_id=1yMoSorh0iE8rVtz_TLL-af7Xe_oZN_PmwFssor3Mwyc
+2026-04-15 09:38:36 | CONTRACT_CREATED | employee='Irum Afzal' entity=opl type=project doc_id=1H8RgQf-dK1vtxRuAIMoZO9kt3xarl6e8DsOtNhG9Q_w
+2026-04-15 09:38:43 | NDA_CREATED | employee='Irum Afzal' doc_id=1rI5DXi0c8d6yKA5HBAfXy6q2bjm5l4rIa-fgRPRCZVc
+2026-04-15 09:55:39 | CONTRACT_CREATED | employee='Irum Afzal' entity=opl type=project doc_id=1-KyU2piyjLTyeQY7k5SWX9Gs_yYu7nTsihej9sJPdbk
+2026-04-15 09:55:48 | NDA_CREATED | employee='Irum Afzal' doc_id=1J8RXxomILZ5JJdXxsPnAaYFig1EPutidt8HiG4M5YYE
+2026-04-15 09:55:53 | EMAIL_DRAFTED | to=irumafzal698@gmail.com cc=['Hasnat@niete.edu.pk', 'hiring@taleemabad.com', 'hr@taleemabad.com', 'accounts.query@taleemabad.com', 'sabeena.abbasi@taleemabad.com'] subject='Welcome to Taleemabad - CPD Coach'
+2026-04-15 09:59:30 | CONTRACT_CREATED | employee='Irum Afzal' entity=opl type=project doc_id=1lE0fv4z0FNftDXbnCHV6TfITmYXzCM-ryfItZOpcw1I
+2026-04-15 09:59:39 | NDA_CREATED | employee='Irum Afzal' doc_id=1E13sIjIvajsL49neM7b9Agf4ur7BuuaFjevbuihijI4
+2026-04-15 09:59:44 | EMAIL_DRAFTED | to=irumafzal698@gmail.com cc=['Hasnat@niete.edu.pk', 'hiring@taleemabad.com', 'hr@taleemabad.com', 'accounts.query@taleemabad.com', 'sabeena.abbasi@taleemabad.com'] subject='Welcome to Taleemabad - CPD Coach'
+2026-04-15 10:27:01 | EMAIL_SENT | to=irumafzal698@gmail.com cc=Hasnat@niete.edu.pk, hiring@taleemabad.com, hr@taleemabad.com, accounts.query@taleemabad.com, sabeena.abbasi@taleemabad.com subject='Welcome to Taleemabad - CPD Coach' message_id=19d8f9b74c2a28ab
+2026-04-15 10:49:24 | EMAIL_REPLY_SENT | to=irumafzal698@gmail.com cc=['Hasnat@niete.edu.pk', 'hiring@taleemabad.com', 'hr@taleemabad.com', 'accounts.query@taleemabad.com', 'sabeena.abbasi@taleemabad.com'] corrected_contracts subject='Re: Welcome to Taleemabad - CPD Coach' message_id=19d8fafefb08e09c
+2026-04-16 14:38:27 | CONTRACT_CREATED | employee='Mohammed Raiyaan Junaid Hamid' entity=taleemabad type=project doc_id=1QWQmgrTLWwSt9zvU-vh15vK8L-9r_MNh0B_CV9VKYF4
+2026-04-16 14:38:38 | NDA_CREATED | employee='Mohammed Raiyaan Junaid Hamid' doc_id=1AaBsFEnBjp29ZmT8JNrspjnsmvNiIpJZPwDiMsrYC9c
+2026-04-16 14:38:44 | EMAIL_DRAFTED | to=raiyaanjhamid@gmail.com cc=['hiring@taleemabad.com', 'hr@taleemabad.com', 'accounts.query@taleemabad.com', 'ahmed.javed@taleemabad.com'] subject='Welcome to Taleemabad - Product Management Intern'
+2026-06-10 15:51:48 | CONTRACT_CREATED | employee='Momina Raja' entity=opl type=full_time doc_id=1VQw4sgHfO7kxjacKnbytRhFekePKXbkK32IzvyZa8Oc
+2026-06-10 15:51:58 | NDA_CREATED | employee='Momina Raja' doc_id=1XmPWDdAY7RpqX1P7DjIxo1XlXOqv3PEl23aJsjmEMTg
+2026-06-10 16:38:50 | EMAIL_DRAFTED | to=momina.raja@niete.edu.pk cc=[] subject='Your Updated Contract — Transition to the Impact & Policy Team' (Momina transition)
+2026-06-10 16:41:24 | EMAIL_DRAFTED | UPDATED to=momina.raja@niete.edu.pk cc=[] subject='Congratulations on Your Transition — Impact & Policy Team' (Momina transition)
+2026-06-10 16:42:16 | EMAIL_DRAFTED | UPDATED (pro) to=momina.raja@niete.edu.pk cc=[] subject='Congratulations on Your Transition to the Impact & Policy Team' (Momina transition)
+2026-06-10 16:43:44 | EMAIL_DRAFTED | UPDATED to=momina.raja@niete.edu.pk cc=[] subject='Congratulations on Your Transition to the Impact & Policy Team' (Momina transition)
+2026-06-10 16:47:15 | EMAIL_SENT | PREVIEW to=ayat@niete.edu.pk subject='[PREVIEW] Congratulations on Your Transition to the Impact & Policy Team' (Momina transition self-preview)
+2026-06-10 16:54:26 | EMAIL_SENT | to=['momina.raja@niete.edu.pk', 'momina.raja@taleemabad.com'] cc=['hr@taleemabad.com', 'accounts.query@taleemabad.com', 'ali.sipra@taleemabad.com', 'sabeena.abbasi@taleemabad.com', 'muzzammil.patel@taleemabad.com'] subject='Congratulations on Your Transition to the Impact & Policy Team' (Momina transition FINAL)
+2026-06-10 17:16:40 | TEMPLATE_FIXED | nda_full_time EMPLOYEEE->EMPLOYEE (1)
+2026-06-10 17:16:42 | TEMPLATE_FIXED | nda_project EMPLOYEEE->EMPLOYEE (1)
+2026-06-10 17:36:31 | CONTRACT_CREATED | employee='Test Person' entity=opl type=full_time doc_id=1ODQ_p9iz_YTBW5ossReSb4H1GLGwosJr1Xmej8M_SoY
+2026-06-10 17:36:43 | NDA_CREATED | employee='Test Person' doc_id=1UTDLOIdDlctajvuPdgqwU6Te5jqvIhJn1L8Zhw7UZ7E
+2026-06-10 17:39:46 | CONTRACT_CREATED | employee='Test Person' entity=opl type=full_time doc_id=1eepdo5reG4NSa8zAg4zM8SoqD24XxUZWFYPSDhs-PfY
+2026-06-10 17:39:56 | NDA_CREATED | employee='Test Person' doc_id=1hrDSR0dSuOsJJ98EpRBK2_YbrbEhxGu8Rjzgo7-eG4s
+2026-06-10 17:42:25 | CONTRACT_CREATED | employee='Test Person' entity=opl type=full_time doc_id=1sMaDofpcLqIApXsYrxJCtDEn_EEG7oPZe2asDIqrq8s
+2026-06-10 17:42:35 | NDA_CREATED | employee='Test Person' doc_id=1_J7174JKJLbyNfjXd6bf00I7vK7ER_JQbGdrZ5dsQ_w
+2026-06-10 17:44:16 | CONTRACT_CREATED | employee='Test Person' entity=opl type=full_time doc_id=1FcWrVbHQrRiUKoSuiXbM5B88-5ZtIf23bSotcC-gXhE
+2026-06-10 17:44:25 | NDA_CREATED | employee='Test Person' doc_id=14F6qk2hzZh65dX9Sg1FvtVvuKHQltjibmn80gLyjxHo
+2026-06-10 17:45:49 | CONTRACT_CREATED | employee='Test Person' entity=opl type=full_time doc_id=1SCYgTsVnKguSMHSB48ZqQ_DAQrM0CTaqgvwWGCDwAjc
+2026-06-10 17:45:59 | NDA_CREATED | employee='Test Person' doc_id=1Z9ksTcvZYnE90VXiX_sdDMnAgd3ctFMu1ihhsO-ap3E
+2026-06-10 17:47:18 | CONTRACT_CREATED | employee='Test Person' entity=opl type=full_time doc_id=1YPBTC-bIWx6jWTdy50JaxF2ww7MExW-aUjx58REic8M
+2026-06-10 17:47:26 | NDA_CREATED | employee='Test Person' doc_id=1ZDjqX2-nc6608vrxWyPDuEa_6txeudREkQjCVRbE4yM
+2026-06-10 17:48:29 | CONTRACT_CREATED | employee='Test Person' entity=opl type=full_time doc_id=1LcaM5PMvFnFLOyWqhcosNl7vsFNjjrbH9S-7xP-1d2g
+2026-06-10 17:48:39 | NDA_CREATED | employee='Test Person' doc_id=1bbqsU4EHnTlyE8otVbvsGH5OYinEvfqKYvyMYguqKwU
+2026-06-10 17:49:40 | CONTRACT_CREATED | employee='New Hire' entity=opl type=full_time doc_id=1DdxTEAkdz2hgtB7EisSR-NwRFsbKy1zm3ZyjqHv8E5s
+2026-06-10 17:49:50 | NDA_CREATED | employee='New Hire' doc_id=1W1Sl9n8F9TygdBTqSIbnkFOBhR_JSPa42aQEZuO1gM8
+2026-06-17 17:44:10 | CONTRACT_CREATED | employee='ZZ TEST Candidate (Contracts App — delete me)' entity=taleemabad type=full_time doc_id=1oYG96CYguqhKXQkfmtnCHk_POFpXQngAc5ltmaY4gDg
+2026-06-17 17:44:20 | NDA_CREATED | employee='ZZ TEST Candidate (Contracts App — delete me)' doc_id=1q2t6rnIpkCkijh29vYY0XdmY2doTTViMmW75KB5nHkg
+2026-06-18 17:04:41 | CONTRACT_CREATED | employee='ZZ TEST NoGender (delete me)' entity=taleemabad type=full_time doc_id=1yJudC7u-Jl5QIe-B07uIib3VQAeaW7ZibxTPBXPVouI
+2026-06-18 17:04:51 | NDA_CREATED | employee='ZZ TEST NoGender (delete me)' doc_id=1TwWKh088etVnKJqYXXueLSvJttdL7BBBnG1vOaOz2Os
+2026-06-18 17:08:25 | CONTRACT_CREATED | employee='Taloot Ahmad Malik' entity=taleemabad type=full_time doc_id=1d7USg_snJis31Ncj2bQmkn3ozdnZo0i52XUrAxvLLXU
+2026-06-18 17:08:35 | NDA_CREATED | employee='Taloot Ahmad Malik' doc_id=1YnXU5y-fJA9v1zytNemwxmS0Nh4FkEFvPvEOil9th8Q
+2026-06-18 17:19:14 | CONTRACT_CREATED | employee='ZZ TEST - OPL Full Time (delete me)' entity=opl type=full_time doc_id=1FWOIpgyAgdQZVFJ1WAZTajF3Erz2RH3JHjqjbe0PccM
+2026-06-18 17:19:25 | NDA_CREATED | employee='ZZ TEST - OPL Full Time (delete me)' doc_id=1_rrI3nFoSjY4PdrnaMrxYhVq5Q2NkOVDHJVarErbzzM
+2026-06-18 17:22:50 | CONTRACT_CREATED | employee='Taloot Ahmad Malik' entity=opl type=full_time doc_id=1TWMRLYl0ydE5agS57xSVVb6me0TE5_EFzNwowV_ebl4
+2026-06-18 17:23:01 | NDA_CREATED | employee='Taloot Ahmad Malik' doc_id=1M5vERQNAm8eX7Bcj-KEb2RMQhHR-XGR4SUuFAVwBih0
+2026-06-18 17:28:58 | CONTRACT_CREATED | employee='ZZ TEST JD (delete me)' entity=opl type=full_time doc_id=1QQ959HKjuLft08Pfgl3K16E2wr9IX6vKhErrNq7uMzE
+2026-06-18 17:29:08 | NDA_CREATED | employee='ZZ TEST JD (delete me)' doc_id=1vX7EfQ8S_YvwtWzDHVSO-3LTqEZw91UfuCaTT15w2b8
+2026-06-18 17:43:49 | CONTRACT_CREATED | employee='Taloot Ahmad Malik' entity=opl type=full_time doc_id=1D_GM6707fKNpJIatH0qzTziQXJ_73llsUnFW5ZVeqP0
+2026-06-18 17:44:01 | NDA_CREATED | employee='Taloot Ahmad Malik' doc_id=1RJfCGSOMjCisJkBepLKUYohMteGjRtwT8jlPzkSrPWo

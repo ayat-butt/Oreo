@@ -1,0 +1,39 @@
+# Payroll Skill: Monthly Payroll Sheet Creation
+
+How to create and manage monthly payroll sheets for Taleemabad office.
+
+## Overview
+- **Task:** Creating payroll sheets (e.g., March 2026, April 2026)
+- **Integration:** Google Sheets + Markaz Database (read-only)
+- **Output:** Finalized payroll sheet ready for HR approval
+
+## Step-by-Step Process
+(To be documented as we learn the workflow)
+
+### 1. Data Sources
+- [ ] Identify all data sources (Markaz, Google Sheets, etc.)
+- [ ] Document field mappings
+- [ ] Set up read-only access patterns
+
+### 2. Sheet Structure
+- [ ] Document standard payroll sheet columns
+- [ ] Define calculation formulas
+- [ ] Set up templates for recurring months
+
+### 3. Calculations
+- [ ] Basic salary calculations
+- [ ] Deductions (if applicable)
+- [ ] Bonuses/incentives (if applicable)
+- [ ] Final payroll summary
+
+### 4. Approval Workflow
+- [ ] Define approval chain
+- [ ] Set notifications
+- [ ] Archive completed sheets
+
+## Commands & Scripts
+(Payroll-specific Python scripts go here)
+
+## Related
+- See payroll/context/ for company payroll policies
+- See payroll/docs/ for API references

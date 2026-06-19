@@ -1,0 +1,36 @@
+Employee ID,Employee Name,Entity,Taxable Salary (PKR),Current Income Tax (PKR),Tax Slab Indicator
+321,Abdul Waheed,NIETE,401100.00,0.00,Below Taxable Threshold
+356,Aleeha Noor,NIETE,206280.00,0.00,Below Taxable Threshold
+108,Anam Masood,NIETE,474545.23,19501.32,Slab 3
+144,Aneela Khaliq,NIETE,191009.55,500.52,Slab 2
+195,Aown Raza,NIETE,94311.98,0.00,Below Taxable Threshold
+133,Areej Noshad,NIETE,191009.55,1270.52,Slab 2
+163,Ashas Khan,NIETE,228835.19,1084.91,Slab 2
+139,Asma Zaheer,NIETE,477500.00,15637.72,Slab 3
+199,Ayat Butt,NIETE,200550.00,455.55,Slab 2
+152,Bushra,NIETE,242661.68,3289.95,Slab 2
+135,Chaudhary Hashir Hussain Shahid,NIETE,382000.00,9206.51,Slab 2
+154,Danish Iqbal,NIETE,206461.45,2344.56,Slab 2
+114,Eysha Qadeer,NIETE,191005.73,1094.41,Slab 2
+164,Hafiz Abdul Malik,NIETE,228571.61,1393.82,Slab 2
+180,Hafsa Bashir,Digital Learning,231467.17,1675.39,Slab 2
+343,Hamza Razaq,NIETE,227290.00,0.00,Below Taxable Threshold
+254,Hamza Shahid,OWT,496600.00,5584.18,Slab 3
+159,Hamza Siddique,NIETE,191013.37,410.13,Slab 2
+127,Hareem Abid,NIETE,191001.91,1094.22,Slab 2
+183,Hareem Fatima,Digital Learning,273130.00,3901.79,Slab 2
+170,Hasnat Tariq,NIETE,391550.00,10982.53,Slab 2
+117,Hiba Anwer,NIETE,225553.81,0.00,Below Taxable Threshold
+126,Hifza Nisar,NIETE,244632.80,0.00,Below Taxable Threshold
+119,Hira Abbas,NIETE,209339.82,0.00,Below Taxable Threshold
+132,Iqra Arshad,NIETE,192035.22,0.00,Below Taxable Threshold
+149,Jamshaid Ahmad,NIETE,240977.06,0.00,Below Taxable Threshold
+358,Javeria Khalil,NIETE,221560.00,0.00,Below Taxable Threshold
+130,Javeria Nayyab,NIETE,226634.87,0.00,Below Taxable Threshold
+201,Jawwad Ali,NIETE,525250.00,0.00,Below Taxable Threshold
+123,Khadija Akbar,NIETE,191005.73,0.00,Below Taxable Threshold
+116,Mahnoor Tanweer,NIETE,580512.03,0.00,Below Taxable Threshold
+339,Maria Kareem,NIETE,227290.00,0.00,Below Taxable Threshold
+128,Maroof Anwar,NIETE,244069.35,0.00,Below Taxable Threshold
+400,Zeest Hassan Qureshi,OPL,764000.00,0.00,Below Taxable Threshold
+401,Irum Afzal,NIETE,227290.00,0.00,Below Taxable Threshold

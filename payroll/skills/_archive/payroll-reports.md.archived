@@ -1,0 +1,22 @@
+# Payroll Skill: Payroll Reports & Analytics
+
+How to generate payroll reports, summaries, and analytics for Taleemabad office.
+
+## Overview
+- **Task:** Creating payroll reports, salary summaries, and analytics
+- **Integration:** Google Sheets + Markaz Database
+- **Output:** Professional payroll reports in output/ folder
+
+## Report Types
+- [ ] Monthly salary summary
+- [ ] Department-wise payroll breakdown
+- [ ] Payroll reconciliation report
+- [ ] Salary deduction summary
+- [ ] Year-to-date payroll analysis
+
+## Report Structure
+(To be documented as we learn requirements)
+
+## Related
+- See payroll/skills/payroll-sheet-creation.md for sheet creation process
+- See payroll/context/ for report templates and standards

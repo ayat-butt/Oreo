@@ -20,36 +20,47 @@ from hr_assistant.email_service import draft_welcome_email
 # ── Fill in employee details here ─────────────────────────────────────────────
 EMPLOYEE = {
     # Required for all contract types
-    "name":             "Full CNIC Name Here",        # e.g. "Muhammad Ali Khan"
-    "cnic":             "XXXXX-XXXXXXX-X",            # e.g. "42101-1234567-9"
-    "designation":      "Designation Here",           # e.g. "Software Engineer"
-    "department":       "Department Here",            # e.g. "Technology"
-    "salary":           "XX,XXX",                     # e.g. "85,000"
-    "joining_date":     "DD Month YYYY",              # e.g. "01 April 2026"
+    "name":             "Mohammed Raiyaan Junaid Hamid",
+    "cnic":             "42301-556-7038-3",
+    "designation":      "Product Management Intern",
+    "department":       "Product",
+    "salary":           "40,000",
+    "joining_date":     "3 June 2026",
 
     # Entity: "owt" | "opl" | "taleemabad" | "orenda"
-    "entity":           "opl",
+    "entity":           "taleemabad",
 
     # Employment type: "full_time" | "project" | "part_time" | "addendum"
-    "employment_type":  "full_time",
+    "employment_type":  "project",
 
     # Required only for project / part_time contracts
-    # "start_date":     "01 April 2026",
-    # "end_date":       "30 June 2026",
-    # "duration":       "3",              # in months
+    "start_date":       "3 June 2026",
+    "end_date":         "31 August 2026",
+    "duration":         "3",              # in months
 
     # Required only for addendum
     # "prev_contract_date": "01 January 2026",
 
     # Optional: Head of Department (fills signing section)
-    # "hod_name":           "Waqas Tanveer",
-    # "hod_designation":    "Head of Growth",
+    "hod_name":           "Ahmed Javed",
+    "hod_designation":    "Head of Product",
 
     # Optional: Job Description Google Doc ID (fills Annexure A with key responsibilities)
-    # "jd_doc_id":          "1BjSeezX38b35wIUCtyFhHMZlt-jSHNGVV8jVAaCTCc0",
+    # "jd_doc_id":          "1kET0Z446Z70yFwbK6HOlUE8rEuNLbxZHyb90Ta0Ejf8",  # Permission error - will add manually
 
     # Required for welcome email draft
-    "email":            "candidate@email.com",          # candidate's personal email
+    "email":            "raiyaanjhamid@gmail.com",
+
+    # CC recipients for welcome email
+    "cc_list":          [
+        "hiring@taleemabad.com",
+        "hr@taleemabad.com",
+        "accounts.query@taleemabad.com",
+        "ahmed.javed@taleemabad.com",
+    ],
+
+    # Onboarding form link (project-based candidates)
+    "onboarding_form":  "https://docs.google.com/forms/d/e/1FAIpQLSf70SM4jlx4muDMLlN1ZMqHqVEQjJQgCBga-oRM-M1OZXCePw/viewform",
 }
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -72,7 +83,8 @@ def main():
     # Extract doc IDs from the result URLs
     contract_id = result["contract_url"].split("/d/")[1].split("/")[0]
     nda_id      = result["nda_url"].split("/d/")[1].split("/")[0] if result["nda_url"] else None
-    email_result = draft_welcome_email(drive, gmail, EMPLOYEE, contract_id, nda_id)
+    cc_list     = EMPLOYEE.get("cc_list", [])
+    email_result = draft_welcome_email(drive, gmail, EMPLOYEE, contract_id, nda_id, cc=cc_list)
 
     print("\n" + "=" * 60)
     print("REVIEW BEFORE SENDING")

@@ -1,0 +1,910 @@
+{
+  "April 2026": [
+    {
+      "Employee Name": "321",
+      "Taxable Salary": "11,619",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "356",
+      "Taxable Salary": "270",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "108",
+      "Taxable Salary": "19,501",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "144",
+      "Taxable Salary": "501",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "195",
+      "Taxable Salary": "0",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "133",
+      "Taxable Salary": "1,271",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "163",
+      "Taxable Salary": "1,085",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "139",
+      "Taxable Salary": "15,638",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "199",
+      "Taxable Salary": "456",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "152",
+      "Taxable Salary": "3,290",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "135",
+      "Taxable Salary": "9,207",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "154",
+      "Taxable Salary": "2,345",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "114",
+      "Taxable Salary": "1,094",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "164",
+      "Taxable Salary": "1,394",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "180",
+      "Taxable Salary": "1,675",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "343",
+      "Taxable Salary": "229",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "254",
+      "Taxable Salary": "22,207",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "159",
+      "Taxable Salary": "410",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "127",
+      "Taxable Salary": "1,094",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "183",
+      "Taxable Salary": "3,902",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "170",
+      "Taxable Salary": "10,983",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "117",
+      "Taxable Salary": "2,946",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "126",
+      "Taxable Salary": "4,239",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "119",
+      "Taxable Salary": "497",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "132",
+      "Taxable Salary": "415",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "149",
+      "Taxable Salary": "4,068",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "358",
+      "Taxable Salary": "221",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "130",
+      "Taxable Salary": "3,316",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "201",
+      "Taxable Salary": "25,376",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "123",
+      "Taxable Salary": "1,127",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "116",
+      "Taxable Salary": "31,807",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "339",
+      "Taxable Salary": "546",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "128",
+      "Taxable Salary": "3,501",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "156",
+      "Taxable Salary": "0",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "115",
+      "Taxable Salary": "830",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "155",
+      "Taxable Salary": "1,624",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "109",
+      "Taxable Salary": "24,772",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "178",
+      "Taxable Salary": "3,815",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "158",
+      "Taxable Salary": "3,688",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "148",
+      "Taxable Salary": "4,071",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "140",
+      "Taxable Salary": "453",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "107",
+      "Taxable Salary": "44,050",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "172",
+      "Taxable Salary": "3,285",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "330",
+      "Taxable Salary": "853",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "336",
+      "Taxable Salary": "451",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "146",
+      "Taxable Salary": "1,790",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "167",
+      "Taxable Salary": "1,223",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "113",
+      "Taxable Salary": "3,826",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "189",
+      "Taxable Salary": "1,512",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "161",
+      "Taxable Salary": "3,357",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "177",
+      "Taxable Salary": "3,815",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "162",
+      "Taxable Salary": "3,441",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "138",
+      "Taxable Salary": "1,191",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "176",
+      "Taxable Salary": "7,548",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "363",
+      "Taxable Salary": "171",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "120",
+      "Taxable Salary": "4,160",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "106",
+      "Taxable Salary": "1,918",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "118",
+      "Taxable Salary": "492",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "347",
+      "Taxable Salary": "998",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "166",
+      "Taxable Salary": "2,611",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "237",
+      "Taxable Salary": "5,985",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "165",
+      "Taxable Salary": "481",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "103",
+      "Taxable Salary": "24,774",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "134",
+      "Taxable Salary": "3,893",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "344",
+      "Taxable Salary": "0",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "340",
+      "Taxable Salary": "549",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "175",
+      "Taxable Salary": "3,844",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "121",
+      "Taxable Salary": "515",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "143",
+      "Taxable Salary": "3,560",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "111",
+      "Taxable Salary": "1,585",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "186",
+      "Taxable Salary": "3,593",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "348",
+      "Taxable Salary": "452",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "194",
+      "Taxable Salary": "0",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "174",
+      "Taxable Salary": "3,814",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "355",
+      "Taxable Salary": "324",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "136",
+      "Taxable Salary": "1,108",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "125",
+      "Taxable Salary": "877",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "196",
+      "Taxable Salary": "0",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "349",
+      "Taxable Salary": "495",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "338",
+      "Taxable Salary": "581",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "367",
+      "Taxable Salary": "0",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "368",
+      "Taxable Salary": "0",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "373",
+      "Taxable Salary": "0",
+      "Income Tax": "75,366"
+    }
+  ],
+  "March 2026": [
+    {
+      "Employee Name": "321",
+      "Taxable Salary": "11,619",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "356",
+      "Taxable Salary": "270",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "108",
+      "Taxable Salary": "19,501",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "144",
+      "Taxable Salary": "501",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "195",
+      "Taxable Salary": "0",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "133",
+      "Taxable Salary": "1,271",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "163",
+      "Taxable Salary": "1,085",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "139",
+      "Taxable Salary": "15,638",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "199",
+      "Taxable Salary": "456",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "152",
+      "Taxable Salary": "3,290",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "135",
+      "Taxable Salary": "9,207",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "154",
+      "Taxable Salary": "2,345",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "114",
+      "Taxable Salary": "1,094",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "164",
+      "Taxable Salary": "1,394",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "180",
+      "Taxable Salary": "1,675",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "343",
+      "Taxable Salary": "229",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "254",
+      "Taxable Salary": "22,207",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "159",
+      "Taxable Salary": "410",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "127",
+      "Taxable Salary": "1,094",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "183",
+      "Taxable Salary": "3,902",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "170",
+      "Taxable Salary": "10,983",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "117",
+      "Taxable Salary": "2,946",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "126",
+      "Taxable Salary": "4,239",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "119",
+      "Taxable Salary": "497",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "132",
+      "Taxable Salary": "415",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "149",
+      "Taxable Salary": "4,068",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "358",
+      "Taxable Salary": "221",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "130",
+      "Taxable Salary": "3,316",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "201",
+      "Taxable Salary": "25,376",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "123",
+      "Taxable Salary": "1,127",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "116",
+      "Taxable Salary": "31,807",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "339",
+      "Taxable Salary": "546",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "128",
+      "Taxable Salary": "3,501",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "156",
+      "Taxable Salary": "0",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "115",
+      "Taxable Salary": "830",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "155",
+      "Taxable Salary": "1,624",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "109",
+      "Taxable Salary": "24,772",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "178",
+      "Taxable Salary": "3,815",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "158",
+      "Taxable Salary": "3,688",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "148",
+      "Taxable Salary": "4,071",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "140",
+      "Taxable Salary": "453",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "107",
+      "Taxable Salary": "44,050",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "172",
+      "Taxable Salary": "3,285",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "330",
+      "Taxable Salary": "853",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "336",
+      "Taxable Salary": "451",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "146",
+      "Taxable Salary": "1,790",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "167",
+      "Taxable Salary": "1,223",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "113",
+      "Taxable Salary": "3,826",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "189",
+      "Taxable Salary": "1,512",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "161",
+      "Taxable Salary": "3,357",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "177",
+      "Taxable Salary": "3,815",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "162",
+      "Taxable Salary": "3,441",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "138",
+      "Taxable Salary": "1,191",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "176",
+      "Taxable Salary": "7,548",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "363",
+      "Taxable Salary": "171",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "120",
+      "Taxable Salary": "4,160",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "106",
+      "Taxable Salary": "1,918",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "118",
+      "Taxable Salary": "492",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "347",
+      "Taxable Salary": "998",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "166",
+      "Taxable Salary": "2,611",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "237",
+      "Taxable Salary": "5,985",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "165",
+      "Taxable Salary": "481",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "103",
+      "Taxable Salary": "24,774",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "134",
+      "Taxable Salary": "3,893",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "344",
+      "Taxable Salary": "0",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "340",
+      "Taxable Salary": "549",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "175",
+      "Taxable Salary": "3,844",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "131",
+      "Taxable Salary": "0",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "121",
+      "Taxable Salary": "515",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "143",
+      "Taxable Salary": "3,560",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "111",
+      "Taxable Salary": "1,585",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "186",
+      "Taxable Salary": "3,593",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "348",
+      "Taxable Salary": "452",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "194",
+      "Taxable Salary": "0",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "174",
+      "Taxable Salary": "3,814",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "355",
+      "Taxable Salary": "324",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "136",
+      "Taxable Salary": "1,108",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "125",
+      "Taxable Salary": "877",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "196",
+      "Taxable Salary": "0",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "349",
+      "Taxable Salary": "495",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "338",
+      "Taxable Salary": "581",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "367",
+      "Taxable Salary": "0",
+      "Income Tax": "0"
+    },
+    {
+      "Employee Name": "368",
+      "Taxable Salary": "0",
+      "Income Tax": "0"
+    }
+  ],
+  "Tax Working Sheet": [
+    [
+      "Sr. No.",
+      "Tax Law",
+      "Slab",
+      " Slab Min/Start ",
+      " Slab Max/End ",
+      " Fixed Tax ",
+      "Slab Rate"
+    ],
+    [
+      "BTL",
+      "",
+      "NIL",
+      "  -   ",
+      "  -   ",
+      "  -   ",
+      "  -   "
+    ],
+    [
+      "1",
+      "",
+      "<600,000",
+      "  -   ",
+      "  600,000 ",
+      "  -   ",
+      "0.00%"
+    ],
+    [
+      "2",
+      "",
+      "600,001-1,200,000",
+      "  600,001 ",
+      "  1,200,000 ",
+      "  -   ",
+      "1.00%"
+    ],
+    [
+      "3",
+      "",
+      "1,200,001-2,200,000",
+      "  1,200,001 ",
+      "  2,200,000 ",
+      "  6,000 ",
+      "11.00%"
+    ],
+    [
+      "4",
+      "",
+      "2,200,001-3,200,0000",
+      "  2,200,001 ",
+      "  3,200,000 ",
+      "  116,000 ",
+      "23.00%"
+    ],
+    [
+      "5",
+      "",
+      "3,200,001-4,100,000",
+      "  3,200,001 ",
+      "  4,100,000 ",
+      "  346,000 ",
+      "30.00%"
+    ],
+    [
+      "6",
+      "",
+      "4100001- Above",
+      "  4,100,001 ",
+      " Above ",
+      "  616,000 ",
+      "35.00%"
+    ]
+  ]
+}

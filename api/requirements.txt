@@ -17,8 +17,7 @@ google-auth-httplib2>=0.2.0
 anthropic>=0.40.0
 
 # Auth / web
-authlib>=1.3                  # Google SSO (OAuth2 authorization code)
+httpx>=0.27                   # Google SSO token exchange (api/auth/sso.py)
 PyJWT>=2.8                    # app session JWT
 tenacity>=8.2                 # Google API backoff
 python-dotenv>=1.0
-sentry-sdk[fastapi]>=2.0      # error tracking (optional)

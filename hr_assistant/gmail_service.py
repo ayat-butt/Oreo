@@ -50,6 +50,28 @@ def get_unread_emails(gmail: Resource, max_results: int = 20) -> list[dict]:
     return emails
 
 
+def search_emails(gmail: Resource, query: str, max_results: int = 10) -> list[dict]:
+    """Search Gmail by query string. Returns list of parsed email dicts."""
+    results = gmail.users().messages().list(
+        userId="me",
+        q=query,
+        maxResults=max_results,
+    ).execute()
+
+    messages = results.get("messages", [])
+    emails = []
+
+    for msg_ref in messages:
+        msg = gmail.users().messages().get(
+            userId="me",
+            id=msg_ref["id"],
+            format="full",
+        ).execute()
+        emails.append(_parse_email(msg))
+
+    return emails
+
+
 def _parse_email(msg: dict) -> dict:
     """Parse a Gmail API message into a clean dict."""
     headers = {h["name"]: h["value"] for h in msg["payload"].get("headers", [])}

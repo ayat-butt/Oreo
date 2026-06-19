@@ -1,0 +1,204 @@
+================================================================================
+                   TAX VERIFICATION DATA EXTRACTION REPORT
+                               April 28, 2026
+================================================================================
+
+PROJECT OVERVIEW
+================================================================================
+Successfully extracted employee income tax data from three Google Sheets for
+income tax verification and analysis purposes.
+
+EXTRACTION SOURCES
+================================================================================
+1. April 2026 Payroll Sheet
+   URL: https://docs.google.com/spreadsheets/d/1Cw3gIDpaMmhoJmo9rqN_f3KRwmTm9zR8cynDXrBN7aA/edit?gid=1424468564
+   Sheet ID: 1Cw3gIDpaMmhoJmo9rqN_f3KRwmTm9zR8cynDXrBN7aA
+   Status: [OK] Successfully extracted
+
+2. March 2026 Payroll Sheet
+   URL: https://docs.google.com/spreadsheets/d/1kr1q79P6tU5BSep_OWfSkjtmPeI5Uk_5at4a-KMQzDk/edit?gid=1424468564
+   Sheet ID: 1kr1q79P6tU5BSep_OWfSkjtmPeI5Uk_5at4a-KMQzDk
+   Status: [OK] Successfully extracted
+
+3. Tax Working Sheet (Finance)
+   URL: https://docs.google.com/spreadsheets/d/1nw09utC0x3WFsTEM2Qj548y289FUoccPTW3jft3LeFs/edit?gid=1035373631
+   Sheet ID: 1nw09utC0x3WFsTEM2Qj548y289FUoccPTW3jft3LeFs
+   Status: [OK] Successfully extracted (tax slabs reference)
+
+================================================================================
+APRIL 2026 PAYROLL - TAX DATA SUMMARY
+================================================================================
+
+Total Employees:                83 employees
+Total Taxable Salary:           368,605.00 PKR
+Total Income Tax:                75,366.00 PKR
+Overall Tax Rate:               20.45%
+Employees with Tax > 0:         1 employee (Employee ID: 373)
+
+Key Observation:
+  - Employee 373 shows all 75,366 PKR as income tax
+  - All other 82 employees show 0 income tax
+  - This requires verification - may indicate special tax category or error
+
+Taxable Salary Range (Excluding Zeros):
+  - Highest:                    44,050.00 PKR (Employee 107)
+  - Lowest:                     170.00 PKR (Employee 363)
+  - Average:                    4,434.52 PKR per employee
+
+================================================================================
+MARCH 2026 PAYROLL - TAX DATA SUMMARY
+================================================================================
+
+Total Employees:                83 employees
+Total Taxable Salary:           368,605.00 PKR
+Total Income Tax:                0.00 PKR
+Overall Tax Rate:               0.00%
+Employees with Tax > 0:         0 employees
+
+Key Observation:
+  - All employees show 0 income tax for March 2026
+  - Identical taxable salaries compared to April (except Employee 131)
+  - Employee 131 is present in March but missing in April
+
+Comparison:
+  - No salary changes detected for 82 employees
+  - Employee 131: Absent in April (possible resignation/termination)
+
+================================================================================
+TAX WORKING SHEET - REFERENCE DATA
+================================================================================
+
+Tax Slab Structure (2025-2026):
+
+Slab    Income Range           Fixed Tax   Rate
+─────────────────────────────────────────────────
+BTL     —                      —           —
+1       Below 600,000          —           0.00%
+2       600,001–1,200,000      —           1.00%
+3       1,200,001–2,200,000    6,000       11.00%
+4       2,200,001–3,200,000    116,000     23.00%
+5       3,200,001–4,100,000    346,000     30.00%
+6       4,100,001+             616,000     35.00%
+
+All taxable salaries extracted fall under Slab 1 (Below 600,000), which has
+0.00% tax rate. This explains why most employees show zero tax.
+
+================================================================================
+GENERATED OUTPUT FILES
+================================================================================
+
+1. tax_verification_data_20260428_100610.json
+   - Complete raw data in JSON format
+   - Contains all extracted employee records from both payroll sheets
+   - Includes Tax Working Sheet reference data
+   - Size: 19 KB
+
+2. April_2026_tax_verification.csv
+   - Employee ID | Taxable Salary | Income Tax | Tax Rate
+   - 83 employee records + totals
+   - Includes calculated tax rates per employee
+   - Size: 2.1 KB
+
+3. March_2026_tax_verification.csv
+   - Employee ID | Taxable Salary | Income Tax | Tax Rate
+   - 83 employee records + totals
+   - Format identical to April for easy comparison
+   - Size: 2.1 KB
+
+4. tax_verification_comparison.csv
+   - Side-by-side April vs March comparison
+   - Columns: Salary Change | Tax Change | Status
+   - Highlights all differences between months
+   - 83 employee records + comparison totals
+   - Size: 3.9 KB
+
+================================================================================
+KEY FINDINGS & VERIFICATION NOTES
+================================================================================
+
+1. CRITICAL - Tax Anomaly (Employee 373):
+   - All income tax (75,366 PKR) is assigned to Employee 373 in April
+   - Employee 373 shows 0 taxable salary but 75,366 income tax
+   - Possible scenarios:
+     a) Employee 373 is a tax payee account for the organization
+     b) Data entry error or formula issue
+     c) Special tax settlement or adjustment entry
+   ACTION: Verify the nature of Employee 373 and income tax entry
+
+2. Zero Tax Rate Explanation:
+   - All 82 employees have taxable salary < 600,000 PKR
+   - Under Slab 1 (Below 600,000), tax rate is 0.00%
+   - This is mathematically correct per tax slabs
+   ACTION: Confirm if additional tax deductions or exemptions apply
+
+3. March vs April Stability:
+   - Identical taxable salaries for 82 common employees
+   - No payroll changes except for Employee 131 (missing in April)
+   - Suggests consistent payroll with one employee transition
+   ACTION: Verify Employee 131 employment status change
+
+4. Employee ID Format:
+   - Employee records use numeric IDs (103, 106, 107, etc.)
+   - No actual employee names in payroll sheets
+   - IDs appear to be system-generated
+   ACTION: Cross-reference with HR system for employee name mapping
+
+================================================================================
+VERIFICATION CHECKLIST
+================================================================================
+
+[X] April 2026 Payroll extracted (83 employees, Columns A/R/S)
+[X] March 2026 Payroll extracted (83 employees, Columns A/R/S)
+[X] Tax Working Sheet extracted (6 tax slabs + BTL)
+[X] Totals calculated and verified
+[X] Comparison analysis completed
+[X] CSV files generated for analysis
+[X] Anomalies identified and documented
+[ ] Cross-reference with bank/government tax records (pending)
+[ ] Verify Employee 373 special status (pending)
+[ ] Confirm Employee 131 employment status (pending)
+
+================================================================================
+RECOMMENDATIONS
+================================================================================
+
+1. Investigate Employee 373:
+   - Determine if this is a legitimate tax entry
+   - Check if Employee 373 is a consolidated account or error
+   - Reconcile with actual employee roster
+
+2. Employee Name Mapping:
+   - The exported data uses numeric IDs instead of names
+   - Maintain a mapping document for human verification
+   - Consider extracting employee names from Column B or other columns
+
+3. Tax Compliance:
+   - Verify total tax amount (75,366 PKR) with government records
+   - Ensure Slab 1 tax rate (0%) is correctly applied
+   - Confirm no additional mandatory deductions were missed
+
+4. Payroll Continuity:
+   - Document Employee 131 employment status (March vs April discrepancy)
+   - Update employee roster if termination/resignation confirmed
+   - Maintain change log for payroll audit trail
+
+================================================================================
+TECHNICAL DETAILS
+================================================================================
+
+Extraction Method:  Google Sheets API v4 (spreadsheets.values.get)
+Authentication:     OAuth 2.0 (google-auth-oauthlib)
+Data Format:        CSV + JSON
+Processing:         Python 3.12 with pandas library
+Date Extracted:     April 28, 2026, 10:06 AM PKT
+Total Records:      166 employees (83 x 2 months)
+
+Files Location: c:\Agent Oreo\
+- tax_verification_data_20260428_100610.json
+- April_2026_tax_verification.csv
+- March_2026_tax_verification.csv
+- tax_verification_comparison.csv
+
+================================================================================
+END OF REPORT
+================================================================================

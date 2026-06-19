@@ -1,38 +1,55 @@
 # HR Assistant Agent
 
 AI-powered HR assistant that connects to Gmail, Google Calendar, and Microsoft Teams
-to automate email categorisation, reply drafting, document generation, and meeting scheduling.
+to automate email categorization, reply drafting, document generation, and meeting scheduling.
 
-## Current Focus
-Baby Step 1 — Verify all integrations connect successfully (Gmail → Calendar → Teams).
+## What This Is
+- **Project:** HR automation framework with Google Workspace + Claude integration
+- **Status:** Active — Gmail/Calendar/Drive connected, Teams pending
+- **Focus:** Onboarding, contracts, payroll, probation tracking, email management
 
-## Key Rules
-1. ALWAYS read docs/setup-status.md before any task to know what is connected.
-2. NEVER write to any mailbox or calendar without explicit user confirmation first.
-3. Read skills/ for HOW to do tasks. Read docs/ for API reference. Read context/ for background.
-4. Save every new learning to memory.md immediately — do not wait until end of session.
-5. Output all generated documents to the output/ folder.
+## How to Use This CLAUDE.md
 
-## Integrations (check docs/setup-status.md for live status)
-- Gmail API       → skills/email-categorisation.md
-- Google Calendar → skills/calendar-events.md
-- Microsoft Teams → skills/teams-messaging.md
+**Level 1 (You are here):** Project overview and navigation  
+**Level 2 (Subdirectories):** Context-specific rules for hr_assistant/, payroll/, skills/  
+**Level 3 (.claude/ folder):** Detailed rules and skill triggers  
+**Live status:** Check docs/setup-status.md before any integration task
 
-## HR Task Skills
-- Categorise emails  → skills/email-categorisation.md
-- Draft replies      → skills/reply-drafting.md
-- Draft documents    → skills/document-drafting.md
-- Create events      → skills/calendar-events.md
-- Teams messages     → skills/teams-messaging.md
+## Key Commands
 
-## My Preferences
-- Reports as Markdown in output/ folder
-- Professional but warm tone in all HR communications
-- Always show a preview before saving or sending anything
-- Date format: YYYY-MM-DD  |  Company name from .env COMPANY_NAME
+```bash
+python main.py                    # Run HR assistant
+python fetch_sheets_data.py       # Read any Google Sheet
+python lunar_agent.py             # Run probation tracker (Mon-Fri 9:30 AM)
+python draft_contract.py          # Draft onboarding contracts
+```
 
-## Quick Reference
-- Environment variables: see .env.example
-- Step-by-step setup:    see context/onboarding-roadmap.md
-- API patterns:          see docs/
-- Accumulated learnings: see memory.md
+## Global Rules
+
+1. **Always preview before sending:** Preview emails, calendar invites, and document changes
+2. **Save learnings immediately:** Update memory.md after every non-trivial discovery
+3. **Output reports to output/:** All generated documents → output/ folder
+4. **Read integration status first:** Check docs/setup-status.md for what's connected
+5. **Payroll is isolated:** Keyword "PAYROLL" triggers complete isolation → payroll/ folder only
+
+## Navigation
+
+| Need | Go To | Load |
+|------|-------|------|
+| Email automation | [skills/email-categorisation.md](skills/email-categorisation.md) | When working with Gmail |
+| Draft documents | [hr_assistant/CLAUDE.md](hr_assistant/CLAUDE.md) | When creating contracts/emails |
+| Payroll operations | [payroll/CLAUDE.md](payroll/CLAUDE.md) | When keyword "PAYROLL" appears |
+| Sheet operations | [docs/sheet-operations.md](docs/sheet-operations.md) | When reading/writing Google Sheets |
+| API patterns | [docs/](docs/) | For integration details |
+| Project learnings | [memory.md](memory.md) | Persistent knowledge across sessions |
+
+## Code Style
+
+- Python: Follow PEP 8, type hints, clear variable names
+- Markdown: H1 = file title, H2 = sections, lists for steps
+- Dates: YYYY-MM-DD format always
+- Company info: Load from .env COMPANY_NAME
+
+---
+**Last updated:** 2026-05-12  
+**See also:** [Project Structure & Token Optimization](memory.md)
