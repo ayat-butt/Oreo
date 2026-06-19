@@ -1,18 +1,29 @@
+# Root requirements — used by BOTH the CLI and the Railway web build.
+# Self-contained (no -r includes) so Railway's default `pip install -r requirements.txt` works.
+
 # AI
 anthropic>=0.40.0
 
 # Google Workspace
 google-api-python-client>=2.0.0
+google-auth>=2.0.0
 google-auth-oauthlib>=1.0.0
 google-auth-httplib2>=0.2.0
 
-# Microsoft Teams (Graph API)
+# Web backend (FastAPI on Railway)
+fastapi>=0.110
+uvicorn[standard]>=0.29
+pydantic>=2.6
+pydantic-settings>=2.2
+SQLAlchemy>=2.0
+psycopg2-binary>=2.9
+httpx>=0.27
+PyJWT>=2.8
+tenacity>=8.2
+
+# Microsoft Teams (CLI only)
 msal>=1.28.0
 requests>=2.31.0
 
 # Utilities
 python-dotenv>=1.0.0
-
-# Contracts web app (FastAPI backend) — ensures Railway installs the web stack
-# even if it builds from this root requirements.txt instead of nixpacks.toml.
--r api/requirements.txt
