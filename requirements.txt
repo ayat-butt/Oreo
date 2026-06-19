@@ -12,3 +12,7 @@ requests>=2.31.0
 
 # Utilities
 python-dotenv>=1.0.0
+
+# Contracts web app (FastAPI backend) — ensures Railway installs the web stack
+# even if it builds from this root requirements.txt instead of nixpacks.toml.
+-r api/requirements.txt
