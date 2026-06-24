@@ -228,9 +228,6 @@ export default function FormPage({ params }: { params: { id: string } }) {
                      hint="Project contracts only — appears in the Offer Acceptance section.">
                 <input className={inputClass} value={f.direct_report} onChange={(e) => set("direct_report", e.target.value)} />
               </Field>
-              <Field label="Coordination & Indirect Report to" source="Manual">
-                <input className={inputClass} value={f.indirect_report} onChange={(e) => set("indirect_report", e.target.value)} />
-              </Field>
             </>
           )}
         </Section>

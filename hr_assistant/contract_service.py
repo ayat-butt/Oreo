@@ -187,12 +187,13 @@ def _bold_contract(docs: Resource, doc_id: str, emp: dict) -> None:
     rules: list[tuple] = [
         # Header — labels only
         (lambda t: t.startswith("Date:") and "Private & Confidential" in t, ["Date:", "CNIC:"]),
+        (lambda t: t.startswith("CNIC:"), ["CNIC:"]),   # standalone CNIC line (opl_project)
         (lambda t: t.startswith("Name:"), ["Name:"]),
         # First paragraph — name only (not the parentheticals), plus key identifiers
         (lambda t: "is pleased to offer" in t,
          [f"{sal} {name}", desig, f"{dept} Team", f"{dept} Department", "Orenda", jdate]),
-        # Offer acceptance — name + CNIC
-        (lambda t: t.lstrip().startswith("I,") and "CNIC" in t, [name, cnic]),
+        # Offer acceptance — name + CNIC + joining date
+        (lambda t: t.lstrip().startswith("I,") and "CNIC" in t, [name, cnic, jdate]),
         # Compensation — salary figure
         (lambda t: ("Gross Salary" in t) or ("PKR" in t and "/month" in t),
          [f"PKR {salary}"] if salary else []),
@@ -407,10 +408,15 @@ def _jd_text_to_items(raw: str) -> list[tuple[str, bool]]:
         stripped = t.lstrip("•-*• ").strip()
         if not stripped:
             continue
+        # Skip a "(Key) Responsibilities" heading/intro — the template already has that heading.
+        low = stripped.lower()
+        if low.startswith("key responsibilities") or low.startswith("responsibilities"):
+            continue
         if stripped.endswith(":") and len(stripped) <= 70:
-            items.append((stripped, True))            # sub-heading → bold
+            items.append((stripped, True))   # sub-heading → bold
         else:
-            items.append((f"• {stripped}", False))  # bullet
+            # No manual "•" — the inserted lines inherit the template's bullet list.
+            items.append((stripped, False))
     return items
 
 
@@ -779,9 +785,8 @@ def _replacements(template_key: str, emp: dict) -> list[tuple[str, str]]:
             ("join Orenda XYZ (joining date)",           f"join Orenda on {joining_date}"),
             # Employer signatory = Head of Department (entered in the form)
             ("EMPLOYER NAME DESIGNATION",                f"{hod_name}\n{hod_desig}"),
-            # Reporting lines (manual entry for project contracts)
+            # Reporting line (manual entry for project contracts)
             ("Direct Report to: ",                       f"Direct Report to: {direct_rep}"),
-            ("Coordination & Indirect Report to: ",      f"Coordination & Indirect Report to: {indirect_rep}"),
             # NOTE: leave policy is fixed legal text — updated directly in the template
             # (single "Unlimited trust-based leaves" clause), not patched here.
         ]
