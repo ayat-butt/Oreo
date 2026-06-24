@@ -88,6 +88,8 @@ class EmpModel(BaseModel):
     # signing / JD / clauses
     hod_name: str | None = None
     hod_designation: str | None = None
+    direct_report: str | None = None        # project: "Direct Report to"
+    indirect_report: str | None = None      # project: "Coordination & Indirect Report to"
     jd_doc_id: str | None = None
     jd_text: str | None = None            # pasted/Markaz JD text → Annexure-A
     is_transition: bool = False

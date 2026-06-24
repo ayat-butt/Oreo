@@ -428,9 +428,10 @@ def _insert_jd_into_annexure(docs: Resource, contract_id: str, jd_items: list[tu
             pe.get("textRun", {}).get("content", "")
             for pe in el["paragraph"].get("elements", [])
         ).strip()
-        if text in ("Key Responsibilities", "Key Responsibilities:") and kr_idx is None:
+        # Match flexibly: some templates combine it as "Job Description: Key Responsibilities:"
+        if "Key Responsibilities" in text and kr_idx is None:
             kr_idx = el["endIndex"]
-        elif text in ("Job Description:", "Job Description") and jd_idx is None:
+        elif text.startswith("Job Description") and jd_idx is None:
             jd_idx = el["endIndex"]
     # Prefer inserting right after "Key Responsibilities"; fall back to "Job Description"
     insert_idx = kr_idx if kr_idx is not None else jd_idx
@@ -648,6 +649,24 @@ def _joining_line(emp: dict) -> str:
     return ""
 
 
+# ── Date format helpers ───────────────────────────────────────────────────────
+
+def _ordinal(n: int) -> str:
+    suffix = "th" if 11 <= n % 100 <= 13 else {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
+    return f"{n}{suffix}"
+
+
+def _day_of(s: str) -> str:
+    """'1 July 2026' → '1st day of July, 2026' (the project-contract term format)."""
+    for fmt in ("%d %B %Y", "%d %b %Y", "%Y-%m-%d"):
+        try:
+            d = datetime.strptime(s.strip(), fmt)
+            return f"{_ordinal(d.day)} day of {d.strftime('%B')}, {d.year}"
+        except (ValueError, AttributeError):
+            continue
+    return s  # leave as-is if it doesn't parse
+
+
 # ── Placeholder maps per template ─────────────────────────────────────────────
 
 def _replacements(template_key: str, emp: dict) -> list[tuple[str, str]]:
@@ -663,6 +682,10 @@ def _replacements(template_key: str, emp: dict) -> list[tuple[str, str]]:
     duration     = emp.get("duration", "")
     sal          = _salutation(emp)
     j_line       = _joining_line(emp)
+    hod_name     = emp.get("hod_name", "")
+    hod_desig    = emp.get("hod_designation", "")
+    direct_rep   = emp.get("direct_report", "")
+    indirect_rep = emp.get("indirect_report", "")
 
     # ── NDAs ─────────────────────────────────────────────────────────────────
     if template_key in ("nda_full_time", "nda_project"):
@@ -739,8 +762,8 @@ def _replacements(template_key: str, emp: dict) -> list[tuple[str, str]]:
             ("Mr./Mrs.",                                 sal),
             ("EMPLOYEE NAME",                            name),
             ("X Y Z",                                    cnic),
-            # Term dates (exact spacing matters)
-            ("DATE, MONTH, YEAR to DATE, MONTH , YEAR",  f"{start_date} to {end_date}"),
+            # Term dates — "Xth day of Month, Year" format
+            ("DATE, MONTH, YEAR to DATE, MONTH , YEAR",  f"{_day_of(start_date)} to {_day_of(end_date)}"),
             # Designation (table label; value cell is blank → append after the colon)
             ("Designation:",                             f"Designation: {designation}"),
             # Duration (template has two spaces before XYZ)
@@ -754,8 +777,13 @@ def _replacements(template_key: str, emp: dict) -> list[tuple[str, str]]:
             # Offer-acceptance line: "I, NAME, bearing CNIC # XYZ … will join Orenda XYZ (joining date)."
             ("bearing CNIC # XYZ",                       f"bearing CNIC # {cnic}"),
             ("join Orenda XYZ (joining date)",           f"join Orenda on {joining_date}"),
-            # Employer signatory left blank (filled by hand at signing, like the full-time template)
-            ("EMPLOYER NAME DESIGNATION",                ""),
+            # Employer signatory = Head of Department (entered in the form)
+            ("EMPLOYER NAME DESIGNATION",                f"{hod_name}\n{hod_desig}"),
+            # Reporting lines (manual entry for project contracts)
+            ("Direct Report to: ",                       f"Direct Report to: {direct_rep}"),
+            ("Coordination & Indirect Report to: ",      f"Coordination & Indirect Report to: {indirect_rep}"),
+            # NOTE: leave policy is fixed legal text — updated directly in the template
+            # (single "Unlimited trust-based leaves" clause), not patched here.
         ]
 
     # ── Taleemabad Inc ────────────────────────────────────────────────────────
@@ -857,10 +885,12 @@ def draft_contracts(drive: Resource, docs: Resource, emp: dict) -> dict:
     # 3b. Offer acceptance placeholders (NAME / CNIC)
     _fill_offer_acceptance(docs, contract_id, emp["name"], emp["cnic"])
 
-    # 3c. HoD signing block (name + designation + today's date, surgical)
+    # 3c. HoD signing block (name + designation + today's date, surgical).
+    #     Skip for opl_project — it fills its signatory via the "EMPLOYER NAME DESIGNATION"
+    #     token; the generic bare-"Designation" replacement would corrupt its table label.
     hod_name = emp.get("hod_name", "")
     hod_designation = emp.get("hod_designation", "")
-    if hod_name or hod_designation:
+    if (hod_name or hod_designation) and contract_key != "opl_project":
         _fill_hod_block(docs, contract_id, hod_name, hod_designation, today_str)
 
     # 3d. Internal transition → remove the probation clause
@@ -881,8 +911,11 @@ def draft_contracts(drive: Resource, docs: Resource, emp: dict) -> dict:
         _insert_jd_into_annexure(docs, contract_id, jd_items)
         print(f"  Inserted JD ({len(jd_items)} items) into Annexure A")
 
-    # 3f. Page breaks: Offer Acceptance + Annexure-A each start on a new page
-    _insert_page_breaks(docs, contract_id)
+    # 3f. Page breaks: Offer Acceptance + Annexure-A each start on a new page.
+    #     opl_project already uses section breaks for this — inserting page breaks there
+    #     would double up and leave a blank page, so skip it.
+    if contract_key != "opl_project":
+        _insert_page_breaks(docs, contract_id)
 
     # 3g. Bold contract fields per standards (segment-aware)
     _bold_contract(docs, contract_id, emp)

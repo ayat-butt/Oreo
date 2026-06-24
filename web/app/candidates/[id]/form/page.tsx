@@ -24,6 +24,7 @@ type Form = {
   salary: string; joining_date: string; start_date: string; end_date: string;
   duration: string; prev_contract_date: string;
   hod_name: string; hod_designation: string; jd_doc_id: string; jd_text: string;
+  direct_report: string; indirect_report: string;
   is_transition: boolean; cc_list: string;
 };
 
@@ -32,7 +33,8 @@ const EMPTY: Form = {
   entity: "", employment_type: "", gender: "",
   salary: "", joining_date: "", start_date: "", end_date: "",
   duration: "", prev_contract_date: "", hod_name: "", hod_designation: "",
-  jd_doc_id: "", jd_text: "", is_transition: false, cc_list: "",
+  jd_doc_id: "", jd_text: "", direct_report: "", indirect_report: "",
+  is_transition: false, cc_list: "",
 };
 
 export default function FormPage({ params }: { params: { id: string } }) {
@@ -104,6 +106,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
       entity: f.entity, employment_type: f.employment_type,
       gender: f.gender || null, is_transition: f.is_transition,
       hod_name: f.hod_name || null, hod_designation: f.hod_designation || null,
+      direct_report: f.direct_report || null, indirect_report: f.indirect_report || null,
       jd_doc_id: f.jd_doc_id || null, jd_text: f.jd_text || null, email: f.email || null,
       cc_list: f.cc_list ? f.cc_list.split(",").map((s) => s.trim()).filter(Boolean) : null,
     };
@@ -219,6 +222,17 @@ export default function FormPage({ params }: { params: { id: string } }) {
           <Field label="HoD designation" source="Manual">
             <input className={inputClass} value={f.hod_designation} onChange={(e) => set("hod_designation", e.target.value)} />
           </Field>
+          {isProject && (
+            <>
+              <Field label="Direct Report to (line manager)" source="Manual"
+                     hint="Project contracts only — appears in the Offer Acceptance section.">
+                <input className={inputClass} value={f.direct_report} onChange={(e) => set("direct_report", e.target.value)} />
+              </Field>
+              <Field label="Coordination & Indirect Report to" source="Manual">
+                <input className={inputClass} value={f.indirect_report} onChange={(e) => set("indirect_report", e.target.value)} />
+              </Field>
+            </>
+          )}
         </Section>
 
         <Section title="Job description & clauses">
