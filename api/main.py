@@ -16,9 +16,14 @@ from api.auth import sso
 
 app = FastAPI(title="COCO Contracts API", version="0.1.0")
 
+# Allowed browser origins: the configured list + FRONTEND_URL (trailing slashes stripped),
+# plus a regex covering this project's Vercel deployments (production + preview/branch URLs).
+_allowed_origins = {o.rstrip("/") for o in settings.cors_origins}
+_allowed_origins.add(settings.FRONTEND_URL.rstrip("/"))
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.cors_origins,
+    allow_origins=sorted(_allowed_origins),
+    allow_origin_regex=r"https://oreo[-a-z0-9]*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
