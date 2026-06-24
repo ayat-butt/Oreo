@@ -1,15 +1,16 @@
 """Candidates (offer pipeline) — read-only from Markaz, grouped for the dashboard.
 
-NOTE: auth is not yet wired (Phase 1 SSO). These endpoints will be protected by the
-`current_user` dependency once the Google OAuth client exists.
+Protected by Google SSO (current_user): only allowlisted P&C members can read candidate data.
 """
 
 from collections import defaultdict
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 
 from hr_assistant import markaz_db
 from api.schemas import CandidatesResponse, DepartmentGroup, PipelineCandidate, CandidateDetail
 from api.services import enrichment
+from api.auth.deps import current_user
+from api.db.models import AppUser
 
 router = APIRouter(prefix="/candidates", tags=["candidates"])
 
@@ -36,7 +37,7 @@ def _to_card(row: dict) -> PipelineCandidate:
 
 
 @router.get("", response_model=CandidatesResponse)
-def list_candidates():
+def list_candidates(user: AppUser = Depends(current_user)):
     """Offer/hired candidates grouped by department, ready-to-draft first."""
     rows = markaz_db.get_offer_pipeline()
     cards = [_to_card(r) for r in rows]
@@ -57,7 +58,7 @@ def list_candidates():
 
 
 @router.get("/{application_id}", response_model=CandidateDetail)
-def candidate_detail(application_id: int):
+def candidate_detail(application_id: int, user: AppUser = Depends(current_user)):
     """Detail + engine-field prefill + what's still missing for the contract form."""
     row = markaz_db.get_application_detail(application_id)
     if not row:
