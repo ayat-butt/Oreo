@@ -720,14 +720,42 @@ def _replacements(template_key: str, emp: dict) -> list[tuple[str, str]]:
 
     # ── OPL Project Based ─────────────────────────────────────────────────────
     if template_key == "opl_project":
+        # Salary breakdown — standard Orenda split: Base = Gross×90%, Medical = Base×10%, Others = remainder.
+        try:
+            gross = float(str(salary).replace(",", "").replace("PKR", "").strip())
+        except ValueError:
+            gross = 0.0
+        base = round(gross * 0.90)
+        medical = round(base * 0.10)
+        others = round(gross - base - medical)
+        money = lambda n: f"{int(n):,}"
         return [
             ("Current Date",                             today),
-            ("EMPLOYEE'S CNIC",                          cnic),
-            ("EMPLOYEE'S NAME",                          name),
-            ("EMPLOYEE NAME",                            name),
+            # Header block — template uses a curly apostrophe (’), not a straight one
+            ("EMPLOYEE’S CNIC",                          cnic),
+            ("EMPLOYEE’S NAME",                          name),
             ("EFFECTIVE DATE OF JOINING",                joining_date),
-            ("DATE,MONTH, YEAR to DATE, MONTH , YEAR",  f"{start_date} to {end_date}"),
-            ("contract with a duration of XYZ",         f"contract with a duration of {duration}"),
+            # Parties paragraph: "Mr./Mrs. EMPLOYEE NAME bearing CNIC No: X Y Z"
+            ("Mr./Mrs.",                                 sal),
+            ("EMPLOYEE NAME",                            name),
+            ("X Y Z",                                    cnic),
+            # Term dates (exact spacing matters)
+            ("DATE, MONTH, YEAR to DATE, MONTH , YEAR",  f"{start_date} to {end_date}"),
+            # Designation (table label; value cell is blank → append after the colon)
+            ("Designation:",                             f"Designation: {designation}"),
+            # Duration (template has two spaces before XYZ)
+            ("with a duration of  XYZ",                  f"with a duration of {duration}"),
+            # Compensation breakdown
+            ("Total Earnings PKR XYZ Per month inclusive of Tax",
+             f"Total Earnings PKR {salary} Per month inclusive of Tax"),
+            ("Base Salary: PKR XYZ",                     f"Base Salary: PKR {money(base)}"),
+            ("Medical: PKR XYZ",                         f"Medical: PKR {money(medical)}"),
+            ("Others: PKR XYZ",                          f"Others: PKR {money(others)}"),
+            # Offer-acceptance line: "I, NAME, bearing CNIC # XYZ … will join Orenda XYZ (joining date)."
+            ("bearing CNIC # XYZ",                       f"bearing CNIC # {cnic}"),
+            ("join Orenda XYZ (joining date)",           f"join Orenda on {joining_date}"),
+            # Employer signatory left blank (filled by hand at signing, like the full-time template)
+            ("EMPLOYER NAME DESIGNATION",                ""),
         ]
 
     # ── Taleemabad Inc ────────────────────────────────────────────────────────
