@@ -1,18 +1,10 @@
 import type { Metadata } from "next";
-import { Lato, EB_Garamond } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const lato = Lato({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "700"],
-  variable: "--font-lato",
-  display: "swap",
-});
-
-const ebGaramond = EB_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-eb-garamond",
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -23,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${lato.variable} ${ebGaramond.variable}`}>
+    <html lang="en" className={inter.variable}>
       <body className="font-sans antialiased">{children}</body>
     </html>
   );

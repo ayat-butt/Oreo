@@ -134,14 +134,14 @@ export default function FormPage({ params }: { params: { id: string } }) {
   if (loadErr)
     return <AppShell active="dashboard"><div className="text-danger">Failed to load candidate: {loadErr}</div></AppShell>;
   if (!detail)
-    return <AppShell active="dashboard"><div className="text-slate-500">Loading candidate…</div></AppShell>;
+    return <AppShell active="dashboard"><div className="text-mute">Loading candidate…</div></AppShell>;
 
   return (
     <AppShell active="dashboard">
       <div className="mb-5">
-        <Link href="/dashboard" className="inline-flex items-center gap-1 text-sm text-slate-500 transition-colors hover:text-slate-700"><ArrowLeft size={14} /> Dashboard</Link>
-        <h1 className="mt-1 font-serif text-2xl font-semibold text-slate-900">Draft contract</h1>
-        <p className="mt-1 text-sm text-slate-500">
+        <Link href="/dashboard" className="inline-flex items-center gap-1 text-sm text-mute transition-colors hover:text-body"><ArrowLeft size={14} /> Dashboard</Link>
+        <h1 className="mt-1 text-2xl font-semibold text-ink">Draft contract</h1>
+        <p className="mt-1 text-sm text-mute">
           {f.name || "Candidate"} · pre-filled from Markaz where available; complete the manual fields below.
         </p>
       </div>
@@ -242,7 +242,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
           </Field>
           <div className="sm:col-span-2">
             <Toggle checked={f.is_transition} onChange={(v) => set("is_transition", v)}>
-              <span className="font-medium text-slate-800">Internal transition (existing employee)</span>
+              <span className="font-medium text-ink">Internal transition (existing employee)</span>
               <span className="mt-0.5 block text-warning">⚠ Turning this on removes the probation clause from the contract.</span>
             </Toggle>
           </div>
@@ -257,12 +257,12 @@ export default function FormPage({ params }: { params: { id: string } }) {
           <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-danger" role="alert">{submitErr}</div>
         )}
 
-        <div className="sticky bottom-0 flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white/90 px-4 py-3 shadow-pop backdrop-blur">
-          <span className="text-sm text-slate-500">
+        <div className="sticky bottom-0 flex items-center justify-between gap-3 rounded-xl border border-hairline bg-white/90 px-4 py-3 shadow-pop backdrop-blur">
+          <span className="text-sm text-mute">
             {f.entity && f.employment_type ? (
-              <>Template: <b className="text-slate-700">{ENTITIES.find((e) => e.value === f.entity)?.label} · {TYPE_LABELS[f.employment_type]}</b></>
+              <>Template: <b className="text-body">{ENTITIES.find((e) => e.value === f.entity)?.label} · {TYPE_LABELS[f.employment_type]}</b></>
             ) : (
-              <span className="text-slate-400">Select an entity &amp; type to generate</span>
+              <span className="text-ash">Select an entity &amp; type to generate</span>
             )}
           </span>
           <Button onClick={onGenerate} disabled={submitting}>

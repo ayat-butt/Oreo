@@ -14,28 +14,28 @@ function GoogleG() {
 export default function LoginPage({ searchParams }: { searchParams: { error?: string } }) {
   return (
     <div className="flex min-h-dvh items-center justify-center px-4">
-      <div className="animate-fade-up w-full max-w-sm rounded-3xl border border-slate-200/70 bg-white/90 p-8 text-center shadow-xl backdrop-blur">
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-green to-brand-green-strong text-white shadow-md">
+      <div className="animate-fade-up w-full max-w-sm rounded-3xl border border-hairline bg-white p-8 text-center shadow-md">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-green to-brand-green-strong text-white shadow-sm">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
             <path d="M12 22v-7" /><path d="M9 9a3 3 0 0 1 6 0c1.7 0 3 1.3 3 3a3 3 0 0 1-3 3H9a3 3 0 0 1 0-6Z" />
           </svg>
         </div>
-        <h1 className="mt-5 font-serif text-2xl font-semibold tracking-tight text-slate-900">Contracts Portal</h1>
-        <p className="mt-1 text-sm text-slate-500">Taleemabad · People &amp; Culture</p>
+        <h1 className="mt-5 text-2xl font-semibold tracking-tight text-ink">Contracts Portal</h1>
+        <p className="mt-1 text-sm text-mute">Taleemabad · People &amp; Culture</p>
 
         {searchParams.error === "not_allowed" && (
-          <p className="mt-5 rounded-xl bg-danger-soft px-3 py-2.5 text-sm text-danger ring-1 ring-inset ring-red-100" role="alert">
+          <p className="mt-5 rounded-xl bg-danger-soft px-3 py-2.5 text-sm text-danger" role="alert">
             That account isn’t on the access list. Ask Ayat to add you.
           </p>
         )}
 
         <a
           href={`${API_BASE}/auth/login`}
-          className="mt-6 inline-flex w-full items-center justify-center gap-2.5 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-brand-green/20"
+          className="mt-6 inline-flex w-full items-center justify-center gap-2.5 rounded-xl border border-hairline bg-white px-4 py-3 text-sm font-semibold text-body transition-colors hover:bg-cream-card focus:outline-none focus:ring-4 focus:ring-brand-green/20"
         >
           <GoogleG /> Continue with Google
         </a>
-        <p className="mt-4 text-xs text-slate-400">@taleemabad.com accounts only</p>
+        <p className="mt-4 text-xs text-ash">@taleemabad.com accounts only</p>
       </div>
     </div>
   );

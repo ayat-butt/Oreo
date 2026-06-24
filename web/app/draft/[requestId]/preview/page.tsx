@@ -61,21 +61,21 @@ export default function PreviewPage({ params }: { params: { requestId: string } 
     const steps = ["Creating folder", "Filling contract", "Inserting job description", "Applying formatting", "Creating NDA"];
     return (
       <AppShell active="dashboard">
-        <div className="mx-auto max-w-md rounded-2xl border border-slate-200/70 bg-white p-8 shadow-card">
+        <div className="mx-auto max-w-md rounded-2xl border border-hairline bg-white p-8">
           <div className="flex items-center gap-3">
             <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-green-soft text-brand-green-strong">
               <Loader2 size={22} className="animate-spin" />
             </span>
             <div>
-              <h1 className="font-serif text-xl font-semibold text-slate-900">Generating contract…</h1>
-              <p className="text-sm text-slate-500">Around 30–60 seconds — you can stay here.</p>
+              <h1 className="text-xl font-semibold text-ink">Generating contract…</h1>
+              <p className="text-sm text-mute">Around 30–60 seconds — you can stay here.</p>
             </div>
           </div>
           <div className="mt-6 space-y-2">
             {steps.map((s, i) => (
-              <div key={s} className="flex items-center gap-3 rounded-xl bg-slate-50 px-4 py-2.5 text-sm">
+              <div key={s} className="flex items-center gap-3 rounded-xl bg-cream-card px-4 py-2.5 text-sm">
                 <span className="h-2 w-2 animate-pulse rounded-full bg-brand-green" style={{ animationDelay: `${i * 150}ms` }} />
-                <span className="text-slate-600">{s}</span>
+                <span className="text-body">{s}</span>
               </div>
             ))}
           </div>
@@ -95,8 +95,8 @@ export default function PreviewPage({ params }: { params: { requestId: string } 
     <AppShell active="dashboard">
       <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="font-serif text-2xl font-semibold tracking-tight text-slate-900">Review the draft</h1>
-          <p className="mt-1 text-sm text-slate-500">Edit directly in Google Docs; the sent PDF is always the latest version.</p>
+          <h1 className="text-2xl font-semibold tracking-tight text-ink">Review the draft</h1>
+          <p className="mt-1 text-sm text-mute">Edit directly in Google Docs; the sent PDF is always the latest version.</p>
         </div>
         <div className="flex gap-2">
           <a href={editUrl} target="_blank" rel="noreferrer">
@@ -107,7 +107,7 @@ export default function PreviewPage({ params }: { params: { requestId: string } 
       </div>
 
       {/* tabs */}
-      <div className="mb-4 flex gap-1 border-b border-slate-200">
+      <div className="mb-4 flex gap-1 border-b border-hairline">
         <TabBtn active={tab === "contract"} onClick={() => setTab("contract")} icon={FileText}>Contract</TabBtn>
         {docs.nda_id && <TabBtn active={tab === "nda"} onClick={() => setTab("nda")} icon={ShieldCheck}>NDA</TabBtn>}
       </div>
@@ -118,37 +118,37 @@ export default function PreviewPage({ params }: { params: { requestId: string } 
             key={previewSrc}
             title={`${tab} preview`}
             src={previewSrc}
-            className="h-[72vh] w-full rounded-2xl border border-slate-200/70 bg-white shadow-md"
+            className="h-[72vh] w-full rounded-2xl border border-hairline bg-white shadow-md"
           />
         </div>
 
         {/* review gate */}
         <aside className="lg:col-span-1">
-          <div className="sticky top-6 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-card">
+          <div className="sticky top-6 rounded-2xl border border-hairline bg-white p-5">
             <div className="flex items-center justify-between">
-              <h2 className="font-serif text-lg font-semibold text-slate-900">Review checklist</h2>
-              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium tabular-nums text-slate-500">{doneCount}/{CHECKS.length}</span>
+              <h2 className="text-lg font-semibold text-ink">Review checklist</h2>
+              <span className="rounded-full bg-cream-deep px-2 py-0.5 text-xs font-medium tabular-nums text-mute">{doneCount}/{CHECKS.length}</span>
             </div>
-            <p className="mt-1 text-sm text-slate-500">Confirm each item before continuing.</p>
+            <p className="mt-1 text-sm text-mute">Confirm each item before continuing.</p>
             <div className="mt-4 space-y-1.5">
               {CHECKS.map((c, i) => (
                 <button
                   key={c}
                   type="button"
                   onClick={() => setChecked((p) => p.map((v, j) => (j === i ? !v : v)))}
-                  className="flex w-full items-start gap-2.5 rounded-xl px-2 py-2 text-left text-sm transition-colors hover:bg-slate-50"
+                  className="flex w-full items-start gap-2.5 rounded-xl px-2 py-2 text-left text-sm transition-colors hover:bg-cream-card"
                 >
-                  <span className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition-colors ${checked[i] ? "border-brand-green bg-brand-green text-white" : "border-slate-300 bg-white text-transparent"}`}>
+                  <span className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition-colors ${checked[i] ? "border-brand-green bg-brand-green text-white" : "border-stone bg-white text-transparent"}`}>
                     <Check size={13} strokeWidth={3} />
                   </span>
-                  <span className={checked[i] ? "text-slate-500 line-through" : "text-slate-700"}>{c}</span>
+                  <span className={checked[i] ? "text-mute line-through" : "text-body"}>{c}</span>
                 </button>
               ))}
             </div>
             <Button className="mt-5 w-full" disabled={!allChecked} onClick={() => router.push(`/draft/${params.requestId}/email`)}>
               Continue to email <ArrowRight size={16} />
             </Button>
-            {!allChecked && <p className="mt-2 text-center text-xs text-slate-400">Tick all items to continue</p>}
+            {!allChecked && <p className="mt-2 text-center text-xs text-ash">Tick all items to continue</p>}
           </div>
         </aside>
       </div>
@@ -161,7 +161,7 @@ function TabBtn({ active, children, onClick, icon: Icon }: { active: boolean; ch
     <button
       onClick={onClick}
       className={`-mb-px inline-flex items-center gap-1.5 border-b-2 px-4 py-2.5 text-sm font-medium transition-colors ${
-        active ? "border-brand-green text-brand-green-strong" : "border-transparent text-slate-500 hover:text-slate-700"
+        active ? "border-brand-green text-brand-green-strong" : "border-transparent text-mute hover:text-body"
       }`}
     >
       <Icon size={15} /> {children}
