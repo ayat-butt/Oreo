@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { AppShell } from "@/components/AppShell";
-import { Section, Field, Button, inputClass } from "@/components/ui/primitives";
+import { Section, Field, Button, Toggle, inputClass } from "@/components/ui/primitives";
+import { Building2, User, Wallet, Stamp, FileText, ArrowLeft, ArrowRight } from "lucide-react";
 import { apiGet, apiPost } from "@/lib/client";
 import { toDisplayDate, maskCnic } from "@/lib/format";
 import { ENTITIES, PAIRS, TYPE_LABELS, ccDomainOk } from "@/lib/matrix";
@@ -138,7 +139,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
   return (
     <AppShell active="dashboard">
       <div className="mb-5">
-        <Link href="/dashboard" className="text-sm text-slate-500 hover:text-slate-700">← Dashboard</Link>
+        <Link href="/dashboard" className="inline-flex items-center gap-1 text-sm text-slate-500 transition-colors hover:text-slate-700"><ArrowLeft size={14} /> Dashboard</Link>
         <h1 className="mt-1 font-serif text-2xl font-semibold text-slate-900">Draft contract</h1>
         <p className="mt-1 text-sm text-slate-500">
           {f.name || "Candidate"} · pre-filled from Markaz where available; complete the manual fields below.
@@ -146,7 +147,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
       </div>
 
       <div className="space-y-5">
-        <Section title="Entity & contract type" subtitle="Selects which template + NDA are generated.">
+        <Section title="Entity & contract type" subtitle="Selects which template + NDA are generated." icon={Building2}>
           <Field label="Entity" required
                  hint="Use OPL or OWT (Orenda) for everyone. Taleemabad Inc is for senior leadership only.">
             <select className={inputClass} value={f.entity} onChange={(e) => set("entity", e.target.value)}>
@@ -163,7 +164,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
           </Field>
         </Section>
 
-        <Section title="Personal">
+        <Section title="Personal" icon={User}>
           <Field label="Full legal name" required source={src("name")}>
             <input className={inputClass} value={f.name} onChange={(e) => set("name", e.target.value)} />
           </Field>
@@ -182,7 +183,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
           </Field>
         </Section>
 
-        <Section title="Compensation & dates">
+        <Section title="Compensation & dates" icon={Wallet}>
           <Field label="Gross monthly salary (PKR)" required source="Manual">
             <input className={`${inputClass} tnum`} value={f.salary} onChange={(e) => set("salary", e.target.value)} placeholder="100,000" />
           </Field>
@@ -215,7 +216,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
           </Field>
         </Section>
 
-        <Section title="Head of Department (signing block)" subtitle="Signing date is set to today automatically.">
+        <Section title="Head of Department (signing block)" subtitle="Signing date is set to today automatically." icon={Stamp}>
           <Field label="HoD name" source="Manual">
             <input className={inputClass} value={f.hod_name} onChange={(e) => set("hod_name", e.target.value)} placeholder={detail.hints.hiring_manager ? "" : ""} />
           </Field>
@@ -232,7 +233,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
           )}
         </Section>
 
-        <Section title="Job description & clauses">
+        <Section title="Job description & clauses" icon={FileText}>
           <Field label="Job description (Annexure-A)" full source={detail.prefill.jd_text ? "Markaz" : "Manual"}
                  hint="Auto-fetched from the Markaz job posting — review and edit. One item per line; a short line ending with ':' becomes a bold sub-heading, others become bullets.">
             <textarea className={`${inputClass} min-h-[180px] font-sans`} value={f.jd_text}
@@ -240,13 +241,10 @@ export default function FormPage({ params }: { params: { id: string } }) {
                       placeholder={"(No JD found on Markaz for this role — paste it here)\nKey Responsibilities:\n• Lead the program team and set quarterly goals\n• Manage partner relationships"} />
           </Field>
           <div className="sm:col-span-2">
-            <label className="flex items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3">
-              <input type="checkbox" className="mt-1 h-4 w-4" checked={f.is_transition} onChange={(e) => set("is_transition", e.target.checked)} />
-              <span className="text-sm">
-                <span className="font-medium text-slate-800">Internal transition (existing employee)</span>
-                <span className="mt-0.5 block text-warning">⚠ Turning this on removes the probation clause from the contract.</span>
-              </span>
-            </label>
+            <Toggle checked={f.is_transition} onChange={(v) => set("is_transition", v)}>
+              <span className="font-medium text-slate-800">Internal transition (existing employee)</span>
+              <span className="mt-0.5 block text-warning">⚠ Turning this on removes the probation clause from the contract.</span>
+            </Toggle>
           </div>
           <Field label="Welcome-email CC (comma-separated)" full source="Manual"
                  hint="Must be @taleemabad.com / @niete.edu.pk / @niete.pk."
@@ -268,7 +266,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
             )}
           </span>
           <Button onClick={onGenerate} disabled={submitting}>
-            {submitting ? "Generating…" : "Generate draft →"}
+            {submitting ? "Generating…" : <>Generate draft <ArrowRight size={16} /></>}
           </Button>
         </div>
       </div>

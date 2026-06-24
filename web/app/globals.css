@@ -3,11 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --bg: #f8fafc;        /* slate-50 */
+  --bg: #f7f8fa;          /* app canvas */
   --surface: #ffffff;
-  --foreground: #0f172a; /* slate-900 */
-  --muted: #64748b;      /* slate-500 */
-  --border: #e2e8f0;     /* slate-200 */
+  --surface-2: #fbfcfe;   /* slightly raised surface */
+  --foreground: #0f172a;  /* slate-900 */
+  --muted: #64748b;       /* slate-500 */
+  --border: #e7eaf0;      /* hairline */
 }
 
 html {
@@ -15,19 +16,46 @@ html {
 }
 
 body {
-  background: var(--bg);
   color: var(--foreground);
   font-feature-settings: "cv02", "cv03", "cv04";
+  /* Subtle premium canvas: soft top tint + faint dot grid */
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(60rem 30rem at 85% -10%, rgb(106 168 79 / 0.05), transparent 60%),
+    radial-gradient(50rem 28rem at 0% 0%, rgb(61 133 198 / 0.05), transparent 55%),
+    radial-gradient(rgb(15 23 42 / 0.035) 1px, transparent 1px);
+  background-size: auto, auto, 22px 22px;
+  background-attachment: fixed;
+  background-position: 0 0, 0 0, -1px -1px;
 }
 
 /* tabular figures for IDs / salary / dates */
-.tnum {
-  font-variant-numeric: tabular-nums;
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* shimmer skeleton */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: #eef1f6;
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.65), transparent);
+  animation: shimmer 1.6s infinite;
 }
 
+/* refined scrollbars */
+* { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; border: 2px solid transparent; background-clip: content-box; }
+
 @media (prefers-reduced-motion: reduce) {
-  * {
+  *, *::after, *::before {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

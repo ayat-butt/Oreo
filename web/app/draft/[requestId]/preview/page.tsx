@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { ExternalLink, RefreshCw, FileText, ShieldCheck, Check, ArrowRight, Loader2, AlertTriangle } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/ui/primitives";
 import { apiGet } from "@/lib/client";
@@ -51,25 +52,37 @@ export default function PreviewPage({ params }: { params: { requestId: string } 
 
   const job = data?.job?.status;
   const docs = data?.docs;
-  const allChecked = checked.every(Boolean);
+  const doneCount = checked.filter(Boolean).length;
+  const allChecked = doneCount === CHECKS.length;
 
-  if (err) return <AppShell active="dashboard"><div className="text-danger">{err}</div></AppShell>;
+  if (err) return <AppShell active="dashboard"><div className="flex items-center gap-2 rounded-2xl border border-red-200 bg-danger-soft p-5 text-danger"><AlertTriangle size={18} />{err}</div></AppShell>;
 
   if (!data || job === "queued" || job === "running" || !docs?.contract_id) {
-    const steps = ["Creating folder", "Filling contract", "Inserting JD", "Formatting", "Creating NDA"];
+    const steps = ["Creating folder", "Filling contract", "Inserting job description", "Applying formatting", "Creating NDA"];
     return (
       <AppShell active="dashboard">
-        <h1 className="font-serif text-2xl font-semibold text-slate-900">Generating contract…</h1>
-        <p className="mt-1 text-sm text-slate-500">This takes around 30–60 seconds. You can stay on this page.</p>
-        <div className="mt-6 max-w-md space-y-2">
-          {steps.map((s, i) => (
-            <div key={s} className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-brand-green" style={{ animationDelay: `${i * 120}ms` }} />
-              <span className="text-slate-600">{s}</span>
+        <div className="mx-auto max-w-md rounded-2xl border border-slate-200/70 bg-white p-8 shadow-card">
+          <div className="flex items-center gap-3">
+            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-green-soft text-brand-green-strong">
+              <Loader2 size={22} className="animate-spin" />
+            </span>
+            <div>
+              <h1 className="font-serif text-xl font-semibold text-slate-900">Generating contract…</h1>
+              <p className="text-sm text-slate-500">Around 30–60 seconds — you can stay here.</p>
             </div>
-          ))}
+          </div>
+          <div className="mt-6 space-y-2">
+            {steps.map((s, i) => (
+              <div key={s} className="flex items-center gap-3 rounded-xl bg-slate-50 px-4 py-2.5 text-sm">
+                <span className="h-2 w-2 animate-pulse rounded-full bg-brand-green" style={{ animationDelay: `${i * 150}ms` }} />
+                <span className="text-slate-600">{s}</span>
+              </div>
+            ))}
+          </div>
+          {job === "error" && (
+            <p className="mt-4 flex items-center gap-2 text-sm text-danger"><AlertTriangle size={16} /> Generation failed: {data?.job?.error}</p>
+          )}
         </div>
-        {job === "error" && <p className="mt-4 text-danger">Generation failed: {data?.job?.error}</p>}
       </AppShell>
     );
   }
@@ -80,23 +93,23 @@ export default function PreviewPage({ params }: { params: { requestId: string } 
 
   return (
     <AppShell active="dashboard">
-      <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+      <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="font-serif text-2xl font-semibold text-slate-900">Review the draft</h1>
+          <h1 className="font-serif text-2xl font-semibold tracking-tight text-slate-900">Review the draft</h1>
           <p className="mt-1 text-sm text-slate-500">Edit directly in Google Docs; the sent PDF is always the latest version.</p>
         </div>
         <div className="flex gap-2">
           <a href={editUrl} target="_blank" rel="noreferrer">
-            <Button variant="secondary">Open in Google Docs ↗</Button>
+            <Button variant="secondary"><ExternalLink size={15} /> Open in Google Docs</Button>
           </a>
-          <Button variant="ghost" onClick={() => setRefreshKey((k) => k + 1)}>↻ Refresh preview</Button>
+          <Button variant="ghost" onClick={() => setRefreshKey((k) => k + 1)}><RefreshCw size={15} /> Refresh</Button>
         </div>
       </div>
 
       {/* tabs */}
-      <div className="mb-3 flex gap-1 border-b border-slate-200">
-        <TabBtn active={tab === "contract"} onClick={() => setTab("contract")}>Contract</TabBtn>
-        {docs.nda_id && <TabBtn active={tab === "nda"} onClick={() => setTab("nda")}>NDA</TabBtn>}
+      <div className="mb-4 flex gap-1 border-b border-slate-200">
+        <TabBtn active={tab === "contract"} onClick={() => setTab("contract")} icon={FileText}>Contract</TabBtn>
+        {docs.nda_id && <TabBtn active={tab === "nda"} onClick={() => setTab("nda")} icon={ShieldCheck}>NDA</TabBtn>}
       </div>
 
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
@@ -105,27 +118,35 @@ export default function PreviewPage({ params }: { params: { requestId: string } 
             key={previewSrc}
             title={`${tab} preview`}
             src={previewSrc}
-            className="h-[70vh] w-full rounded-xl border border-slate-200 bg-white"
+            className="h-[72vh] w-full rounded-2xl border border-slate-200/70 bg-white shadow-md"
           />
         </div>
 
         {/* review gate */}
         <aside className="lg:col-span-1">
-          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-card">
-            <h2 className="font-serif text-lg font-semibold text-slate-900">Review checklist</h2>
+          <div className="sticky top-6 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-card">
+            <div className="flex items-center justify-between">
+              <h2 className="font-serif text-lg font-semibold text-slate-900">Review checklist</h2>
+              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium tabular-nums text-slate-500">{doneCount}/{CHECKS.length}</span>
+            </div>
             <p className="mt-1 text-sm text-slate-500">Confirm each item before continuing.</p>
-            <div className="mt-4 space-y-2.5">
+            <div className="mt-4 space-y-1.5">
               {CHECKS.map((c, i) => (
-                <label key={c} className="flex items-start gap-2.5 text-sm text-slate-700">
-                  <input type="checkbox" className="mt-0.5 h-4 w-4" checked={checked[i]}
-                         onChange={(e) => setChecked((p) => p.map((v, j) => (j === i ? e.target.checked : v)))} />
-                  <span>{c}</span>
-                </label>
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => setChecked((p) => p.map((v, j) => (j === i ? !v : v)))}
+                  className="flex w-full items-start gap-2.5 rounded-xl px-2 py-2 text-left text-sm transition-colors hover:bg-slate-50"
+                >
+                  <span className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition-colors ${checked[i] ? "border-brand-green bg-brand-green text-white" : "border-slate-300 bg-white text-transparent"}`}>
+                    <Check size={13} strokeWidth={3} />
+                  </span>
+                  <span className={checked[i] ? "text-slate-500 line-through" : "text-slate-700"}>{c}</span>
+                </button>
               ))}
             </div>
-            <Button className="mt-5 w-full" disabled={!allChecked}
-                    onClick={() => router.push(`/draft/${params.requestId}/email`)}>
-              Continue to email →
+            <Button className="mt-5 w-full" disabled={!allChecked} onClick={() => router.push(`/draft/${params.requestId}/email`)}>
+              Continue to email <ArrowRight size={16} />
             </Button>
             {!allChecked && <p className="mt-2 text-center text-xs text-slate-400">Tick all items to continue</p>}
           </div>
@@ -135,13 +156,15 @@ export default function PreviewPage({ params }: { params: { requestId: string } 
   );
 }
 
-function TabBtn({ active, children, onClick }: { active: boolean; children: React.ReactNode; onClick: () => void }) {
+function TabBtn({ active, children, onClick, icon: Icon }: { active: boolean; children: React.ReactNode; onClick: () => void; icon: typeof FileText }) {
   return (
-    <button onClick={onClick}
-      className={`-mb-px border-b-2 px-4 py-2 text-sm font-medium transition-colors ${
+    <button
+      onClick={onClick}
+      className={`-mb-px inline-flex items-center gap-1.5 border-b-2 px-4 py-2.5 text-sm font-medium transition-colors ${
         active ? "border-brand-green text-brand-green-strong" : "border-transparent text-slate-500 hover:text-slate-700"
-      }`}>
-      {children}
+      }`}
+    >
+      <Icon size={15} /> {children}
     </button>
   );
 }
