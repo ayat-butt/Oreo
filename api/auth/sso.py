@@ -73,7 +73,7 @@ async def callback(request: Request, db: Session = Depends(get_db),
             "grant_type": "authorization_code",
         })
     if tok.status_code != 200:
-        raise HTTPException(400, "token exchange failed")
+        raise HTTPException(400, f"token exchange failed ({tok.status_code}): {tok.text[:300]}")
     id_tok = tok.json().get("id_token")
     info = google_id_token.verify_oauth2_token(
         id_tok, google_requests.Request(), settings.GOOGLE_OAUTH_CLIENT_ID
