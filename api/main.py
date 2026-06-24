@@ -10,9 +10,13 @@ SSO/JWT, /contracts (draft), and /email come in later phases (need the service t
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+import logging
+
 from api.settings import settings
-from api.routers import candidates, contracts, email
+from api.routers import candidates, contracts, email, email_candidates
 from api.auth import sso
+
+logger = logging.getLogger("coco.ingest")
 
 app = FastAPI(title="COCO Contracts API", version="0.1.0")
 
@@ -33,6 +37,77 @@ app.include_router(sso.router)
 app.include_router(candidates.router)
 app.include_router(contracts.router)
 app.include_router(email.router)
+app.include_router(email_candidates.router)
+
+
+# ── Background offer-email poller ────────────────────────────────────────────
+# Watches the configured mailboxes for offer emails and ingests them as email_candidates.
+# In-process APScheduler (Railway runs a single always-on instance). Guarded so it only
+# starts when ingestion is enabled, mailbox tokens exist, and the app DB is configured.
+_scheduler = None
+
+
+def _run_ingest_safely() -> None:
+    try:
+        from api.services.email_ingest import ingest_offer_emails
+        summary = ingest_offer_emails()
+        logger.info("offer-email ingest: %s", summary)
+    except Exception:  # noqa: BLE001 — never let a poll kill the scheduler thread
+        logger.exception("offer-email ingest failed")
+
+
+@app.on_event("startup")
+def _ensure_tables() -> None:
+    """Create any missing app-DB tables (idempotent; only adds, never alters).
+
+    Keeps new tables like email_candidates in sync on deploy without a manual init step.
+    Existing tables are untouched. No-op if the app DB isn't configured.
+    """
+    if not settings.APP_DATABASE_URL:
+        return
+    try:
+        from api.db.base import Base, engine
+        from api.db import models  # noqa: F401 — register all tables on Base.metadata
+        Base.metadata.create_all(engine)
+        logger.info("app DB tables ensured")
+    except Exception:  # noqa: BLE001
+        logger.exception("could not ensure app DB tables")
+
+
+@app.on_event("startup")
+def _start_scheduler() -> None:
+    global _scheduler
+    if _scheduler is not None:
+        return
+    if not (settings.INGEST_ENABLED and settings.APP_DATABASE_URL and settings.inbox_tokens):
+        logger.info("offer-email poller disabled (enabled=%s, app_db=%s, mailboxes=%d)",
+                    settings.INGEST_ENABLED, bool(settings.APP_DATABASE_URL), len(settings.inbox_tokens))
+        return
+    try:
+        from apscheduler.schedulers.background import BackgroundScheduler
+        _scheduler = BackgroundScheduler(daemon=True)
+        _scheduler.add_job(
+            _run_ingest_safely,
+            "interval",
+            minutes=max(1, settings.INGEST_POLL_MINUTES),
+            id="offer_email_ingest",
+            next_run_time=None,           # first run scheduled one interval out; refresh endpoint is on-demand
+            coalesce=True,
+            max_instances=1,
+        )
+        _scheduler.start()
+        logger.info("offer-email poller started: every %d min over %d mailbox(es)",
+                    settings.INGEST_POLL_MINUTES, len(settings.inbox_tokens))
+    except Exception:  # noqa: BLE001
+        logger.exception("could not start offer-email poller")
+
+
+@app.on_event("shutdown")
+def _stop_scheduler() -> None:
+    global _scheduler
+    if _scheduler is not None:
+        _scheduler.shutdown(wait=False)
+        _scheduler = None
 
 
 @app.get("/healthz", tags=["meta"])

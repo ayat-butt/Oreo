@@ -20,6 +20,7 @@ psycopg2-binary>=2.9
 httpx>=0.27
 PyJWT>=2.8
 tenacity>=8.2
+APScheduler>=3.10
 
 # Microsoft Teams (CLI only)
 msal>=1.28.0

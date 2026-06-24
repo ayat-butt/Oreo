@@ -55,6 +55,69 @@ Respond with valid JSON only:
     return json.loads(text)
 
 
+def extract_offer_details(subject: str, body: str) -> dict:
+    """Extract employee offer details from an acceptance/offer email body.
+
+    Used by the email-ingestion job to turn an unstructured offer email (forwarded by the
+    P&C team when a candidate accepts) into structured fields for the contract form.
+
+    Returns a dict:
+      {
+        "is_offer": bool,            # True only if this email actually contains hire details
+        "full_name": str | "",
+        "cnic": str | "",            # Pakistani CNIC, formatted #####-#######-# if possible
+        "personal_email": str | "",
+        "joining_date": str | "",    # ISO 'YYYY-MM-DD' if a date is present, else ""
+        "gross_salary": str | "",    # digits only (no 'PKR'/commas) if present, else ""
+        "role": str | "",            # job title / designation
+        "department": str | "",
+        "job_description": str | ""  # JD / responsibilities text if present
+      }
+    Never invents values — unknown fields come back as "".
+    """
+    prompt = f"""You are extracting a new hire's details from an offer/acceptance email so HR can draft their employment contract.
+
+Subject: {subject}
+Body:
+{body[:6000]}
+
+Decide first whether this email is actually about a specific candidate who has accepted/been offered a role AND contains their details. If it is NOT (e.g. a general update, a question, a thread with no hire details), set "is_offer" to false.
+
+Return ONLY valid JSON (no markdown, no commentary) with exactly these keys:
+{{
+  "is_offer": true or false,
+  "full_name": "<candidate full legal name, or empty string>",
+  "cnic": "<Pakistani CNIC formatted #####-#######-# if present, else empty string>",
+  "personal_email": "<candidate's personal email, or empty string>",
+  "joining_date": "<joining/start date as YYYY-MM-DD if a date is given, else empty string>",
+  "gross_salary": "<gross monthly salary as digits only, no currency or commas, else empty string>",
+  "role": "<job title / designation, or empty string>",
+  "department": "<department/team, or empty string>",
+  "job_description": "<job description or key responsibilities text if present, else empty string>"
+}}
+
+Rules:
+- Never guess or fabricate. If a field is not clearly stated, use an empty string "".
+- For joining_date, convert phrases like "16th February 2026" to "2026-02-16". If only a partial date, use "".
+- For gross_salary, strip 'PKR', 'Rs', commas and spaces — digits only (e.g. "150000")."""
+
+    response = client.messages.create(
+        model="claude-opus-4-6",
+        max_tokens=1024,
+        system=SYSTEM_PROMPT,
+        messages=[{"role": "user", "content": prompt}],
+    )
+
+    text = response.content[0].text.strip()
+    if text.startswith("```"):
+        text = text.split("```")[1]
+        if text.startswith("json"):
+            text = text[4:]
+        text = text.strip()
+
+    return json.loads(text)
+
+
 def draft_reply(subject: str, body: str, sender: str, category: str) -> str:
     """Draft a professional HR reply to an email."""
     prompt = f"""Draft a professional HR email reply to this message.

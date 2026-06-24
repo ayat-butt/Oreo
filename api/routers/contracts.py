@@ -7,7 +7,7 @@ from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from api.db.base import get_db
-from api.db.models import AppUser, ContractRequest, GeneratedDoc, Job
+from api.db.models import AppUser, ContractRequest, EmailCandidate, GeneratedDoc, Job
 from api.auth.deps import current_user
 from api.schemas import (
     ContractCreate, CreateContractResponse, ContractRequestOut,
@@ -52,6 +52,17 @@ def create_contract(
     db.add(req)
     db.commit()
     db.refresh(req)
+
+    # If this draft came from an ingested offer email, link it and mark it drafted.
+    if body.email_candidate_id:
+        try:
+            ec = db.get(EmailCandidate, uuid.UUID(body.email_candidate_id))
+        except ValueError:
+            ec = None
+        if ec:
+            ec.contract_request_id = req.id
+            ec.status = "drafted"
+            db.commit()
 
     job = Job(kind="draft_contract", request_id=req.id, status="queued")
     db.add(job)

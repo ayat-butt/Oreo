@@ -1,5 +1,5 @@
 // Status pill — icon + label + color (never color alone), with a subtle ring.
-import { CheckCircle2, Clock, Sparkles } from "lucide-react";
+import { CheckCircle2, Clock, Sparkles, FileCheck2 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 const STYLES: Record<string, { bg: string; text: string; ring: string; Icon: LucideIcon; label: string }> = {
@@ -7,6 +7,9 @@ const STYLES: Record<string, { bg: string; text: string; ring: string; Icon: Luc
   hired:   { bg: "bg-brand-green-soft", text: "text-brand-green-strong", ring: "ring-brand-green/20", Icon: CheckCircle2, label: "Hired" },
   ready:   { bg: "bg-brand-green-soft", text: "text-brand-green-strong", ring: "ring-brand-green/20", Icon: Sparkles,     label: "Ready to draft" },
   pending: { bg: "bg-slate-100",        text: "text-slate-600",          ring: "ring-slate-200",      Icon: Clock,        label: "Awaiting details" },
+  // Email-sourced candidate states
+  review:  { bg: "bg-amber-50",         text: "text-warning",            ring: "ring-amber-200",      Icon: Clock,        label: "Needs review" },
+  drafted: { bg: "bg-brand-green-soft", text: "text-brand-green-strong", ring: "ring-brand-green/20", Icon: FileCheck2,   label: "Drafted" },
 };
 
 export function StatusBadge({ kind }: { kind: keyof typeof STYLES | string }) {

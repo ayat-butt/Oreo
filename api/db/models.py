@@ -95,6 +95,40 @@ class AuditEvent(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), index=True)
 
 
+class EmailCandidate(Base):
+    """A candidate whose offer details arrived by email (from Aymen), not via Markaz.
+
+    Populated by the background ingestion job (api/services/email_ingest.py). Starts as
+    'new' (renders "Needs review"); Ayat verifies/corrects the auto-extracted fields in the
+    contract form, then generating a draft flips it to 'drafted'. Dedup is on gmail_message_id.
+    """
+    __tablename__ = "email_candidates"
+
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=_uuid)
+    # Provenance
+    source_mailbox: Mapped[str | None] = mapped_column(String(320))   # which inbox it arrived in
+    gmail_message_id: Mapped[str] = mapped_column(String(120), unique=True, index=True, nullable=False)
+    gmail_thread_id: Mapped[str | None] = mapped_column(String(120))
+    sender: Mapped[str | None] = mapped_column(String(320))
+    subject: Mapped[str | None] = mapped_column(Text)
+    received_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    # Auto-extracted offer fields (Claude) — all nullable; the form is the review gate
+    full_name: Mapped[str | None] = mapped_column(String(200))
+    cnic: Mapped[str | None] = mapped_column(String(40))
+    personal_email: Mapped[str | None] = mapped_column(String(320))
+    joining_date: Mapped[str | None] = mapped_column(String(40))   # ISO 'YYYY-MM-DD' when parseable
+    gross_salary: Mapped[str | None] = mapped_column(String(40))
+    role: Mapped[str | None] = mapped_column(String(200))
+    department: Mapped[str | None] = mapped_column(String(200))
+    jd_text: Mapped[str | None] = mapped_column(Text)
+    raw_extract: Mapped[dict | None] = mapped_column(JSONB)         # full Claude JSON, for audit
+    # State
+    status: Mapped[str] = mapped_column(String(20), default="new", nullable=False)  # new | drafted | dismissed
+    contract_request_id: Mapped[uuid.UUID | None] = mapped_column(UUID(as_uuid=True))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+
+
 class Job(Base):
     __tablename__ = "jobs"
 

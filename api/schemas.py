@@ -119,8 +119,55 @@ class EmpModel(BaseModel):
 class ContractCreate(BaseModel):
     emp: EmpModel
     markaz_application_id: int | None = None
+    email_candidate_id: str | None = None       # link when drafting from an ingested offer email
     candidate_snapshot: dict | None = None
     idempotency_key: str | None = None
+
+
+# ── Email-sourced candidates (ingested from offer emails) ─────────────────────
+
+class EmailCandidateOut(BaseModel):
+    """One card in the 'From Email' section."""
+    id: str
+    name: str | None = None
+    role: str | None = None
+    department: str | None = None
+    personal_email: str | None = None
+    gross_salary: str | None = None
+    joining_date: str | None = None
+    status: str                          # new (needs review) | drafted | dismissed
+    source_mailbox: str | None = None
+    sender: str | None = None
+    subject: str | None = None
+    received_at: datetime | None = None
+    created_at: datetime | None = None
+
+
+class EmailCandidatesResponse(BaseModel):
+    total: int
+    needs_review: int
+    candidates: list[EmailCandidateOut]
+
+
+class EmailCandidateDetail(BaseModel):
+    id: str
+    status: str
+    source_mailbox: str | None = None
+    sender: str | None = None
+    subject: str | None = None
+    received_at: datetime | None = None
+    prefill: EmpPrefill
+    missing_fields: list[str]
+    hints: dict[str, str | None]
+
+
+class IngestResult(BaseModel):
+    scanned: int = 0
+    ingested: int = 0
+    skipped_seen: int = 0
+    skipped_not_offer: int = 0
+    mailboxes: int = 0
+    error: str | None = None
 
 
 class JobOut(BaseModel):

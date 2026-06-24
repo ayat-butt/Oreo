@@ -72,9 +72,13 @@ export function Section({
   );
 }
 
-export function SourceChip({ source }: { source: "Markaz" | "Manual" }) {
+export function SourceChip({ source }: { source: "Markaz" | "Email" | "Manual" }) {
   const styles =
-    source === "Markaz" ? "bg-brand-blue-soft text-brand-blue-strong" : "bg-amber-50 text-warning";
+    source === "Markaz"
+      ? "bg-brand-blue-soft text-brand-blue-strong"
+      : source === "Email"
+        ? "bg-brand-green-soft text-brand-green-strong"
+        : "bg-amber-50 text-warning";
   return (
     <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${styles}`}>
       {source}
@@ -95,7 +99,7 @@ export function Field({
   required?: boolean;
   hint?: string;
   error?: string;
-  source?: "Markaz" | "Manual";
+  source?: "Markaz" | "Email" | "Manual";
   full?: boolean;
   children: React.ReactNode;
 }) {

@@ -26,3 +26,35 @@ export interface CandidatesResponse {
   ready_to_draft: number;
   groups: DepartmentGroup[];
 }
+
+// ── Email-sourced candidates (ingested from offer emails) ────────────────────
+export interface EmailCandidate {
+  id: string;
+  name: string | null;
+  role: string | null;
+  department: string | null;
+  personal_email: string | null;
+  gross_salary: string | null;
+  joining_date: string | null;
+  status: string;              // new (needs review) | drafted | dismissed
+  source_mailbox: string | null;
+  sender: string | null;
+  subject: string | null;
+  received_at: string | null;
+  created_at: string | null;
+}
+
+export interface EmailCandidatesResponse {
+  total: number;
+  needs_review: number;
+  candidates: EmailCandidate[];
+}
+
+export interface IngestResult {
+  scanned: number;
+  ingested: number;
+  skipped_seen: number;
+  skipped_not_offer: number;
+  mailboxes: number;
+  error?: string | null;
+}

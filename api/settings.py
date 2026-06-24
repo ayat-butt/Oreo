@@ -44,6 +44,30 @@ class Settings(BaseSettings):
     # AI (optional)
     ANTHROPIC_API_KEY: str = ""
 
+    # ── Email-candidate ingestion (offer letters forwarded by P&C) ──────────────
+    # Sender whose emails carry new-hire details.
+    OFFER_SENDER: str = "aymen.abid@taleemabad.com"
+    # Per-mailbox read tokens (authorized_user JSON). niete falls back to GOOGLE_SERVICE_TOKEN_JSON.
+    GMAIL_TOKEN_NIETE_JSON: str = ""
+    GMAIL_TOKEN_TALEEMABAD_JSON: str = ""
+    MAILBOX_NIETE: str = "ayat@niete.edu.pk"
+    MAILBOX_TALEEMABAD: str = "ayat@taleemabad.com"
+    # Scheduler: how often to poll, and how far back to search on each run.
+    INGEST_POLL_MINUTES: int = 10
+    INGEST_LOOKBACK_DAYS: int = 30
+    INGEST_ENABLED: bool = True       # master switch for the background poller
+
+    @property
+    def inbox_tokens(self) -> dict[str, str]:
+        """Mailbox email → authorized_user token JSON, for configured mailboxes only."""
+        out: dict[str, str] = {}
+        niete = self.GMAIL_TOKEN_NIETE_JSON or self.GOOGLE_SERVICE_TOKEN_JSON
+        if niete:
+            out[self.MAILBOX_NIETE] = niete
+        if self.GMAIL_TOKEN_TALEEMABAD_JSON:
+            out[self.MAILBOX_TALEEMABAD] = self.GMAIL_TOKEN_TALEEMABAD_JSON
+        return out
+
     @property
     def allowlist(self) -> set[str]:
         return {e.strip().lower() for e in self.ALLOWLIST_EMAILS.split(",") if e.strip()}
