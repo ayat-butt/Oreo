@@ -55,6 +55,7 @@ def run_draft_job(request_id: uuid.UUID, actor_email: str | None) -> None:
             contract_url=result.get("contract_url"),
             nda_id=result.get("nda_id"),
             nda_url=result.get("nda_url"),
+            shared_with=result.get("shared_with"),
         ))
         req.status = "preview"
         job.status = "done"
