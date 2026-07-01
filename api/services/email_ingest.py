@@ -14,11 +14,24 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
+from sqlalchemy import func
+
 from api.db.base import SessionLocal
 from api.db.models import EmailCandidate
 from api.services.audit import write_audit
 from api.services import gmail_inbox
 from api.settings import settings
+
+
+def _is_cross_mailbox_duplicate(db, full_name: str | None, cnic: str | None) -> bool:
+    """The same offer can land in both inboxes as separate threads. Treat as one candidate:
+    skip if a non-dismissed row already has this CNIC, or (failing a CNIC) the same name."""
+    base = db.query(EmailCandidate.id).filter(EmailCandidate.status != "dismissed")
+    if cnic and base.filter(EmailCandidate.cnic == cnic).first():
+        return True
+    if full_name and base.filter(func.lower(EmailCandidate.full_name) == full_name.lower()).first():
+        return True
+    return False
 
 
 def _to_dt(internal_ms: int | None) -> datetime | None:
@@ -35,17 +48,26 @@ def ingest_offer_emails() -> dict:
     """Scan all configured mailboxes once. Returns a summary dict for logs/UI."""
     summary = {"scanned": 0, "ingested": 0, "skipped_seen": 0, "skipped_not_offer": 0, "mailboxes": 0}
 
-    if not settings.ANTHROPIC_API_KEY:
-        summary["error"] = "ANTHROPIC_API_KEY not configured"
-        return summary
-
     services = gmail_inbox.build_inbox_services()
     summary["mailboxes"] = len(services)
     if not services:
         summary["error"] = "no mailbox tokens configured"
         return summary
 
-    from hr_assistant.claude_assistant import extract_offer_details
+    # Extraction: use Claude ONLY when a real Anthropic API key is present (sk-ant-api…).
+    # Otherwise (or if Claude errors) fall back to deterministic rule-based parsing — so
+    # ingestion never depends on a working Anthropic key.
+    from api.services.offer_parser import extract_offer_details_rules
+    _use_claude = settings.ANTHROPIC_API_KEY.startswith("sk-ant-api")
+
+    def extract(subj: str, body: str) -> dict:
+        if _use_claude:
+            try:
+                from hr_assistant.claude_assistant import extract_offer_details
+                return extract_offer_details(subj, body)
+            except Exception as e:  # noqa: BLE001 — bad key / API error → rules fallback
+                extract_errors.append(f"claude: {type(e).__name__}: {e}")
+        return extract_offer_details_rules(subj, body)
 
     senders = settings.offer_senders
     if not senders:
@@ -86,7 +108,7 @@ def ingest_offer_emails() -> dict:
 
                 try:
                     th = gmail_inbox.get_thread(gmail, tid)
-                    data = extract_offer_details(th["subject"], th["text"])
+                    data = extract(th["subject"], th["text"])
                 except Exception as e:  # noqa: BLE001 — one bad thread shouldn't abort the run
                     extract_errors.append(f"{type(e).__name__}: {e}")
                     continue
@@ -122,6 +144,11 @@ def ingest_offer_emails() -> dict:
                         db.commit()
                     except Exception:  # noqa: BLE001
                         db.rollback()
+                    continue
+
+                # Same person already ingested from the other mailbox → don't duplicate.
+                if _is_cross_mailbox_duplicate(db, fields["full_name"], fields["cnic"]):
+                    summary["skipped_seen"] += 1
                     continue
 
                 db.add(EmailCandidate(gmail_thread_id=tid, status="new", **fields))
