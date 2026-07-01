@@ -145,6 +145,16 @@ def healthz():
     health["checks"]["google_service_token_configured"] = bool(settings.GOOGLE_SERVICE_TOKEN_JSON)
     health["checks"]["sso_configured"] = bool(settings.GOOGLE_OAUTH_CLIENT_ID)
     health["checks"]["allowlist_count"] = len(settings.allowlist)
+
+    # Offer-email ingestion readiness (non-secret: booleans, counts, mailbox addresses)
+    health["checks"]["ingest"] = {
+        "enabled": settings.INGEST_ENABLED,
+        "anthropic_configured": bool(settings.ANTHROPIC_API_KEY),
+        "offer_senders": settings.offer_senders,
+        "mailboxes": sorted(settings.inbox_tokens.keys()),
+        "since": settings.INGEST_SINCE or None,
+        "lookback_days": settings.INGEST_LOOKBACK_DAYS,
+    }
     return health
 
 
