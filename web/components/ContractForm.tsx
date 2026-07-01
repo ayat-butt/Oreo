@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Building2, User, Wallet, Stamp, FileText, ArrowLeft, ArrowRight } from "lucide-react";
@@ -66,6 +66,16 @@ export function ContractForm({
   const [submitting, setSubmitting] = useState(false);
 
   const set = (k: keyof Form, v: string | boolean) => setF((prev) => ({ ...prev, [k]: v }));
+
+  // Keep employment_type valid for the chosen entity — e.g. selecting Orenda (which only
+  // supports "addendum") must switch the type to addendum, not leave it on full_time.
+  useEffect(() => {
+    if (!f.entity) return;
+    const allowed = PAIRS[f.entity] ?? [];
+    if (!allowed.includes(f.employment_type)) set("employment_type", allowed[0] ?? "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [f.entity]);
+
   const isProject = f.employment_type === "project" || f.employment_type === "part_time";
   const isAddendum = f.employment_type === "addendum";
   const src = (field: string): "Markaz" | "Email" | "Manual" => (p[field] ? sourceLabel : "Manual");

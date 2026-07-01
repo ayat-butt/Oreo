@@ -532,21 +532,15 @@ def _fill_offer_acceptance(docs: Resource, contract_id: str, name: str, cnic: st
     ).execute()
 
 
-def _fill_hod_block(docs: Resource, contract_id: str, name: str, designation: str, date_str: str) -> None:
-    """Fill the HoD signing block: name + designation via labels, and the standalone
-    'Date' line surgically (so 'Commencement Date' / 'Offer Acceptance Date' are untouched)."""
-    pairs: list[tuple[str, str]] = []
-    if name:
-        pairs.append(("Head of Department's Name", name))
-        pairs.append(("HOD Name", name))
-    if designation:
-        pairs.append(("Designation", designation))
-    if pairs:
-        _apply_replacements(docs, contract_id, pairs)
+def _replace_standalone_label(docs: Resource, doc_id: str, label: str, value: str) -> None:
+    """Replace a paragraph whose ENTIRE trimmed text is exactly `label` with `value`.
 
-    # Surgically replace the standalone "Date" paragraph (the HoD date line)
-    doc = docs.documents().get(documentId=contract_id).execute()
-    target = {"idx": None}
+    For bare labels like 'Designation' / 'Date' that must never be replaced globally — a
+    global replaceAllText would also corrupt 'Designation:' (the employee field) or a
+    'Commencement Date' line. Only an exact standalone-paragraph match is touched.
+    """
+    doc = docs.documents().get(documentId=doc_id).execute()
+    target = {"idx": None, "len": 0}
 
     def find(elements):
         for el in elements:
@@ -554,11 +548,13 @@ def _fill_hod_block(docs: Resource, contract_id: str, name: str, designation: st
                 return
             if "paragraph" in el:
                 runs = el["paragraph"].get("elements", [])
-                t = "".join(pe.get("textRun", {}).get("content", "") for pe in runs).strip()
-                if t == "Date":
+                full = "".join(pe.get("textRun", {}).get("content", "") for pe in runs)
+                if full.strip() == label:
                     for pe in runs:
-                        if pe.get("textRun", {}).get("content", "").strip() == "Date":
+                        c = pe.get("textRun", {}).get("content", "")
+                        if c.strip() == label:
                             target["idx"] = pe.get("startIndex")
+                            target["len"] = len(c.rstrip("\n"))
                             return
             elif "table" in el:
                 for row in el["table"].get("tableRows", []):
@@ -569,12 +565,27 @@ def _fill_hod_block(docs: Resource, contract_id: str, name: str, designation: st
     if target["idx"] is not None:
         i = target["idx"]
         docs.documents().batchUpdate(
-            documentId=contract_id,
+            documentId=doc_id,
             body={"requests": [
-                {"deleteContentRange": {"range": {"startIndex": i, "endIndex": i + 4}}},
-                {"insertText": {"location": {"index": i}, "text": date_str}},
+                {"deleteContentRange": {"range": {"startIndex": i, "endIndex": i + target["len"]}}},
+                {"insertText": {"location": {"index": i}, "text": value}},
             ]},
         ).execute()
+
+
+def _fill_hod_block(docs: Resource, contract_id: str, name: str, designation: str, date_str: str) -> None:
+    """Fill the HoD signing block. The name uses unique labels (safe to replace globally);
+    'Designation' and 'Date' are bare words replaced only as STANDALONE paragraphs, so an
+    employee 'Designation:' field or a 'Commencement Date' line is never corrupted."""
+    if name:
+        _apply_replacements(docs, contract_id, [
+            ("Head of Department’s Name", name),   # curly apostrophe (as used in the templates)
+            ("Head of Department's Name", name),         # straight-apostrophe fallback
+            ("HOD Name", name),
+        ])
+    if designation:
+        _replace_standalone_label(docs, contract_id, "Designation", designation)
+    _replace_standalone_label(docs, contract_id, "Date", date_str)
 
 
 def _remove_probation_clause(docs: Resource, contract_id: str) -> None:
@@ -737,14 +748,41 @@ def _replacements(template_key: str, emp: dict) -> list[tuple[str, str]]:
 
     # ── OWT Project / Part Time ───────────────────────────────────────────────
     if template_key == "owt_project":
+        # Compensation breakdown — standard Orenda split (same as the OPL project contract).
+        try:
+            gross = float(str(salary).replace(",", "").replace("PKR", "").strip())
+        except ValueError:
+            gross = 0.0
+        base = round(gross * 0.90)
+        medical = round(base * 0.10)
+        others = round(gross - base - medical)
+        money = lambda n: f"{int(n):,}"
         return [
             ("Pakistan Date:",                           f"Pakistan Date: {today}"),
             ("Private & Confidential           CNIC:",   f"Private & Confidential CNIC: {cnic}"),
             ("Name: ",                                   f"Name: {name}"),
-            ("Mr./ Ms. XYZ bearing CNIC NoXYZ",
-             f"{sal} {name} bearing CNIC No{cnic}"),
+            # Contract execution date
+            ("entered into on this XYZ",                 f"entered into on this {today}"),
+            # Parties line — template has "CNIC No XYZ" WITH a space after "No"
+            ("Mr./ Ms. XYZ bearing CNIC No XYZ",
+             f"{sal} {name} bearing CNIC No {cnic}"),
+            # Term dates
             ("day of MONTH, YEAR to day of MONTH , YEAR", f"{start_date} to {end_date}"),
-            ("contract with a duration of XYZ months",  f"contract with a duration of {duration} months"),
+            # Compensation breakdown
+            ("Total Earnings PKR XYZ Per month",         f"Total Earnings PKR {salary} Per month"),
+            ("Base Salary: PKR XYZ",                     f"Base Salary: PKR {money(base)}"),
+            ("Medical Allowance: PKR XYZ",               f"Medical Allowance: PKR {money(medical)}"),
+            ("Others: PKR XYZ",                          f"Others: PKR {money(others)}"),
+            ("contract with a duration of XYZ months",   f"contract with a duration of {duration} months"),
+            # Offer-acceptance line
+            ("I, XYZ, CNIC # XYZ",                       f"I, {name}, CNIC # {cnic}"),
+            ("join Orenda XYZ (joining date)",           f"join Orenda on {joining_date}"),
+            # Reporting lines
+            ("Direct Report to: XYZ",                    f"Direct Report to: {direct_rep}"),
+            ("Coordination & Report to: XYZ",            f"Coordination & Report to: {indirect_rep}"),
+            # Employee designation value — a standalone "XYZ" under the "Designation:" label.
+            # MUST be last: every other XYZ above is consumed first, leaving only this one.
+            ("XYZ",                                      designation),
         ]
 
     # ── OPL Project Based ─────────────────────────────────────────────────────
