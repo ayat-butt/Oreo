@@ -354,6 +354,32 @@ def get_active_jobs():
         return cur.fetchall()
 
 
+def get_job_jd_by_title(title: str):
+    """Find a job posting by title and return its JD source (read-only).
+    Returns {title, description, jd_text} or None. Tries an exact case-insensitive
+    match first, then a contains-match either way (handles minor title differences)."""
+    if not title or not title.strip():
+        return None
+    t = title.strip()
+    with _conn() as (cur, _):
+        cur.execute(
+            """SELECT title, description, jd_text FROM jobs
+               WHERE lower(title) = lower(%s)
+               ORDER BY created_at DESC NULLS LAST LIMIT 1""",
+            (t,),
+        )
+        row = cur.fetchone()
+        if row:
+            return row
+        cur.execute(
+            """SELECT title, description, jd_text FROM jobs
+               WHERE title ILIKE %s OR %s ILIKE '%%' || title || '%%'
+               ORDER BY created_at DESC NULLS LAST LIMIT 1""",
+            (f"%{t}%", t),
+        )
+        return cur.fetchone()
+
+
 def get_candidates(status: str = None):
     """DEPRECATED: the `candidates` table has no `status` column (it is a raw applicant pool).
     The hiring pipeline lives in `applications`. Use get_offer_pipeline() instead.

@@ -54,6 +54,23 @@ def _jd_doc_id_from_links(links) -> str | None:
     return cands[0][1]
 
 
+def _markaz_jd_for_role(role: str | None) -> str:
+    """Look up the JD in Markaz by role/designation (the canonical source — every JD lives
+    there). Returns a clean Responsibilities-focused JD, or '' if no matching job."""
+    if not role or not role.strip():
+        return ""
+    try:
+        from hr_assistant import markaz_db
+        from api.services.enrichment import jd_from_description
+        row = markaz_db.get_job_jd_by_title(role)
+        if not row:
+            return ""
+        jd = jd_from_description(row.get("description") or "")
+        return jd or (row.get("jd_text") or "").strip()
+    except Exception:  # noqa: BLE001
+        return ""
+
+
 def _read_jd(svc, doc_id: str) -> str:
     """Read + clean a JD doc with a specific Docs client (raises if it can't be read)."""
     from hr_assistant.contract_service import _extract_jd_lines
@@ -190,8 +207,11 @@ def ingest_offer_emails() -> dict:
                     summary["skipped_not_offer"] += 1
                     continue
 
-                # JD is usually a LINK ("Sharing the JD …") rather than inline text — open it.
+                # JD source priority: inline text → Markaz by role (canonical, always
+                # accessible) → the JD doc linked in the email ("Sharing the JD …").
                 jd_text_val = _clean(data.get("job_description"))
+                if not jd_text_val:
+                    jd_text_val = _clean(_markaz_jd_for_role(data.get("role")))
                 if not jd_text_val:
                     jd_doc_id = _jd_doc_id_from_links(th.get("links"))
                     if jd_doc_id:
