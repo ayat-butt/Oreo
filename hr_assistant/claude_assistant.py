@@ -117,7 +117,7 @@ Rules:
 - For gross_salary, strip 'PKR', 'Rs', commas, spaces and any 'inclusive of tax' note — digits only (e.g. "127000")."""
 
     response = client.messages.create(
-        model="claude-opus-4-6",
+        model="claude-sonnet-4-6",
         max_tokens=1024,
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": prompt}],

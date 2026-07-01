@@ -60,6 +60,7 @@ def ingest_offer_emails() -> dict:
     else:
         parts.append(f"newer_than:{settings.INGEST_LOOKBACK_DAYS}d")
     query = " ".join(parts)
+    extract_errors: list[str] = []
     db = SessionLocal()
     try:
         for mailbox, gmail in services:
@@ -86,7 +87,8 @@ def ingest_offer_emails() -> dict:
                 try:
                     th = gmail_inbox.get_thread(gmail, tid)
                     data = extract_offer_details(th["subject"], th["text"])
-                except Exception:  # noqa: BLE001 — one bad thread shouldn't abort the run
+                except Exception as e:  # noqa: BLE001 — one bad thread shouldn't abort the run
+                    extract_errors.append(f"{type(e).__name__}: {e}")
                     continue
 
                 if not data.get("is_offer") or not (data.get("full_name") or "").strip():
@@ -132,6 +134,10 @@ def ingest_offer_emails() -> dict:
                     )
                 except Exception:  # noqa: BLE001 — unique-constraint race or bad row
                     db.rollback()
+
+        # Surface a meaningful message if we matched threads but extracted nothing.
+        if summary["ingested"] == 0 and extract_errors:
+            summary["error"] = "extraction failed: " + extract_errors[0][:300]
         return summary
     finally:
         db.close()
