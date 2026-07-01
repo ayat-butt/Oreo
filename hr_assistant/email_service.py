@@ -31,11 +31,30 @@ def _assert_allowed(address: str) -> None:
         )
 
 
-# ── Fixed links (same across all Taleemabad hires) ───────────────────────────
-_ONBOARDING_FORM = (
+# ── Employee data-collection forms (chosen per hire, ALWAYS confirmed at send) ─
+# Orenda form — OPL/OWT full-time & part-time employees.
+_ORENDA_FORM = (
     "https://docs.google.com/forms/d/e/"
     "1FAIpQLSf70SM4jlx4muDMLlN1ZMqHqVEQjJQgCBga-oRM-M1OZXCePw/viewform"
 )
+# NIETE form — project-based roles (National Institute of Excellence in Teacher Education).
+_NIETE_FORM = (
+    "https://docs.google.com/forms/d/e/"
+    "1FAIpQLSdVAYfCZZhusF_tNLn7mxzoK5BFXDa7xfj2FZifRlva-YDBHQ/viewform"
+)
+ONBOARDING_FORMS = {"orenda": _ORENDA_FORM, "niete": _NIETE_FORM}
+_ONBOARDING_FORM = _ORENDA_FORM   # default when nothing chosen
+
+
+def suggested_form_key(emp: dict) -> str:
+    """Best-guess data form: project roles → NIETE; full/part-time → Orenda. Always confirmed."""
+    return "niete" if (emp.get("employment_type", "") or "").lower() == "project" else "orenda"
+
+
+def form_url(key: str | None) -> str:
+    return ONBOARDING_FORMS.get((key or "").lower(), _ORENDA_FORM)
+
+
 _WHATSAPP_LINK = "https://chat.whatsapp.com/HglkfuENmLqEbaq8N5jSVq"
 _SENDER_SIGNATURE = """\
 <span class="gmail_signature_prefix">-- </span><br>\

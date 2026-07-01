@@ -49,12 +49,23 @@ def _record(db: Session, req: ContractRequest, user: AppUser, kind: str,
     return EmailResult(kind=kind, to=to, subject=subject, gmail_id=gmail_id, request_status=req.status)
 
 
+def _emp_with_form(emp: dict, form: str | None) -> tuple[dict, str, str]:
+    """Return (emp merged with the chosen onboarding form, chosen_key, suggested_key)."""
+    suggested = email_service.suggested_form_key(emp)
+    key = (form or suggested).lower()
+    if key not in email_service.ONBOARDING_FORMS:
+        key = suggested
+    return {**emp, "onboarding_form": email_service.form_url(key)}, key, suggested
+
+
 @router.get("/{request_id}/email/preview", response_model=EmailPreview)
-def email_preview(request_id: uuid.UUID, db: Session = Depends(get_db),
+def email_preview(request_id: uuid.UUID, form: str | None = None, db: Session = Depends(get_db),
                   user: AppUser = Depends(current_user)):
-    """Render the welcome-email subject + HTML body + attachment names (no send)."""
+    """Render the welcome-email subject + HTML body + attachment names (no send).
+    `form` selects the data-collection form (orenda | niete); defaults to the role-based suggestion."""
     req, doc = _load(db, request_id)
     emp = req.emp_payload
+    emp2, key, suggested = _emp_with_form(emp, form)
     from hr_assistant.email_service import _build_email_body
     attachments = [f"{emp['name']} - Contract.pdf"]
     if doc.nda_id:
@@ -63,8 +74,10 @@ def email_preview(request_id: uuid.UUID, db: Session = Depends(get_db),
         subject=f"Welcome to Taleemabad - {emp.get('designation', '')}",
         to=emp.get("email"),
         cc=emp.get("cc_list") or [],
-        html_body=_build_email_body(emp),
+        html_body=_build_email_body(emp2),
         attachments=attachments,
+        form_key=key,
+        form_suggested=suggested,
     )
 
 
@@ -72,9 +85,10 @@ def email_preview(request_id: uuid.UUID, db: Session = Depends(get_db),
 def email_draft(request_id: uuid.UUID, body: EmailDraftRequest,
                 db: Session = Depends(get_db), user: AppUser = Depends(current_user)):
     req, doc = _load(db, request_id)
+    emp, _, _ = _emp_with_form(req.emp_payload, body.form)
     svcs = get_google_services(allow_interactive=False)
     res = email_service.draft_welcome_email(
-        svcs["drive"], svcs["gmail"], req.emp_payload, doc.contract_id, doc.nda_id, cc=body.cc)
+        svcs["drive"], svcs["gmail"], emp, doc.contract_id, doc.nda_id, cc=body.cc)
     return _record(db, req, user, "draft", res["to"], body.cc, res["subject"], res["draft_id"], req.status)
 
 
@@ -85,9 +99,10 @@ def email_pilot(request_id: uuid.UUID, body: EmailPilotRequest,
     if not test_address:
         raise HTTPException(400, "no test_address and TEST_PILOT_EMAIL not configured")
     req, doc = _load(db, request_id)
+    emp, _, _ = _emp_with_form(req.emp_payload, body.form)
     svcs = get_google_services(allow_interactive=False)
     res = email_service.send_welcome_email(
-        svcs["drive"], svcs["gmail"], req.emp_payload, doc.contract_id, doc.nda_id,
+        svcs["drive"], svcs["gmail"], emp, doc.contract_id, doc.nda_id,
         cc=body.cc, subject_prefix="[TEST] ", to_override=test_address)
     return _record(db, req, user, "pilot", res["to"], body.cc, res["subject"], res["message_id"], "pilot_sent")
 
@@ -102,7 +117,8 @@ def email_live(request_id: uuid.UUID, body: EmailLiveRequest,
     req, doc = _load(db, request_id)
     if not req.emp_payload.get("email"):
         raise HTTPException(400, "candidate email missing from emp payload")
+    emp, _, _ = _emp_with_form(req.emp_payload, body.form)
     svcs = get_google_services(allow_interactive=False)
     res = email_service.send_welcome_email(
-        svcs["drive"], svcs["gmail"], req.emp_payload, doc.contract_id, doc.nda_id, cc=body.cc)
+        svcs["drive"], svcs["gmail"], emp, doc.contract_id, doc.nda_id, cc=body.cc)
     return _record(db, req, user, "live", res["to"], body.cc, res["subject"], res["message_id"], "sent")

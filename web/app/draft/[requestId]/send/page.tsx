@@ -11,8 +11,13 @@ import { AppShell } from "@/components/AppShell";
 import { Button, inputClass } from "@/components/ui/primitives";
 import { apiGet, apiPost } from "@/lib/client";
 
-interface Preview { subject: string; to: string | null; cc: string[]; attachments: string[]; }
+interface Preview { subject: string; to: string | null; cc: string[]; attachments: string[]; form_key?: string; }
 interface SendResult { kind: string; to: string; subject: string; gmail_id: string; request_status: string; }
+
+const FORM_LABELS: Record<string, string> = {
+  orenda: "Orenda (full/part-time)",
+  niete: "NIETE (project)",
+};
 
 export default function SendPage({ params }: { params: { requestId: string } }) {
   const [p, setP] = useState<Preview | null>(null);
@@ -24,10 +29,13 @@ export default function SendPage({ params }: { params: { requestId: string } }) 
   const [sending, setSending] = useState(false);
   const [result, setResult] = useState<SendResult | null>(null);
   const [err, setErr] = useState("");
+  const [form, setForm] = useState("");
 
   useEffect(() => {
-    apiGet<Preview>(`/contracts/${params.requestId}/email/preview`).then((d) => {
-      setP(d); setCc(d.cc.join(", "));
+    const q = new URLSearchParams(window.location.search).get("form") || "";
+    setForm(q);
+    apiGet<Preview>(`/contracts/${params.requestId}/email/preview${q ? `?form=${q}` : ""}`).then((d) => {
+      setP(d); setCc(d.cc.join(", ")); if (!q && d.form_key) setForm(d.form_key);
     }).catch((e) => setErr(String(e)));
   }, [params.requestId]);
 
@@ -38,11 +46,11 @@ export default function SendPage({ params }: { params: { requestId: string } }) 
     try {
       if (mode === "pilot") {
         const r = await apiPost<SendResult>(`/contracts/${params.requestId}/email/pilot`,
-          { test_address: testAddr || null, cc: ccArray() });
+          { test_address: testAddr || null, cc: ccArray(), form: form || null });
         setResult(r);
       } else {
         const r = await apiPost<SendResult>(`/contracts/${params.requestId}/email/live`,
-          { confirm: true, cc: ccArray() });
+          { confirm: true, cc: ccArray(), form: form || null });
         setResult(r);
       }
       setModal(false);
@@ -144,6 +152,10 @@ export default function SendPage({ params }: { params: { requestId: string } }) 
             </span>
           ))}
         </div>
+        <div className="mt-3 text-sm text-slate-600">
+          Data form: <b>{FORM_LABELS[form] ?? "—"}</b>
+          <Link href={`/draft/${params.requestId}/email?form=${form}`} className="ml-2 text-xs text-brand-blue-strong hover:underline">change</Link>
+        </div>
         {err && <p className="mt-3 flex items-center gap-1.5 text-sm text-danger" role="alert"><AlertTriangle size={15} /> {err}</p>}
         <div className="mt-5">
           <Button variant={mode === "live" ? "danger" : "primary"} onClick={() => { setConfirmName(""); setModal(true); }}>
@@ -188,6 +200,7 @@ export default function SendPage({ params }: { params: { requestId: string } }) 
                 <div className="mt-1">To: <b>{recipient}</b></div>
                 {ccArray().length > 0 && <div>Cc: {ccArray().join(", ")}</div>}
                 <div>Attachments: {p.attachments.join(", ")}</div>
+                <div>Data form: <b>{FORM_LABELS[form] ?? "—"}</b></div>
               </div>
 
               {mode === "live" && (

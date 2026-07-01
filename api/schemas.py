@@ -233,16 +233,19 @@ class CreateContractResponse(BaseModel):
 
 class EmailDraftRequest(BaseModel):
     cc: list[str] | None = None
+    form: str | None = None              # data-collection form: "orenda" | "niete"
 
 
 class EmailPilotRequest(BaseModel):
     test_address: str | None = None      # defaults to settings.TEST_PILOT_EMAIL
     cc: list[str] | None = None
+    form: str | None = None              # data-collection form: "orenda" | "niete"
 
 
 class EmailLiveRequest(BaseModel):
     confirm: bool = False                # must be True to actually send to the candidate
     cc: list[str] | None = None
+    form: str | None = None              # data-collection form: "orenda" | "niete"
 
 
 class EmailResult(BaseModel):
@@ -259,3 +262,5 @@ class EmailPreview(BaseModel):
     cc: list[str] = []
     html_body: str
     attachments: list[str] = []
+    form_key: str = "orenda"             # which data form is currently in the body
+    form_suggested: str = "orenda"       # role-based suggestion (project → niete)
