@@ -920,6 +920,10 @@ def _replacements(template_key: str, emp: dict) -> list[tuple[str, str]]:
         others = round(gross - base - medical)
         money = lambda n: f"{int(n):,}"
         return [
+            # Creation date at the top (works only if it's NORMAL text — a text box/drawing
+            # can't be edited via the API). Add a plain line "Date: XYZ" to the template.
+            ("Date: XYZ",                                f"Date: {today}"),
+            ("Dated: XYZ",                               f"Dated: {today}"),
             ("PREVIOUS CONTRACT DATE",                   prev_date),
             # Parties line — salutation must resolve to Mr./Miss (not the literal "Mr./ Ms.")
             ("Mr./ Ms. XYZ, an Employee at Orenda",
