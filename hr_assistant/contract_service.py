@@ -480,6 +480,73 @@ def _insert_jd_into_annexure(docs: Resource, contract_id: str, jd_items: list[tu
         docs.documents().batchUpdate(documentId=contract_id, body={"requests": requests[i:i+50]}).execute()
 
 
+def _insert_jd_at_placeholder(docs: Resource, contract_id: str, placeholder: str,
+                              jd_items: list[tuple[str, bool]]) -> None:
+    """Replace a JD placeholder paragraph (e.g. '(Mention Job Description here)') with the
+    formatted JD — bold sub-headings, bulleted responsibilities, one line per item.
+    Used by the Addendum, whose JD lives at a placeholder rather than an 'Annexure- A' heading."""
+    if not jd_items:
+        return
+    doc = docs.documents().get(documentId=contract_id).execute()
+    loc = {"start": None, "len": 0}
+
+    def find(elements):
+        for el in elements:
+            if loc["start"] is not None:
+                return
+            if "paragraph" in el:
+                runs = [pe for pe in el["paragraph"].get("elements", []) if "textRun" in pe]
+                full = "".join(pe["textRun"].get("content", "") for pe in runs)
+                if full.strip() == placeholder and runs:
+                    loc["start"] = runs[0].get("startIndex")
+                    loc["len"] = len(full.rstrip("\n"))
+                    return
+            elif "table" in el:
+                for row in el["table"].get("tableRows", []):
+                    for cell in row.get("tableCells", []):
+                        find(cell.get("content", []))
+
+    find(doc["body"]["content"])
+    if loc["start"] is None:
+        return
+
+    lines = [text if is_h or text.lstrip().startswith("•") else f"• {text}"
+             for text, is_h in jd_items]
+    jd_text = "\n".join(lines)
+    i = loc["start"]
+    docs.documents().batchUpdate(documentId=contract_id, body={"requests": [
+        {"deleteContentRange": {"range": {"startIndex": i, "endIndex": i + loc["len"]}}},
+        {"insertText": {"location": {"index": i}, "text": jd_text}},
+    ]}).execute()
+
+    headings = {text for text, is_h in jd_items if is_h}
+    if not headings:
+        return
+    doc = docs.documents().get(documentId=contract_id).execute()
+    reqs: list[dict] = []
+
+    def bold(elements):
+        for el in elements:
+            if "paragraph" in el:
+                runs = [pe for pe in el["paragraph"].get("elements", []) if "textRun" in pe]
+                if runs:
+                    full = "".join(pe["textRun"].get("content", "") for pe in runs)
+                    if full.strip() in headings:
+                        b = runs[0].get("startIndex", 0)
+                        reqs.append({"updateTextStyle": {
+                            "range": {"startIndex": b, "endIndex": b + len(full.rstrip("\n"))},
+                            "textStyle": {"bold": True}, "fields": "bold",
+                        }})
+            elif "table" in el:
+                for row in el["table"].get("tableRows", []):
+                    for cell in row.get("tableCells", []):
+                        bold(cell.get("content", []))
+
+    bold(doc["body"]["content"])
+    for k in range(0, len(reqs), 50):
+        docs.documents().batchUpdate(documentId=contract_id, body={"requests": reqs[k:k+50]}).execute()
+
+
 def _fill_header_date(docs: Resource, contract_id: str, date_str: str) -> None:
     """Insert the date into the blank date cell in the contract header.
     The value is left UN-bold — only the 'Date:' label is bold (see _bold_contract)."""
@@ -857,18 +924,23 @@ def _replacements(template_key: str, emp: dict) -> list[tuple[str, str]]:
             # Parties line — salutation must resolve to Mr./Miss (not the literal "Mr./ Ms.")
             ("Mr./ Ms. XYZ, an Employee at Orenda",
              f"{sal} {name}, an Employee at Orenda"),
-            # Extension term — "with effect from <start> till <end>"
-            ("from XYZ  till XYZ",                       f"from {start_date} till {end_date}"),
-            # Compensation breakdown
+            # Extension term — "with effect from Joining Date till Ending Date"
+            ("from Joining Date till Ending Date",       f"from {start_date} till {end_date}"),
+            # Role in the opening paragraph ("Your services as an DESIGNATION")
+            ("as an DESIGNATION",                        f"as an {designation}"),
+            # Compensation breakdown (Addendum A)
             ("PKR XYZ  Basic Salary",                    f"PKR {money(base)}  Basic Salary"),
             ("PKR XYZ Medical Allowance",                f"PKR {money(medical)} Medical Allowance"),
             ("PKR XYZ Other Allowance",                  f"PKR {money(others)} Other Allowance"),
             ("Total Earnings: XYZ PKR",                  f"Total Earnings: {salary} PKR"),
-            # Designation appears both inline ("as an DESIGNATION") and as a standalone line
-            ("DESIGNATION",                              designation),
+            # Signatory block
+            ("HOD Name XYZ",                             hod_name),
+            ("HOD Designation XYZ",                      hod_desig),
             # Offer-acceptance line
-            ("I, XYZ,  bearing CNIC XYZ",
-             f"I, {name},  bearing CNIC {cnic}"),
+            ("I, Name XYZ,  bearing CNIC NO XYZ",
+             f"I, {name},  bearing CNIC NO {cnic}"),
+            # NOTE: the JD placeholder "(Mention Job DEscription here)" is filled separately
+            # by _insert_jd_at_placeholder so the JD gets bold sub-headings + bullets.
         ]
 
     return []
@@ -968,7 +1040,14 @@ def draft_contracts(drive: Resource, docs: Resource, emp: dict) -> dict:
         jd_items = _extract_jd_lines(docs, jd_doc_id)
     if not jd_items and jd_text:
         jd_items = _jd_text_to_items(jd_text)
-    if jd_items:
+    if contract_key == "addendum":
+        # Addendum's JD lives at a placeholder inside "Addendum A → Job Description".
+        if jd_items:
+            _insert_jd_at_placeholder(docs, contract_id, "(Mention Job DEscription here)", jd_items)
+            print(f"  Inserted JD ({len(jd_items)} items) into Addendum A")
+        else:
+            _apply_replacements(docs, contract_id, [("(Mention Job DEscription here)", "")])
+    elif jd_items:
         _insert_jd_into_annexure(docs, contract_id, jd_items)
         print(f"  Inserted JD ({len(jd_items)} items) into Annexure A")
 
