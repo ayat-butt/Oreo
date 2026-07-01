@@ -52,12 +52,19 @@ def ingest_offer_emails() -> dict:
         summary["error"] = "no offer senders configured"
         return summary
     from_clause = " OR ".join(f"from:{s}" for s in senders)
-    query = f"({from_clause}) newer_than:{settings.INGEST_LOOKBACK_DAYS}d"
+    parts = [f"({from_clause})"]
+    if settings.OFFER_SUBJECT.strip():
+        parts.append(f'subject:"{settings.OFFER_SUBJECT.strip()}"')
+    if settings.INGEST_SINCE.strip():
+        parts.append(f"after:{settings.INGEST_SINCE.strip()}")   # backfill from a fixed date
+    else:
+        parts.append(f"newer_than:{settings.INGEST_LOOKBACK_DAYS}d")
+    query = " ".join(parts)
     db = SessionLocal()
     try:
         for mailbox, gmail in services:
             try:
-                thread_ids = gmail_inbox.search_thread_ids(gmail, query, max_results=50)
+                thread_ids = gmail_inbox.search_thread_ids(gmail, query, max_results=100)
             except Exception:  # noqa: BLE001 — skip a mailbox that errors on search
                 continue
             if not thread_ids:

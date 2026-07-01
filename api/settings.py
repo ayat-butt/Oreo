@@ -55,6 +55,12 @@ class Settings(BaseSettings):
     # Scheduler: how often to poll, and how far back to search on each run.
     INGEST_POLL_MINUTES: int = 10
     INGEST_LOOKBACK_DAYS: int = 30
+    # Backfill: if set (Gmail date 'YYYY/MM/DD'), search from this date instead of the rolling
+    # lookback window — e.g. "2026/05/01" to pull every offer since 1 May 2026.
+    INGEST_SINCE: str = ""
+    # Narrow the scan to offer threads by subject (keeps cost/noise down, improves recall
+    # within the result cap). Blank it to scan all mail from the offer senders.
+    OFFER_SUBJECT: str = "offer letter"
     INGEST_ENABLED: bool = True       # master switch for the background poller
 
     @property
