@@ -105,10 +105,10 @@ class EmailCandidate(Base):
     __tablename__ = "email_candidates"
 
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=_uuid)
-    # Provenance
+    # Provenance — one row per Gmail THREAD (offer email + the candidate's reply)
     source_mailbox: Mapped[str | None] = mapped_column(String(320))   # which inbox it arrived in
-    gmail_message_id: Mapped[str] = mapped_column(String(120), unique=True, index=True, nullable=False)
-    gmail_thread_id: Mapped[str | None] = mapped_column(String(120))
+    gmail_thread_id: Mapped[str] = mapped_column(String(120), unique=True, index=True, nullable=False)  # dedup key
+    gmail_message_id: Mapped[str | None] = mapped_column(String(120), index=True)  # anchor (offer) message
     sender: Mapped[str | None] = mapped_column(String(320))
     subject: Mapped[str | None] = mapped_column(Text)
     received_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
@@ -120,6 +120,7 @@ class EmailCandidate(Base):
     gross_salary: Mapped[str | None] = mapped_column(String(40))
     role: Mapped[str | None] = mapped_column(String(200))
     department: Mapped[str | None] = mapped_column(String(200))
+    employment_type: Mapped[str | None] = mapped_column(String(30))  # full_time | project | part_time (from offer wording)
     jd_text: Mapped[str | None] = mapped_column(Text)
     raw_extract: Mapped[dict | None] = mapped_column(JSONB)         # full Claude JSON, for audit
     # State

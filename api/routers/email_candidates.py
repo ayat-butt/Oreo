@@ -24,7 +24,7 @@ from api.services.audit import write_audit
 router = APIRouter(prefix="/email-candidates", tags=["email-candidates"])
 
 # Engine-required fields the offer email never carries → always manual in the review form.
-_ALWAYS_MANUAL = ["entity", "employment_type", "gender", "hod_name", "hod_designation"]
+_ALWAYS_MANUAL = ["entity", "gender", "hod_name", "hod_designation"]
 
 
 def _to_card(row: EmailCandidate) -> EmailCandidateOut:
@@ -92,6 +92,7 @@ def email_candidate_detail(candidate_id: str, db: Session = Depends(get_db),
         email=row.personal_email,
         designation=row.role,
         department=row.department,
+        employment_type=row.employment_type,
         salary=row.gross_salary,
         joining_date=row.joining_date,
         jd_text=row.jd_text,
@@ -103,6 +104,7 @@ def email_candidate_detail(candidate_id: str, db: Session = Depends(get_db),
     if not prefill.department: missing.append("department")
     if not prefill.salary: missing.append("salary")
     if not prefill.joining_date: missing.append("joining_date")
+    if not prefill.employment_type: missing.append("employment_type")
     missing.extend(_ALWAYS_MANUAL)
 
     return EmailCandidateDetail(

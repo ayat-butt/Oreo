@@ -56,14 +56,16 @@ Respond with valid JSON only:
 
 
 def extract_offer_details(subject: str, body: str) -> dict:
-    """Extract employee offer details from an acceptance/offer email body.
+    """Extract a new hire's details from an offer-email THREAD so HR can draft the contract.
 
-    Used by the email-ingestion job to turn an unstructured offer email (forwarded by the
-    P&C team when a candidate accepts) into structured fields for the contract form.
+    The input is the full email thread flattened into text: a recruiter/HR offer message
+    (carrying the role, employment type, and gross salary) PLUS the candidate's reply on the
+    same thread (carrying their full name, CNIC, and joining date). Details must be merged
+    across the whole thread.
 
     Returns a dict:
       {
-        "is_offer": bool,            # True only if this email actually contains hire details
+        "is_offer": bool,            # True only if the thread contains a real hire's details
         "full_name": str | "",
         "cnic": str | "",            # Pakistani CNIC, formatted #####-#######-# if possible
         "personal_email": str | "",
@@ -71,17 +73,23 @@ def extract_offer_details(subject: str, body: str) -> dict:
         "gross_salary": str | "",    # digits only (no 'PKR'/commas) if present, else ""
         "role": str | "",            # job title / designation
         "department": str | "",
+        "employment_type": str | "", # full_time | project | part_time (from offer wording), else ""
         "job_description": str | ""  # JD / responsibilities text if present
       }
     Never invents values — unknown fields come back as "".
     """
-    prompt = f"""You are extracting a new hire's details from an offer/acceptance email so HR can draft their employment contract.
+    prompt = f"""You are extracting a new hire's details from an OFFER EMAIL THREAD so HR can draft their employment contract.
+
+The thread below usually has TWO parts:
+  1. An offer message from the recruiter/HR — states the ROLE, EMPLOYMENT TYPE (e.g. "permanent/full-time", "contractual"), and GROSS MONTHLY SALARY.
+  2. The candidate's REPLY on the same thread — states their FULL NAME, CNIC, and JOINING DATE, and accepts.
+Merge the details across the WHOLE thread. When the candidate's reply gives an explicit "Full Name:", "CNIC:", or "Joining Date:", prefer those (they are authoritative) over anything in the subject line.
 
 Subject: {subject}
-Body:
-{body[:6000]}
+Thread:
+{body[:9000]}
 
-Decide first whether this email is actually about a specific candidate who has accepted/been offered a role AND contains their details. If it is NOT (e.g. a general update, a question, a thread with no hire details), set "is_offer" to false.
+Decide first whether this thread is about a specific candidate who was offered/accepted a role AND contains their details. If not (a general update, a question, no hire details), set "is_offer" to false.
 
 Return ONLY valid JSON (no markdown, no commentary) with exactly these keys:
 {{
@@ -93,13 +101,14 @@ Return ONLY valid JSON (no markdown, no commentary) with exactly these keys:
   "gross_salary": "<gross monthly salary as digits only, no currency or commas, else empty string>",
   "role": "<job title / designation, or empty string>",
   "department": "<department/team, or empty string>",
+  "employment_type": "<one of full_time | project | part_time based on the offer wording; 'permanent'/'full-time' -> full_time, 'contractual'/'contract'/'project' -> project, 'part-time' -> part_time; else empty string>",
   "job_description": "<job description or key responsibilities text if present, else empty string>"
 }}
 
 Rules:
-- Never guess or fabricate. If a field is not clearly stated, use an empty string "".
-- For joining_date, convert phrases like "16th February 2026" to "2026-02-16". If only a partial date, use "".
-- For gross_salary, strip 'PKR', 'Rs', commas and spaces — digits only (e.g. "150000")."""
+- Never guess or fabricate. If a field is not clearly stated anywhere in the thread, use an empty string "".
+- For joining_date, convert phrases like "23 July 2026" or "23rd July 2026 (Tentative)" to "2026-07-23". If only a partial date, use "".
+- For gross_salary, strip 'PKR', 'Rs', commas, spaces and any 'inclusive of taxes' note — digits only (e.g. "500000")."""
 
     response = client.messages.create(
         model="claude-opus-4-6",
