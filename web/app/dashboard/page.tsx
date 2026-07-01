@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { motion, type Variants } from "framer-motion";
-import { Users, Sparkles, Search, Mail, Briefcase, ChevronRight, Inbox, AlertTriangle } from "lucide-react";
+import { AnimatePresence, motion, type Variants } from "framer-motion";
+import { Users, Sparkles, Search, Mail, Briefcase, ChevronRight, ChevronDown, Inbox, AlertTriangle } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { StatusBadge } from "@/components/StatusBadge";
 import { apiGet } from "@/lib/client";
@@ -88,6 +88,9 @@ export default function DashboardPage() {
   const [data, setData] = useState<CandidatesResponse | null>(null);
   const [err, setErr] = useState("");
   const [q, setQ] = useState("");
+  const [open, setOpen] = useState<Set<string>>(new Set());
+  const toggle = (d: string) =>
+    setOpen((s) => { const n = new Set(s); n.has(d) ? n.delete(d) : n.add(d); return n; });
 
   useEffect(() => {
     apiGet<CandidatesResponse>("/candidates").then(setData).catch((e) => setErr(String(e)));
@@ -151,23 +154,49 @@ export default function DashboardPage() {
               <p className="mt-1 text-sm text-slate-500">{q ? "Try a different search." : "Candidates appear here once their offer is accepted in Markaz."}</p>
             </div>
           ) : (
-            <div className="space-y-8">
-              {groups.map((g) => (
-                <section key={g.department}>
-                  <div className="mb-3 flex items-center gap-2 px-0.5">
-                    <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">{g.department}</h2>
-                    <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium tabular-nums text-slate-500">{g.candidates.length}</span>
-                  </div>
-                  <motion.div
-                    variants={container}
-                    initial="hidden"
-                    animate="show"
-                    className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3"
-                  >
-                    {g.candidates.map((c) => <CandidateCard key={c.application_id} c={c} />)}
-                  </motion.div>
-                </section>
-              ))}
+            <div className="space-y-3">
+              {groups.map((g) => {
+                const isOpen = q.trim().length > 0 || open.has(g.department);
+                const ready = g.candidates.filter((c) => c.ready_to_draft).length;
+                return (
+                  <section key={g.department} className="overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-card">
+                    <button
+                      type="button"
+                      onClick={() => toggle(g.department)}
+                      aria-expanded={isOpen}
+                      className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-slate-50"
+                    >
+                      <ChevronDown size={18} className={`shrink-0 text-slate-400 transition-transform duration-200 ${isOpen ? "" : "-rotate-90"}`} />
+                      <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-700">{g.department}</h2>
+                      <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium tabular-nums text-slate-500">{g.candidates.length}</span>
+                      {ready > 0 && (
+                        <span className="rounded-full bg-brand-green-soft px-2 py-0.5 text-xs font-medium tabular-nums text-brand-green-strong">{ready} ready</span>
+                      )}
+                    </button>
+                    <AnimatePresence initial={false}>
+                      {isOpen && (
+                        <motion.div
+                          key="body"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.22, ease: "easeInOut" }}
+                          className="overflow-hidden"
+                        >
+                          <motion.div
+                            variants={container}
+                            initial="hidden"
+                            animate="show"
+                            className="grid grid-cols-1 gap-3 border-t border-slate-100 p-4 md:grid-cols-2 xl:grid-cols-3"
+                          >
+                            {g.candidates.map((c) => <CandidateCard key={c.application_id} c={c} />)}
+                          </motion.div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </section>
+                );
+              })}
             </div>
           )}
         </>
