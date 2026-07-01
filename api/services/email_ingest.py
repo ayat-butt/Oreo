@@ -47,7 +47,12 @@ def ingest_offer_emails() -> dict:
 
     from hr_assistant.claude_assistant import extract_offer_details
 
-    query = f"from:{settings.OFFER_SENDER} newer_than:{settings.INGEST_LOOKBACK_DAYS}d"
+    senders = settings.offer_senders
+    if not senders:
+        summary["error"] = "no offer senders configured"
+        return summary
+    from_clause = " OR ".join(f"from:{s}" for s in senders)
+    query = f"({from_clause}) newer_than:{settings.INGEST_LOOKBACK_DAYS}d"
     db = SessionLocal()
     try:
         for mailbox, gmail in services:
@@ -81,10 +86,12 @@ def ingest_offer_emails() -> dict:
                     summary["skipped_not_offer"] += 1
                     continue
 
+                participants = th.get("participants", "")
+                who = next((s for s in senders if s in participants), senders[0])
                 fields = dict(
                     source_mailbox=mailbox,
                     gmail_message_id=th.get("anchor_message_id"),
-                    sender=settings.OFFER_SENDER,
+                    sender=who,
                     subject=th.get("subject"),
                     received_at=_to_dt(th.get("last_ms")),
                     full_name=_clean(data.get("full_name")),

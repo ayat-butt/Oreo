@@ -24,7 +24,7 @@ from api.services.audit import write_audit
 router = APIRouter(prefix="/email-candidates", tags=["email-candidates"])
 
 # Engine-required fields the offer email never carries → always manual in the review form.
-_ALWAYS_MANUAL = ["entity", "gender", "hod_name", "hod_designation"]
+_ALWAYS_MANUAL = ["entity", "gender", "hod_designation"]
 
 
 def _to_card(row: EmailCandidate) -> EmailCandidateOut:
@@ -86,6 +86,10 @@ def email_candidate_detail(candidate_id: str, db: Session = Depends(get_db),
                            user: AppUser = Depends(current_user)):
     """Detail + engine-field prefill (tagged 'Email') + what still needs manual entry."""
     row = _get(db, candidate_id)
+    raw = row.raw_extract or {}
+    reporting_to = (raw.get("reporting_to") or "").strip() or None
+    region = (raw.get("region") or "").strip() or None
+
     prefill = EmpPrefill(
         name=row.full_name,
         cnic=row.cnic,
@@ -95,6 +99,7 @@ def email_candidate_detail(candidate_id: str, db: Session = Depends(get_db),
         employment_type=row.employment_type,
         salary=row.gross_salary,
         joining_date=row.joining_date,
+        hod_name=reporting_to,          # "reporting to X" → prefill the signing-block manager (verify)
         jd_text=row.jd_text,
     )
     missing: list[str] = []
@@ -105,6 +110,7 @@ def email_candidate_detail(candidate_id: str, db: Session = Depends(get_db),
     if not prefill.salary: missing.append("salary")
     if not prefill.joining_date: missing.append("joining_date")
     if not prefill.employment_type: missing.append("employment_type")
+    if not prefill.hod_name: missing.append("hod_name")
     missing.extend(_ALWAYS_MANUAL)
 
     return EmailCandidateDetail(
@@ -119,6 +125,8 @@ def email_candidate_detail(candidate_id: str, db: Session = Depends(get_db),
         hints={
             "source": "Auto-extracted from email — verify every field before drafting.",
             "received_at": row.received_at.isoformat() if row.received_at else None,
+            "reporting_to": reporting_to,
+            "region": region,
             "jd_text_available": "yes" if (row.jd_text or "").strip() else "no",
         },
     )

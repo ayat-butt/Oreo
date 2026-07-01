@@ -60,6 +60,7 @@ export function ContractForm({
     jd_text: p.jd_text ?? "",
     salary: p.salary ?? "",
     joining_date: p.joining_date ?? "",
+    hod_name: p.hod_name ?? "",
   }));
   const [submitErr, setSubmitErr] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -202,7 +203,8 @@ export function ContractForm({
         </Section>
 
         <Section title="Head of Department (signing block)" subtitle="Signing date is set to today automatically." icon={Stamp}>
-          <Field label="HoD name" source="Manual">
+          <Field label="HoD name" source={src("hod_name")}
+                 hint={p.hod_name ? "From “reporting to …” in the email — confirm it's the signing HoD." : undefined}>
             <input className={inputClass} value={f.hod_name} onChange={(e) => set("hod_name", e.target.value)} />
           </Field>
           <Field label="HoD designation" source="Manual">

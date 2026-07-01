@@ -74,16 +74,19 @@ def extract_offer_details(subject: str, body: str) -> dict:
         "role": str | "",            # job title / designation
         "department": str | "",
         "employment_type": str | "", # full_time | project | part_time (from offer wording), else ""
+        "reporting_to": str | "",    # line manager the person reports to, else ""
+        "region": str | "",          # work region/location, else ""
         "job_description": str | ""  # JD / responsibilities text if present
       }
     Never invents values — unknown fields come back as "".
     """
     prompt = f"""You are extracting a new hire's details from an OFFER EMAIL THREAD so HR can draft their employment contract.
 
-The thread below usually has TWO parts:
-  1. An offer message from the recruiter/HR — states the ROLE, EMPLOYMENT TYPE (e.g. "permanent/full-time", "contractual"), and GROSS MONTHLY SALARY.
-  2. The candidate's REPLY on the same thread — states their FULL NAME, CNIC, and JOINING DATE, and accepts.
-Merge the details across the WHOLE thread. When the candidate's reply gives an explicit "Full Name:", "CNIC:", or "Joining Date:", prefer those (they are authoritative) over anything in the subject line.
+The thread below can have SEVERAL messages, in any order:
+  - An original offer from the recruiter/hiring system (e.g. info@taleemabad.com) — states the ROLE, EMPLOYMENT TYPE (e.g. "permanent/full-time", "contractual/full-time"), GROSS MONTHLY SALARY, joining date, and sometimes a contract end.
+  - The candidate's REPLY — states their FULL NAME (as per CNIC), CNIC number, and confirms joining.
+  - A P&C colleague (e.g. Aymen or Ayesha) forwarding it to HR — may add the REPORTING MANAGER ("reporting to X"), the REGION/location, salary, and joining date.
+Merge the details across the WHOLE thread. When the candidate's reply gives an explicit "Name:"/"Full Name:"/"CNIC:", prefer those (they are authoritative) over the subject line.
 
 Subject: {subject}
 Thread:
@@ -94,21 +97,24 @@ Decide first whether this thread is about a specific candidate who was offered/a
 Return ONLY valid JSON (no markdown, no commentary) with exactly these keys:
 {{
   "is_offer": true or false,
-  "full_name": "<candidate full legal name, or empty string>",
+  "full_name": "<candidate full legal name (as per CNIC), or empty string>",
   "cnic": "<Pakistani CNIC formatted #####-#######-# if present, else empty string>",
   "personal_email": "<candidate's personal email, or empty string>",
-  "joining_date": "<joining/start date as YYYY-MM-DD if a date is given, else empty string>",
+  "joining_date": "<joining/start date as YYYY-MM-DD if a full date is given, else empty string>",
   "gross_salary": "<gross monthly salary as digits only, no currency or commas, else empty string>",
   "role": "<job title / designation, or empty string>",
   "department": "<department/team, or empty string>",
-  "employment_type": "<one of full_time | project | part_time based on the offer wording; 'permanent'/'full-time' -> full_time, 'contractual'/'contract'/'project' -> project, 'part-time' -> part_time; else empty string>",
+  "employment_type": "<full_time | project | part_time, or empty string>",
+  "reporting_to": "<name of the manager the person reports to, e.g. from 'reporting to X', else empty string>",
+  "region": "<work region/city/location if stated (e.g. 'Tarnol'), else empty string>",
   "job_description": "<job description or key responsibilities text if present, else empty string>"
 }}
 
 Rules:
 - Never guess or fabricate. If a field is not clearly stated anywhere in the thread, use an empty string "".
-- For joining_date, convert phrases like "23 July 2026" or "23rd July 2026 (Tentative)" to "2026-07-23". If only a partial date, use "".
-- For gross_salary, strip 'PKR', 'Rs', commas, spaces and any 'inclusive of taxes' note — digits only (e.g. "500000")."""
+- employment_type: use "project" for any contractual or fixed-term role — even if it is also called "full-time" (e.g. "Contractual/Full-time"), or whenever a contract END date/month is mentioned. Use "full_time" only for a permanent role with no end date. "part-time" -> "part_time".
+- For joining_date, convert phrases like "18th May 2026" or "23 July 2026 (Tentative)" to ISO (e.g. "2026-05-18"). If the year is missing or only a month is given, use "".
+- For gross_salary, strip 'PKR', 'Rs', commas, spaces and any 'inclusive of tax' note — digits only (e.g. "127000")."""
 
     response = client.messages.create(
         model="claude-opus-4-6",

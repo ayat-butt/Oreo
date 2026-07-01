@@ -45,8 +45,8 @@ class Settings(BaseSettings):
     ANTHROPIC_API_KEY: str = ""
 
     # ── Email-candidate ingestion (offer letters forwarded by P&C) ──────────────
-    # Sender whose emails carry new-hire details.
-    OFFER_SENDER: str = "aymen.abid@taleemabad.com"
+    # Senders whose emails carry new-hire details (comma-separated; matched with OR).
+    OFFER_SENDER: str = "aymen.abid@taleemabad.com,ayesha.khan@taleemabad.com"
     # Per-mailbox read tokens (authorized_user JSON). niete falls back to GOOGLE_SERVICE_TOKEN_JSON.
     GMAIL_TOKEN_NIETE_JSON: str = ""
     GMAIL_TOKEN_TALEEMABAD_JSON: str = ""
@@ -56,6 +56,11 @@ class Settings(BaseSettings):
     INGEST_POLL_MINUTES: int = 10
     INGEST_LOOKBACK_DAYS: int = 30
     INGEST_ENABLED: bool = True       # master switch for the background poller
+
+    @property
+    def offer_senders(self) -> list[str]:
+        """Email addresses whose messages carry offer details (Aymen, Ayesha, …)."""
+        return [s.strip() for s in self.OFFER_SENDER.split(",") if s.strip()]
 
     @property
     def inbox_tokens(self) -> dict[str, str]:
