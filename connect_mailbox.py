@@ -26,8 +26,13 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 
 from hr_assistant.config import GOOGLE_CREDENTIALS_FILE
 
-# Read-only is all the ingestion job needs.
-READ_SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
+# Read-only scopes the ingestion job needs: read mail, and read a linked JD Google Doc
+# (documents/drive) that may be shared only within this mailbox's organization.
+READ_SCOPES = [
+    "https://www.googleapis.com/auth/gmail.readonly",
+    "https://www.googleapis.com/auth/documents.readonly",
+    "https://www.googleapis.com/auth/drive.readonly",
+]
 
 ENV_VAR = {
     "taleemabad": "GMAIL_TOKEN_TALEEMABAD_JSON",

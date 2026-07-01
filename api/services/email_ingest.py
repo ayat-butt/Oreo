@@ -12,8 +12,11 @@ after the first scan gets picked up. Threads already 'drafted'/'dismissed' are l
 
 from __future__ import annotations
 
+import re
+import urllib.parse
 from datetime import datetime, timezone
 
+from googleapiclient.discovery import build
 from sqlalchemy import func
 
 from api.db.base import SessionLocal
@@ -21,6 +24,72 @@ from api.db.models import EmailCandidate
 from api.services.audit import write_audit
 from api.services import gmail_inbox
 from api.settings import settings
+
+_docs_service = None
+
+
+def _docs():
+    """Docs client (service identity) for reading a linked JD Google Doc. Cached."""
+    global _docs_service
+    if _docs_service is None:
+        from hr_assistant.config import get_google_services
+        _docs_service = get_google_services(allow_interactive=False)["docs"]
+    return _docs_service
+
+
+def _jd_doc_id_from_links(links) -> str | None:
+    """Pick the Job Description Google-Doc id from the thread's links.
+    Prefers an anchor whose text mentions JD / job description; else the first doc link."""
+    cands: list[tuple[str, str]] = []
+    for text, href in links or []:
+        h = urllib.parse.unquote(href or "")          # Gmail often wraps links in google.com/url?q=…
+        m = re.search(r"docs\.google\.com/document/d/([A-Za-z0-9_-]{20,})", h)
+        if m:
+            cands.append((text or "", m.group(1)))
+    if not cands:
+        return None
+    for text, did in cands:
+        if re.search(r"\bjd\b|job\s*desc", text, re.I):
+            return did
+    return cands[0][1]
+
+
+def _read_jd(svc, doc_id: str) -> str:
+    """Read + clean a JD doc with a specific Docs client (raises if it can't be read)."""
+    from hr_assistant.contract_service import _extract_jd_lines
+    items = _extract_jd_lines(svc, doc_id)
+    if items:
+        return "\n".join(t for t, _ in items)
+    d = svc.documents().get(documentId=doc_id).execute()
+    lines = ["".join(pe.get("textRun", {}).get("content", "")
+                     for pe in el["paragraph"].get("elements", [])).rstrip()
+             for el in d.get("body", {}).get("content", []) if "paragraph" in el]
+    full = "\n".join(lines)
+    from api.services.enrichment import _RESP_START, _RESP_END
+    m = _RESP_START.search(full)
+    if m:
+        end = _RESP_END.search(full, m.end())
+        section = full[m.start(): end.start() if end else len(full)].strip()
+        if section:
+            return section
+    return "\n".join(l for l in lines if l.strip())
+
+
+def _fetch_jd_text(doc_id: str, primary=None) -> str:
+    """Read a linked JD doc → clean Responsibilities-focused JD.
+
+    Tries the mailbox's own identity first (can open org-restricted docs), then the niete
+    service identity; one retry each for transient API blips. '' if none can read it."""
+    for svc in [s for s in (primary, _docs()) if s is not None]:
+        for _attempt in range(2):
+            try:
+                txt = _read_jd(svc, doc_id)
+                if txt:
+                    return txt
+                break  # readable but empty → don't retry this svc
+            except Exception:  # noqa: BLE001 — no access / transient → try next
+                continue
+    return ""
 
 
 def _is_cross_mailbox_duplicate(db, full_name: str | None, cnic: str | None) -> bool:
@@ -85,7 +154,11 @@ def ingest_offer_emails() -> dict:
     extract_errors: list[str] = []
     db = SessionLocal()
     try:
-        for mailbox, gmail in services:
+        for mailbox, gmail, creds in services:
+            try:
+                mbox_docs = build("docs", "v1", credentials=creds, cache_discovery=False)
+            except Exception:  # noqa: BLE001
+                mbox_docs = None
             try:
                 thread_ids = gmail_inbox.search_thread_ids(gmail, query, max_results=100)
             except Exception:  # noqa: BLE001 — skip a mailbox that errors on search
@@ -117,6 +190,13 @@ def ingest_offer_emails() -> dict:
                     summary["skipped_not_offer"] += 1
                     continue
 
+                # JD is usually a LINK ("Sharing the JD …") rather than inline text — open it.
+                jd_text_val = _clean(data.get("job_description"))
+                if not jd_text_val:
+                    jd_doc_id = _jd_doc_id_from_links(th.get("links"))
+                    if jd_doc_id:
+                        jd_text_val = _clean(_fetch_jd_text(jd_doc_id, mbox_docs))
+
                 participants = th.get("participants", "")
                 who = next((s for s in senders if s in participants), senders[0])
                 fields = dict(
@@ -133,7 +213,7 @@ def ingest_offer_emails() -> dict:
                     role=_clean(data.get("role")),
                     department=_clean(data.get("department")),
                     employment_type=_clean(data.get("employment_type")),
-                    jd_text=_clean(data.get("job_description")),
+                    jd_text=jd_text_val,
                     raw_extract=data,
                 )
 

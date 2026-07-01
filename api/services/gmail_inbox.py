@@ -23,13 +23,14 @@ from googleapiclient.discovery import build
 from api.settings import settings
 
 
-def build_inbox_services() -> list[tuple[str, object]]:
-    """Return [(mailbox_email, gmail_service), ...] for every configured mailbox token.
+def build_inbox_services() -> list[tuple[str, object, object]]:
+    """Return [(mailbox_email, gmail_service, creds), ...] for every configured mailbox token.
 
-    Silently skips mailboxes whose token is missing or unusable so one broken token never
-    stops the others. Never blocks on interactive auth (web/Railway context).
+    `creds` is returned so the caller can build a Docs client with the SAME identity — needed
+    to read a linked JD doc that is shared only within that mailbox's org. Silently skips
+    mailboxes whose token is missing/unusable; never blocks on interactive auth.
     """
-    services: list[tuple[str, object]] = []
+    services: list[tuple[str, object, object]] = []
     for mailbox, blob in settings.inbox_tokens.items():
         try:
             creds = Credentials.from_authorized_user_info(json.loads(blob))
@@ -39,7 +40,7 @@ def build_inbox_services() -> list[tuple[str, object]]:
                 else:
                     continue
             gmail = build("gmail", "v1", credentials=creds, cache_discovery=False)
-            services.append((mailbox, gmail))
+            services.append((mailbox, gmail, creds))
         except Exception:  # noqa: BLE001 — a bad token must not break the loop
             continue
     return services
@@ -65,6 +66,7 @@ def get_thread(gmail, thread_id: str) -> dict:
     last_ms = 0
     participants: list[str] = []
     parts: list[str] = []
+    links: list[tuple[str, str]] = []
     for m in msgs:
         headers = {h["name"].lower(): h["value"] for h in m["payload"].get("headers", [])}
         if not subject:
@@ -77,6 +79,7 @@ def get_thread(gmail, thread_id: str) -> dict:
             anchor_id = m["id"]
         body = _extract_text_body(m["payload"])
         parts.append(f"--- Message from: {frm} ---\n{body}".strip())
+        links.extend(_extract_links(m["payload"]))
     return {
         "thread_id": thread_id,
         "anchor_message_id": anchor_id,
@@ -85,7 +88,23 @@ def get_thread(gmail, thread_id: str) -> dict:
         "last_ms": last_ms or None,
         "message_count": len(msgs),
         "text": "\n\n".join(parts).strip(),
+        "links": links,   # [(anchor_text, href), ...] — used to find a linked Job Description
     }
+
+
+_ANCHOR_RE = re.compile(r'<a\s[^>]*href="([^"]+)"[^>]*>(.*?)</a>', re.I | re.S)
+
+
+def _extract_links(payload: dict) -> list[tuple[str, str]]:
+    """Pull (anchor_text, href) pairs from a message's HTML part (e.g. the 'JD' link)."""
+    html = _walk(payload, "text/html")
+    if not html:
+        return []
+    out: list[tuple[str, str]] = []
+    for href, inner in _ANCHOR_RE.findall(html):
+        text = _html.unescape(_TAGS.sub("", inner)).strip()
+        out.append((text, _html.unescape(href)))
+    return out
 
 
 _TAG_BREAKS = re.compile(r"(?i)<\s*(p|br|div|li|h[1-6]|tr|ul|ol)[^>]*>")
