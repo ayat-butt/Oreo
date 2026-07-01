@@ -29,7 +29,9 @@ class Settings(BaseSettings):
     JWT_SECRET: str = "dev-only-change-me"
     SESSION_COOKIE: str = "coco_session"
     SESSION_TTL_HOURS: int = 12
-    ALLOWLIST_EMAILS: str = ""        # comma-separated P&C emails (the access list)
+    ALLOWLIST_EMAILS: str = ""        # comma-separated P&C emails (bootstrap access list)
+    # Owners can manage the access list in-app; always allowed + always admin, never removable.
+    OWNER_EMAILS: str = "ayat@taleemabad.com,ayat@niete.edu.pk"
     # Deny-by-default: access is the explicit P&C allowlist, NOT every Taleemabad employee.
     # Set a domain here only if you ever want to open login to a whole domain.
     ALLOWED_LOGIN_DOMAINS: str = ""
@@ -82,6 +84,10 @@ class Settings(BaseSettings):
     @property
     def allowlist(self) -> set[str]:
         return {e.strip().lower() for e in self.ALLOWLIST_EMAILS.split(",") if e.strip()}
+
+    @property
+    def owner_emails(self) -> set[str]:
+        return {e.strip().lower() for e in self.OWNER_EMAILS.split(",") if e.strip()}
 
     @property
     def login_domains(self) -> set[str]:

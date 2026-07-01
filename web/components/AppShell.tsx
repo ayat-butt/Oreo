@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { LayoutDashboard, Inbox, History } from "lucide-react";
+import { LayoutDashboard, Inbox, History, UserCog } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { UserMenu } from "@/components/UserMenu";
 
@@ -9,6 +9,7 @@ const NAV: { href: string; label: string; icon: LucideIcon; key: string }[] = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, key: "dashboard" },
   { href: "/inbox", label: "From Email", icon: Inbox, key: "inbox" },
   { href: "/history", label: "History", icon: History, key: "history" },
+  { href: "/access", label: "Access", icon: UserCog, key: "access" },
 ];
 
 function Logo() {

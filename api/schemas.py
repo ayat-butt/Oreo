@@ -163,6 +163,30 @@ class EmailCandidateDetail(BaseModel):
     hints: dict[str, str | None]
 
 
+class AccessMemberOut(BaseModel):
+    id: str
+    email: str
+    name: str | None = None
+    is_admin: bool = False
+    is_active: bool = True
+    is_owner: bool = False          # owner rows can't be edited/removed
+    created_at: datetime | None = None
+
+
+class AccessListResponse(BaseModel):
+    members: list[AccessMemberOut]
+
+
+class AccessMemberCreate(BaseModel):
+    email: str
+    name: str | None = None
+
+
+class AccessMemberUpdate(BaseModel):
+    is_active: bool | None = None
+    is_admin: bool | None = None
+
+
 class IngestResult(BaseModel):
     scanned: int = 0
     ingested: int = 0

@@ -16,12 +16,12 @@ export async function apiGet<T>(path: string): Promise<T> {
   return r.json();
 }
 
-export async function apiPost<T>(path: string, body: unknown): Promise<T> {
+async function _send<T>(method: string, path: string, body?: unknown): Promise<T> {
   const r = await fetch(`${API_BASE}${path}`, {
-    method: "POST",
+    method,
     credentials: "include",
     headers: { "Content-Type": "application/json", ...DEV_HEADERS },
-    body: JSON.stringify(body),
+    ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
   });
   if (r.status === 401) _maybeRedirectLogin(401);
   if (!r.ok) {
@@ -33,4 +33,16 @@ export async function apiPost<T>(path: string, body: unknown): Promise<T> {
     throw new Error(detail);
   }
   return r.json();
+}
+
+export async function apiPost<T>(path: string, body: unknown): Promise<T> {
+  return _send<T>("POST", path, body);
+}
+
+export async function apiPatch<T>(path: string, body: unknown): Promise<T> {
+  return _send<T>("PATCH", path, body);
+}
+
+export async function apiDelete<T>(path: string): Promise<T> {
+  return _send<T>("DELETE", path);
 }

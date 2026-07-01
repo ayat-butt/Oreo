@@ -13,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import logging
 
 from api.settings import settings
-from api.routers import candidates, contracts, email, email_candidates
+from api.routers import candidates, contracts, email, email_candidates, access
 from api.auth import sso
 
 logger = logging.getLogger("coco.ingest")
@@ -38,6 +38,7 @@ app.include_router(candidates.router)
 app.include_router(contracts.router)
 app.include_router(email.router)
 app.include_router(email_candidates.router)
+app.include_router(access.router)
 
 
 # ── Background offer-email poller ────────────────────────────────────────────
@@ -72,6 +73,34 @@ def _ensure_tables() -> None:
         logger.info("app DB tables ensured")
     except Exception:  # noqa: BLE001
         logger.exception("could not ensure app DB tables")
+
+
+@app.on_event("startup")
+def _seed_access_members() -> None:
+    """Seed the access list from env (ALLOWLIST_EMAILS + OWNER_EMAILS) once, so the in-app
+    User Management starts populated and owners are always admin. Idempotent."""
+    if not settings.APP_DATABASE_URL:
+        return
+    try:
+        from api.db.base import SessionLocal
+        from api.db.models import AccessMember
+        db = SessionLocal()
+        try:
+            existing = {m.email.lower(): m for m in db.query(AccessMember).all()}
+            for email in sorted(settings.allowlist | settings.owner_emails):
+                if email not in existing:
+                    db.add(AccessMember(email=email, is_active=True,
+                                        is_admin=email in settings.owner_emails, added_by="seed"))
+            for email, m in existing.items():          # keep owners admin + active
+                if email in settings.owner_emails and not (m.is_admin and m.is_active):
+                    m.is_admin = True
+                    m.is_active = True
+            db.commit()
+            logger.info("access members seeded")
+        finally:
+            db.close()
+    except Exception:  # noqa: BLE001
+        logger.exception("could not seed access members")
 
 
 @app.on_event("startup")

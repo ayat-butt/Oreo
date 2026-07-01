@@ -95,6 +95,20 @@ class AuditEvent(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), index=True)
 
 
+class AccessMember(Base):
+    """The app-managed access list (who may sign in). Owners (settings.OWNER_EMAILS) are
+    always allowed + admin regardless of this table; everyone else is gated by an active row."""
+    __tablename__ = "access_members"
+
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=_uuid)
+    email: Mapped[str] = mapped_column(String(320), unique=True, index=True, nullable=False)
+    name: Mapped[str | None] = mapped_column(String(200))
+    is_admin: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)  # may manage the list
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)  # may sign in
+    added_by: Mapped[str | None] = mapped_column(String(320))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
 class EmailCandidate(Base):
     """A candidate whose offer details arrived by email (from Aymen), not via Markaz.
 

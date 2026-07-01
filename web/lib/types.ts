@@ -50,6 +50,20 @@ export interface EmailCandidatesResponse {
   candidates: EmailCandidate[];
 }
 
+export interface AccessMember {
+  id: string;
+  email: string;
+  name: string | null;
+  is_admin: boolean;
+  is_active: boolean;
+  is_owner: boolean;
+  created_at: string | null;
+}
+
+export interface AccessListResponse {
+  members: AccessMember[];
+}
+
 export interface IngestResult {
   scanned: number;
   ingested: number;

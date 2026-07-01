@@ -22,7 +22,7 @@ from sqlalchemy.orm import Session
 from api.settings import settings
 from api.db.base import get_db
 from api.auth.jwt import mint_token, verify_token
-from api.auth.deps import _allowed, _get_or_create_user
+from api.auth.deps import is_email_allowed, _get_or_create_user
 from api.services.audit import write_audit
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -79,7 +79,7 @@ async def callback(request: Request, db: Session = Depends(get_db),
         id_tok, google_requests.Request(), settings.GOOGLE_OAUTH_CLIENT_ID
     )
     email = (info.get("email") or "").lower()
-    if not info.get("email_verified") or not _allowed(email):
+    if not info.get("email_verified") or not is_email_allowed(db, email):
         return RedirectResponse(f"{settings.FRONTEND_URL}/login?error=not_allowed")
 
     user = _get_or_create_user(db, email, info.get("name"))
