@@ -83,7 +83,8 @@ export function ContractForm({
     if (!f.gender) return "Please select gender — it sets the Mr./Miss salutation in the contract.";
     if (isProject && (!f.start_date || !f.end_date || !f.duration))
       return "Project/part-time needs start date, end date and duration.";
-    if (isAddendum && !f.prev_contract_date) return "Addendum needs the previous contract date.";
+    if (isAddendum && (!f.prev_contract_date || !f.end_date))
+      return "Addendum needs the previous contract date and the extension end date.";
     if (badCc.length) return `CC not allowed (must be Taleemabad/NIETE): ${badCc.join(", ")}`;
     return null;
   }
@@ -108,7 +109,10 @@ export function ContractForm({
       emp.end_date = toDisplayDate(f.end_date);
       emp.duration = f.duration;
     }
-    if (isAddendum) emp.prev_contract_date = toDisplayDate(f.prev_contract_date);
+    if (isAddendum) {
+      emp.prev_contract_date = toDisplayDate(f.prev_contract_date);
+      emp.end_date = toDisplayDate(f.end_date);
+    }
 
     try {
       const res = await apiPost<{ request_id: string }>("/contracts", {
@@ -190,9 +194,16 @@ export function ContractForm({
             </>
           )}
           {isAddendum && (
-            <Field label="Previous contract date" required source="Manual">
-              <input type="date" className={`${inputClass} tnum`} value={f.prev_contract_date} onChange={(e) => set("prev_contract_date", e.target.value)} />
-            </Field>
+            <>
+              <Field label="Previous contract date" required source="Manual"
+                     hint="The date of the contract being extended.">
+                <input type="date" className={`${inputClass} tnum`} value={f.prev_contract_date} onChange={(e) => set("prev_contract_date", e.target.value)} />
+              </Field>
+              <Field label="Extension end date (till)" required source="Manual"
+                     hint="The extension runs from the joining/effective date above until this date.">
+                <input type="date" className={`${inputClass} tnum`} value={f.end_date} onChange={(e) => set("end_date", e.target.value)} />
+              </Field>
+            </>
           )}
           <Field label="Designation" required source={src("designation")}>
             <input className={inputClass} value={f.designation} onChange={(e) => set("designation", e.target.value)} />

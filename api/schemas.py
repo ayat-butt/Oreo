@@ -111,8 +111,10 @@ class EmpModel(BaseModel):
             miss = [f for f in ("start_date", "end_date", "duration") if not getattr(self, f)]
             if miss:
                 raise ValueError(f"{self.employment_type} requires: {miss}")
-        if self.employment_type == "addendum" and not self.prev_contract_date:
-            raise ValueError("addendum requires prev_contract_date")
+        if self.employment_type == "addendum":
+            miss = [f for f in ("prev_contract_date", "end_date") if not getattr(self, f)]
+            if miss:
+                raise ValueError(f"addendum requires: {miss}")
         return self
 
 

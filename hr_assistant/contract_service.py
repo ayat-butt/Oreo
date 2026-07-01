@@ -805,12 +805,30 @@ def _replacements(template_key: str, emp: dict) -> list[tuple[str, str]]:
     # ── Addendum / Extension ──────────────────────────────────────────────────
     if template_key == "addendum":
         prev_date = emp.get("prev_contract_date", "")
+        # Compensation breakdown — same Orenda split as the OPL project contract.
+        try:
+            gross = float(str(salary).replace(",", "").replace("PKR", "").strip())
+        except ValueError:
+            gross = 0.0
+        base = round(gross * 0.90)
+        medical = round(base * 0.10)
+        others = round(gross - base - medical)
+        money = lambda n: f"{int(n):,}"
         return [
             ("PREVIOUS CONTRACT DATE",                   prev_date),
+            # Parties line — salutation must resolve to Mr./Miss (not the literal "Mr./ Ms.")
             ("Mr./ Ms. XYZ, an Employee at Orenda",
-             f"Mr./ Ms. {name}, an Employee at Orenda"),
-            ("fromXYZ  till XYZ",                        f"from {joining_date} till {end_date}"),
-            ("asDESIGNATION",                            f"as {designation}"),
+             f"{sal} {name}, an Employee at Orenda"),
+            # Extension term — "with effect from <start> till <end>"
+            ("from XYZ  till XYZ",                       f"from {start_date} till {end_date}"),
+            # Compensation breakdown
+            ("PKR XYZ  Basic Salary",                    f"PKR {money(base)}  Basic Salary"),
+            ("PKR XYZ Medical Allowance",                f"PKR {money(medical)} Medical Allowance"),
+            ("PKR XYZ Other Allowance",                  f"PKR {money(others)} Other Allowance"),
+            ("Total Earnings: XYZ PKR",                  f"Total Earnings: {salary} PKR"),
+            # Designation appears both inline ("as an DESIGNATION") and as a standalone line
+            ("DESIGNATION",                              designation),
+            # Offer-acceptance line
             ("I, XYZ,  bearing CNIC XYZ",
              f"I, {name},  bearing CNIC {cnic}"),
         ]
